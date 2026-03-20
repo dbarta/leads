@@ -55,7 +55,7 @@ class ActionText::Embed < ApplicationRecord
       ]
     },
     spotify: {
-      endpoint: "https://embed.spotify.com/oembed/",
+      endpoint: "https://open.spotify.com/oembed",
       urls: [
         /^https?:\/\/(open|play)\.spotify\.com\/.*/
       ]

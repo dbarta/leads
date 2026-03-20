@@ -83,6 +83,7 @@ en:
         sign_up: Sign up
         login: "log in to your account"
         login_html: "Or %{link}"
+        invited_you_to_join_html: "<strong>%{inviter}</strong> invited you to join <strong>%{account}</strong>"
         terms_html: "I accept the %{terms} &amp; %{privacy}"
         terms_of_service: "terms of service"
         privacy_policy: "privacy policy"

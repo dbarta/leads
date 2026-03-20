@@ -79,6 +79,7 @@ fr:
       new:
         sign_up: "S'inscrire"
         login_html: "Ou %{link}"
+        invited_you_to_join_html: "<strong>%{inviter}</strong> vous a invité à rejoindre <strong>%{account}</strong>"
         terms_html: "J'accepte les %{terms} &amp; %{privacy}"
         terms_of_service: "conditions d'utilisation"
         privacy_policy: "politique de confidentialité"
