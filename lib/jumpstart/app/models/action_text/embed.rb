@@ -24,7 +24,8 @@ class ActionText::Embed < ApplicationRecord
   # Allowed script src URLs for OEmbeds
   ALLOWED_SCRIPTS = [
     /^\/\/s.imgur.com/,
-    /^https:\/\/platform.twitter.com/
+    /^https:\/\/platform.twitter.com/,
+    /^https:\/\/embed.bsky.app/
   ]
 
   # Allowed OEmbed providers
