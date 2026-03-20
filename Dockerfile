@@ -8,7 +8,7 @@
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
-ARG RUBY_VERSION=3.4
+ARG RUBY_VERSION=4.0
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim AS base
 
 # Rails app lives here
@@ -17,13 +17,15 @@ WORKDIR /rails
 # Install base packages
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 postgresql-client && \
+    ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_WITHOUT="development" \
+    LD_PRELOAD="/usr/local/lib/libjemalloc.so"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -43,7 +45,8 @@ RUN apt-get update -qq && \
 #     rm -rf /tmp/node-build-master
 
 # Install application gems
-COPY Gemfile Gemfile.jumpstart Gemfile.lock ./.ruby-version vendor ./
+COPY vendor/* ./vendor/
+COPY Gemfile Gemfile.lock Gemfile.jumpstart ./.ruby-version ./
 COPY ./lib/jumpstart/ ./lib/jumpstart/
 COPY ./config/jumpstart.rb ./config/jumpstart.rb
 RUN bundle install && \
