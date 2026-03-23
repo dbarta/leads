@@ -10,6 +10,8 @@ module User::Authenticatable
     has_many :api_tokens, dependent: :destroy
     has_many :connected_accounts, as: :owner, dependent: :destroy
 
+    normalizes :email, with: -> { it.strip.downcase }
+
     attr_readonly :admin
   end
 end
