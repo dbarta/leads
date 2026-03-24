@@ -41,8 +41,8 @@
   --icon-on-danger-secondary: var(--color-red-600);
 
   /*Success*/
-  --bg-success: var(--color-green-800);
-  --bg-success-hover: var(--color-green-700);
+  --bg-success: var(--color-green-700);
+  --bg-success-hover: var(--color-green-600);
   --text-on-success: var(--color-white);
   --border-success: var(--color-green-600);
   --border-success-focus: var(--color-green-500);
