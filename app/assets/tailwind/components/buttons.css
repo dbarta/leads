@@ -11,7 +11,7 @@ button[disabled]        .when-enabled { display: none; }
   align-items: center;
   gap: 4px;
   border-radius: var(--radius-lg);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.999994 0.0000455678 0.0000200868 / 0.2) 0px 1px 0px 0px inset;
   font-weight: 600;
   line-height: 20px;
   font-size: var(--text-sm);
