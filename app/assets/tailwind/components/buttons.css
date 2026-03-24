@@ -10,7 +10,7 @@ button[disabled]        .when-enabled { display: none; }
   justify-content: center;
   align-items: center;
   gap: 4px;
-  border-radius: 6px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   font-weight: 600;
   line-height: 20px;
@@ -229,35 +229,6 @@ button[disabled]        .when-enabled { display: none; }
       background: var(--bg-success-hover);
       color: var(--text-on-success);
       border: 1px solid var(--bg-success-hover);
-    }
-  }
-}
-
-.btn-light {
-  background: var(--bg-light);
-  color: var(--text-on-light);
-
-  &:focus,
-  &:hover {
-    background: var(--bg-light-hover);
-    color: var(--text-on-light);
-  }
-
-  &:disabled:focus,
-  &:disabled:hover {
-    background: var(--bg-light);
-    color: var(--text-on-light);
-  }
-
-  &.btn-outline {
-    background: transparent;
-    color: var(--text-on-light-outline);
-    border: 1px solid var(--border-light);
-
-    &:focus,
-    &:hover {
-      background: var(--bg-light-hover);
-      color: var(--text-on-light);
     }
   }
 }
