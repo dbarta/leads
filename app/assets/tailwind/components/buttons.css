@@ -41,7 +41,7 @@ button[disabled]        .when-enabled { display: none; }
   /* Default colors */
   background: var(--bg-secondary);
   color: var(--text-on-secondary);
-  border: 1px solid var(--border-secondary);
+  border: 1px solid #0000001a;
 
   &:hover {
     background: var(--bg-secondary-hover);
@@ -163,36 +163,6 @@ button[disabled]        .when-enabled { display: none; }
   }
 }
 
-.btn-tertiary {
-  background: var(--bg-secondary);
-  color: var(--text-on-secondary);
-  border: 1px solid var(--border-secondary);
-
-  &:focus,
-  &:hover {
-    background: var(--bg-secondary-hover);
-    color: var(--text-on-secondary-hover);
-  }
-
-  &:disabled:focus,
-  &:disabled:hover {
-    background: var(--bg-secondary);
-    color: var(--text-on-secondary);
-  }
-
-  &.btn-outline {
-    background: transparent;
-    color: var(--text-on-secondary);
-    border: 1px solid var(--border-secondary);
-
-    &:focus,
-    &:hover {
-      background: var(--bg-secondary-hover);
-      color: var(--text-on-secondary-hover);
-    }
-  }
-}
-
 .btn-danger {
   background: var(--bg-danger);
   color: var(--text-on-danger);
@@ -266,7 +236,6 @@ button[disabled]        .when-enabled { display: none; }
 .btn-light {
   background: var(--bg-light);
   color: var(--text-on-light);
-  border: 1px solid var(--border-light);
 
   &:focus,
   &:hover {
