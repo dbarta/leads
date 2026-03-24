@@ -1,11 +1,10 @@
 /* Menu component */
 nav.menu-component {
   max-width: 275px;
-  background-color: var(--base-bg-low);
+  background-color: var(--background);
   border: 1px solid var(--base-border-tertiary);
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
   z-index: 20;
 
   &.notifications {
@@ -33,13 +32,12 @@ nav.menu-component {
 
       /* Section headers */
       > h2.menu-section-heading {
-        font-size: 14px;
-        color: var(--base-text-tertiary);
-        padding: 12px 24px 4px 24px;
+        color: var(--text-muted);
+        font-size: var(--text-sm);
         font-weight: 600;
+        padding: 12px 24px 4px 24px;
         line-height: 20px;
         margin: 0px;
-        text-transform: uppercase;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -63,7 +61,7 @@ nav.menu-component {
       }
 
       &:has(> h2.menu-section-heading > a):hover {
-        background-color: var(--base-bg-high);
+        background-color: var(--base-bg-hover);
       }
 
       > ul.menu-sub-list {
@@ -81,7 +79,6 @@ nav.menu-component {
             display: block;
             font-size: 14px;
             font-weight: 400;
-            gap: 8px;
             line-height: 24px;
             overflow: hidden;
             padding: 6px 24px;
@@ -91,10 +88,11 @@ nav.menu-component {
 
             &:has(*) {
               display: flex;
+              gap: 8px;
             }
 
             &:hover {
-              background-color: var(--base-bg-high);
+              background-color: var(--base-bg-hover);
               color: var(--base-text-secondary);
             }
 

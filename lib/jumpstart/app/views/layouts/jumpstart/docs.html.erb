@@ -3,6 +3,18 @@
   <head>
     <%= render "head" %>
 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+      document.addEventListener("turbo:load", function() {
+        var snippets = document.querySelectorAll('pre code')
+        snippets.forEach(function(snippet) {
+          hljs.highlightBlock(snippet);
+          snippet.parentNode.classList.add("mt-4");
+        })
+      });
+    </script>
+
     <script>
       document.addEventListener("turbo:load", function() {
         const themeSelector = document.querySelector('#theme-select');

@@ -2,6 +2,8 @@ class Users::ConnectedAccountsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_connected_account, only: [:destroy]
 
+  layout "sidebar"
+
   def index
     @connected_accounts = current_user.connected_accounts.order(provider: :asc, created_at: :desc)
   end

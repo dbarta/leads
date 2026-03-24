@@ -11,14 +11,13 @@
 
 .form-control {
   background-color: var(--base-bg-low);
-  border: 1px solid var(--base-border-tertiary);
+  border: 1px solid var(--border-secondary);
   border-radius: 6px;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
   color: var(--base-text-secondary);
   display: block;
   font-size: 14px;
-  font-weight: 400;
-  line-height: 22px;
+  line-height: 26px;
   padding: 6px 12px;
   width: 100%;
 
@@ -33,10 +32,7 @@
   }
 
   &.error {
-    background: var(--bg-danger-secondary);
-    box-shadow: inset 0 0 0 1px var(--border-danger);
     border: 1px solid var(--border-danger);
-    color: var(--text-on-danger-secondary);
 
     &:focus,
     &:focus-visible {
@@ -55,12 +51,12 @@
 
 select {
   background-color: var(--base-bg-low);
-  border: 1px solid var(--base-border-tertiary);
+  border: 1px solid var(--border-secondary);
   border-radius: 6px;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   font-size: 14px;
-  line-height: 22px;
+  line-height: 26px;
   padding: 6px 0px;
   width: 100%;
 
@@ -85,7 +81,7 @@ select:not([multiple]) {
 
 select[multiple] {
   background: var(--base-bg-low);
-  border: 1px solid var(--base-border-tertiary);
+  border: 1px solid var(--border-secondary);
   border-radius: 6px;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
   padding: 6px 0px;
@@ -125,7 +121,7 @@ select[multiple] {
     color: var(--text-on-secondary);
     font-size: 14px;
     font-weight: 400;
-    line-height: 24px;
+    line-height: 26px;
     padding: 4px 12px;
 
     &[selected] {
@@ -576,7 +572,7 @@ form.inline {
 
 .dark {
   --hw-component-bg-color: var(--base-bg-low);
-  --hw-border-color: var(--base-border-tertiary);
+  --hw-border-color: var(--border-secondary);
   --hw-option-bg-color: var(--base-bg-low);
   --hw-active-bg-color: var(--bg-primary);
 }

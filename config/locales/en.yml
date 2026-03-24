@@ -49,7 +49,6 @@ en:
       view_invitation: "View invitation"
 
   account_invitations:
-    invite_user: "Invite User"
     authenticate: "Please login or create an account to accept this invitation"
     not_found: "Whoops, we weren't able to find this invitation. Check with your account admin for a new invitation."
     show:
@@ -61,6 +60,7 @@ en:
     updated: "Account member was successfully updated."
     destroyed: "Account member was successfully removed."
     edit:
+      title: "Edit permissions for %{user}"
       description: "Editing account permissions for %{user}."
 
   accounts:
@@ -85,7 +85,7 @@ en:
       title: "New Account"
       description: "Collaborate and share with others by creating an account."
     edit:
-      title: "Edit"
+      title: "Edit Account"
       delete_description: "Deleting this account will permanently remove all associated data."
       delete_with_payments_description: "Deleting this account will cancel any active subscriptions and permanently remove all associated data."
     created: "Account was successfully created."
@@ -105,13 +105,11 @@ en:
         title: "Invite User"
         description: "Invite a user to join your account."
         send: "Send invitation"
-        cancel: "Cancel"
       edit:
         title: "Edit Invitation"
         description: "Edit or cancel invitation."
-        back: "Back"
         update: "Update invitation"
-        destroy: "Cancel Invite"
+        destroy: "Delete Invite"
     transfers:
       form:
         title: "Transfer ownership"
@@ -127,7 +125,7 @@ en:
     index:
       title: "What's New"
       description: "New updates and improvements to %{name}"
-      empty_placeholder: "Exciting stuff coming very soon!"
+      empty_placeholder: "Come back soon!"
 
     show:
       title: "What's New"
@@ -146,14 +144,15 @@ en:
       title: "API Tokens"
       create: "Create an API Token"
       view: "View"
+      none: "You don't have any API tokens."
     new:
       title: "New API Token"
     edit:
       title: "Edit"
     show:
-      edit: "Edit Token"
+      edit: "Edit"
       click_to_copy: "Click to copy"
-      revoke: "Revoke Token"
+      revoke: "Revoke"
       confirm: "Are you sure you want to revoke this API token?"
       auth_header: "Authenticate using Header"
 
@@ -164,6 +163,7 @@ en:
       privacy: "Privacy"
       terms: "Terms"
     account_menu:
+      account_settings: "Account settings"
       create_account: "Create an account"
     account_navbar:
       profile: "Profile"
@@ -252,7 +252,7 @@ en:
 
     show:
       title: "Billing"
-      contact_admin: "Contact an admin to change the %{account} subscription."
+      contact_admin: "Contact an account admin to change the %{account} subscription."
       subscriptions: "Current plan"
       not_subscribed: "You are not currently subscribed."
       choose_plan: "Choose a plan"
@@ -330,7 +330,7 @@ en:
       payment_methods:
         new:
           billing: "Billing"
-          payment_details: "Payment Details"
+          title: "Payment Details"
           past_due: "Your payment method was declined. Please add another payment method to continue."
 
         create:
@@ -434,10 +434,10 @@ en:
     passwords:
       updated: "Your password was changed successfully."
       edit:
-        update_password: "Update Password"
+        title: "Update Password"
         update: "Update"
         two_factor:
-          header: "Two-factor Authentication"
+          title: "Two-factor Authentication"
           description: "When you login, you will be required to enter a one-time code along to one of your devices."
           enable: "Enable two-factor authentication"
           disable: "Disable two-factor authentication"
@@ -474,32 +474,30 @@ en:
       create:
         incorrect_verification_code: "Incorrect verification code"
     sudo:
-      header: "Confirm password to continue"
+      title: "Confirm password to continue"
       submit: "Confirm password"
       forgot_password: "Forgot password?"
       invalid_password: "Invalid password"
     two_factor:
+      title: "Two-factor authentication"
+      submit: "Continue"
       disabled: "Two-factor authentication is now disabled"
       enabled: "Two-factor authentication was enabled successfully"
-      header: "Two-factor authentication"
-      submit: "Continue"
       backup_codes:
-        header: "Backup Codes"
+        title: "Backup Codes"
         description: "Recovery codes are used to access your account in the event you cannot receive two-factor authentication codes."
         warning: "Download, print, or copy your recovery codes before continuing."
-        save_codes: "Treat your recovery codes with the same level of attention as you would your password!"
-        cancel: "Cancel"
+        save_codes: "Keep your recovery codes in a safe spot like a password manager."
         next: "Next"
       verify:
-        header: "Scan this code with your app."
-        subheader: "Scan the QR code with the two-factor authentication app on your phone."
+        title: "Scan this code with your app."
+        description: "Scan the QR code with the two-factor authentication app on your phone."
         instructions_1_html: "Install Authy: %{ios} or %{android}"
         instructions_2: "In the app, select \"Add account\""
         instructions_3: "Choose \"Scan QR Code\""
         instructions_4: "Trouble scanning? Enter this key in your app instead:"
         verify_header: "Enter the six-digit code from the application"
         verify_description: "After scanning the QR code, the app will display a code that you can enter to continue."
-        cancel: "Cancel"
         verify: "Verify"
     referrals:
       index:

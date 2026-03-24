@@ -1,15 +1,19 @@
 <% Current.meta_tags.set_from(@announcement) %>
 
-<div class="container mx-auto max-w-4xl">
-  <h1 class="h2 mt-6 text-center"><%= t(".title") %></h1>
-  <p class="mt-2 text-center text-xl text-gray-700 dark:text-gray-300/75"><%= t(".description", name: Jumpstart.config.application_name) %></p>
-
+<div class="max-w-prose mx-auto max-w-4xl py-6 sm:py-10">
   <%= link_to announcements_path, class: "text-sm font-medium" do %>
-    &larr;
-    <%= t(".back") %>
+    &larr; <%= t(".back") %>
   <% end %>
 
-  <div class="mt-6 flex flex-col rounded-lg bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-    <%= render @announcement %>
+  <hr>
+
+  <%= link_to local_relative_time(@announcement.published_at, 'weekday-or-date'), @announcement, class: "text-muted text-sm font-medium capitalize" %>
+
+  <h1 class="h2 my-2"><%= @announcement.title %></h1>
+
+  <%= announcement_badge @announcement, class: "my-2" %>
+
+  <div class="mt-6">
+    <%= @announcement.description %>
   </div>
 </div>

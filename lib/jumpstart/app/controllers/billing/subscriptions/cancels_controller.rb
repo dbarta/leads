@@ -3,6 +3,8 @@ class Billing::Subscriptions::CancelsController < ApplicationController
   before_action :require_current_account_admin
   before_action :set_subscription
 
+  layout "sidebar"
+
   def show
   end
 

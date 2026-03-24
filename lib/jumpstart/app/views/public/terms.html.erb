@@ -1,8 +1,8 @@
 <% Current.meta_tags.set(title: t(".title")) %>
 
-<div class="container mx-auto mt-8">
+<div class="max-w-prose mx-auto my-12">
   <h1 class="mb-4"><%= t(".title") %></h1>
-  <%= tag.p t("users.agreements.show.last_updated", date: l(@agreement.updated.to_date, format: :long)), class: "mb-4 text-gray-700 leading-normal italic" if @agreement %>
+  <%= tag.p t("users.agreements.show.last_updated", date: l(@agreement.updated.to_date, format: :long)), class: "mb-4 text-muted leading-normal" if @agreement %>
 
   <%= render "users/agreements/terms_of_service" %>
 </div>

@@ -22,6 +22,7 @@ nav.pagy {
     display: block;
     font-variant-numeric: tabular-nums;
     margin-left: -1px;
+    text-decoration: none;
 
     &:hover {
       background: var(--base-bg-hover);

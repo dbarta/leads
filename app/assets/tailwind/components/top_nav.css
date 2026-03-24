@@ -1,7 +1,6 @@
 .top-nav {
-  background: var(--base-bg-low);
+  background: var(--background);
   border-bottom: 1px solid var(--base-border-tertiary);
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: space-between;
   padding: 16px;
@@ -47,11 +46,17 @@
   &:not(:has(> .nav-container > nav a)) #sidebar-open {
     display: none;
   }
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .nav-container {
-  background: var(--base-bg-low);
+  /* Required for mobile since this overlays the content */
+  background: var(--background);
   box-shadow: 0px 4px 6px -1px rgba(16, 24, 40, 0.10), 0px 2px 4px -2px rgba(16, 24, 40, 0.10);
+
   position: absolute;
   top: 100%;
   left: 0;
@@ -355,11 +360,9 @@ section nav form button {
     }
 
     img {
-      border-radius: 50%;
       width: 24px;
       max-width: none;
       height: 24px;
-      border: 1px solid var(--base-border-tertiary);
       object-fit: cover;
     }
 
@@ -397,10 +400,8 @@ button[aria-label="Notifications"] svg {
 }
 
 .minimal-top-nav {
-  background: var(--base-bg-low);
   padding: 16px;
   border-bottom: 1px solid var(--base-border-tertiary);
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 
   @media (min-width: 1024px) {
     padding: 0px 32px;
@@ -422,8 +423,11 @@ button[aria-label="Notifications"] svg {
   }
 }
 
-.account-menu {
-  padding: 12px 6px;
+button.account-menu {
+  padding-top: calc(var(--spacing) * 2);
+  padding-bottom: calc(var(--spacing) * 2);
+  padding-left: calc(var(--spacing) * 1);
+  padding-right: calc(var(--spacing) * 1);
 
   .name {
     font-size: 14px;

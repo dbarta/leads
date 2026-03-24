@@ -1,6 +1,6 @@
 <% Current.meta_tags.set(title: t(".title")) %>
 
-<% content_for :form_block do %>
+<div class="sm:max-w-sm px-4 mx-auto my-10 lg:px-0">
   <h2 class="h3"><%= t('.change_your_password') %></h2>
 
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
@@ -11,7 +11,7 @@
       <%= f.label :password, t('.new_password') %>
       <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control", placeholder: "password" %>
       <% if @minimum_password_length %>
-        <p class="mt-3 text-sm text-gray-600">(<%= @minimum_password_length %> characters minimum)</p>
+        <p class="mt-3 text-sm text-muted"><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></p>
       <% end %>
     </div>
 
@@ -26,5 +26,4 @@
   <% end %>
 
   <%= render "devise/shared/links" %>
-<% end %>
-<%= render "devise/shared/form_block" %>
+</div>

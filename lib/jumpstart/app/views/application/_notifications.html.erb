@@ -27,7 +27,7 @@
          data-transition-leave-from="opacity-100 translate-y-0"
          data-transition-leave-to="opacity-0 translate-y-1"
          class="menu-component notifications hidden">
-        <%= turbo_frame_tag "notifications", class: "text-sm divide-y divide-gray-200 dark:divide-gray-700", loading: :lazy, target: :_top, src: nav_notifications_path, data: { notifications_target: "list" } do %>
+        <%= turbo_frame_tag "notifications", class: "text-sm divide-y divide-(--divider-color)", loading: :lazy, target: :_top, src: nav_notifications_path, data: { notifications_target: "list" } do %>
           <p class="p-4">Loading...</p>
         <% end %>
     </nav>

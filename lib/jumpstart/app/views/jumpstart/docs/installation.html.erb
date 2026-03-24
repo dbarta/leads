@@ -3,9 +3,9 @@
 <%= h2_with_anchor "Dependencies" %>
 
 <p>To install dependencies, set up, and configure your application follow the latest instructions in the repository:</p>
-<p><%= link_to "Rails Installation", "https://github.com/jumpstart-pro/jumpstart-pro-rails#readme", class: "link font-bold", target: :_blank %></p>
-<p><%= link_to "iOS Installation", "https://github.com/jumpstart-pro/jumpstart-pro-ios#readme", class: "link font-bold", target: :_blank %></p>
-<p><%= link_to "Android Installation", "https://github.com/jumpstart-pro/jumpstart-pro-android#readme", class: "link font-bold", target: :_blank %></p>
+<p><%= link_to "Rails Installation", "https://github.com/jumpstart-pro/jumpstart-pro-rails#readme", class: "font-bold", target: :_blank %></p>
+<p><%= link_to "iOS Installation", "https://github.com/jumpstart-pro/jumpstart-pro-ios#readme", class: "font-bold", target: :_blank %></p>
+<p><%= link_to "Android Installation", "https://github.com/jumpstart-pro/jumpstart-pro-android#readme", class: "font-bold", target: :_blank %></p>
 
 <div class="alert alert-info mt-4" role="alert">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -37,7 +37,7 @@
 
 <%= h3_with_anchor "Overmind" %>
 
-<p><%= link_to "Overmind", "https://github.com/DarthSim/overmind", target: :_blank, class: "link" %> is a process manager that runs the processes defined in <code>Procfile.dev</code>. Overmind is recommended because it allows you to join a process and interact with it.</p>
+<p><%= link_to "Overmind", "https://github.com/DarthSim/overmind", target: :_blank %> is a process manager that runs the processes defined in <code>Procfile.dev</code>. Overmind is recommended because it allows you to join a process and interact with it.</p>
 <p>Run your application with:</p>
 
 <div class="not-prose">
@@ -70,9 +70,9 @@ overmind kill</code></pre>
   <pre><code>bin/dev</code></pre>
 </div>
 
-<p>Then open <%= link_to "http://localhost:3000", "http://localhost:3000", target: :_blank, class: "link" %></p>
+<p>Then open <%= link_to "http://localhost:3000", "http://localhost:3000", target: :_blank %></p>
 
 <%= h3_with_anchor "Developing on Windows", id: :windows %>
 
 <p>If you'd like to run Jumpstart Pro Rails on Windows, we recommend using WSL2. You can find instructions here: <%= link_to "https://gorails.com/setup/windows", "https://gorails.com/setup/windows", target: :_blank %></p>
-<p>The <%= link_to "Devcontainer", "#docker", class: "link" %> is also a great option for development on Windows.</p>
+<p>The <%= link_to "Devcontainer", "#docker" %> is also a great option for development on Windows.</p>

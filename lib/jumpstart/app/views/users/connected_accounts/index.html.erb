@@ -1,20 +1,16 @@
-<div class="flex flex-wrap my-4 lg:px-4">
-  <div class="lg:w-1/4 w-full p-4">
-    <%= render partial: "account_navbar" %>
-  </div>
+<% Current.meta_tags.set(title: t(".title")) %>
 
-  <div class="lg:w-3/4 w-full p-4">
-    <div class="lg:p-10 p-4 bg-white rounded-lg border border-gray-300 dark:bg-gray-900 dark:border-gray-700">
-      <h2 class="mb-2"><%= t(".title") %></h2>
-      <p><%= t(".description") %></p>
-      <div class="my-2 flex flex-wrap gap-x-4 gap-y-2">
-        <% Devise.omniauth_configs.each do |provider, config| %>
-          <%= button_to t("oauth.sign_in_with", provider: t("oauth.#{provider}")), omniauth_authorize_path(:user, provider), class: "btn btn-#{provider}", data: { turbo: false, disable_with: t(".redirecting") } %>
-        <% end %>
-      </div>
-      <div class="divide-y">
-        <%= render @connected_accounts %>
-      </div>
-    </div>
-  </div>
+<% content_for :sidebar, render(partial: "account_navbar") %>
+
+<h1 class="h3 mb-2"><%= t(".title") %></h1>
+<p class="mt-2 mb-4 text-sm text-muted"><%= t(".description") %></p>
+
+<div class="my-2 flex flex-wrap gap-x-4 gap-y-2">
+  <% Devise.omniauth_configs.each do |provider, config| %>
+    <%= button_to t("oauth.sign_in_with", provider: t("oauth.#{provider}")), omniauth_authorize_path(:user, provider), class: "btn btn-secondary", data: { turbo: false, disable_with: t(".redirecting") } %>
+  <% end %>
+</div>
+
+<div class="mt-8 grid gap-4">
+  <%= render @connected_accounts %>
 </div>

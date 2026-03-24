@@ -1,5 +1,7 @@
-<div class="max-w-sm mx-auto mt-16">
-  <h1 class="h3 text-center"><%= t("users.sudo.header") %></h1>
+<% Current.meta_tags.set(title: t(".title")) %>
+
+<div class="max-w-sm mx-auto mt-12">
+  <h1 class="h3 text-center"><%= t("users.sudo.title") %></h1>
 
   <div class="bg-white rounded-sm shadow-sm p-8 mt-8">
     <%= form_with url: sudo_path do |form| %>

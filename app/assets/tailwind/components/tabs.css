@@ -24,6 +24,7 @@
     border-color: transparent;
     color: var(--base-text-tertiary);
     font-style: normal;
+    text-decoration: none;
 
     &:hover {
       color: var(--base-text-secondary);
@@ -40,7 +41,7 @@
     &[data-active="true"]{
       border-bottom: 2px solid var(--border-primary-hover);
       color: var(--text-primary);
-      
+
       &:hover {
         color: var(--text-primary-hover);
         border-bottom: 2px solid var(--border-primary-hover);

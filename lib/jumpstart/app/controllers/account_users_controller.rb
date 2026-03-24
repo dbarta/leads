@@ -6,6 +6,8 @@ class AccountUsersController < Accounts::BaseController
   before_action :require_account_admin, except: [:index, :show]
   before_action :safeguard_account_owner_deletion!, only: [:destroy]
 
+  layout "sidebar"
+
   # GET /accounts
   def index
     redirect_to @account

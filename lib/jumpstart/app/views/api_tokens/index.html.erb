@@ -1,42 +1,35 @@
-<div class="flex flex-wrap my-4 lg:px-4">
-  <div class="w-full mb-4 lg:w-1/4 lg:p-4">
-    <%= render partial: "account_navbar" %>
-  </div>
+<% Current.meta_tags.set(title: t(".title")) %>
 
-  <div class="w-full lg:w-3/4 lg:p-4">
-    <div class="lg:p-10 p-4 bg-white rounded-lg border border-gray-200 dark:bg-gray-900 dark:border-gray-800 overflow-x-auto">
+<% content_for :sidebar, render(partial: "account_navbar") %>
 
-      <div class="sm:flex justify-between items-center mb-3">
-        <h1 class="h3 flex-1"><%= t(".title") %></h1>
+<div class="sm:flex justify-between items-center mb-3">
+  <h1 class="h3"><%= t(".title") %></h1>
 
-        <div>
-          <%= link_to t(".create"), new_api_token_path, class: "btn btn-primary" %>
-        </div>
-      </div>
-
-      <table class="table text-left">
-        <thead class="bg-gray-100 dark:bg-gray-900/75">
-          <tr>
-            <th class="p-3 uppercase text-left text-xs text-gray-500 dark:text-gray-300"><%= ApiToken.human_attribute_name(:name) %></th>
-            <th class="p-3 uppercase text-left text-xs text-gray-500 dark:text-gray-300"><%= ApiToken.human_attribute_name(:last_used_at) %></th>
-            <th class="hidden sm:table-cell p-3 uppercase text-left text-xs text-gray-500 dark:text-gray-300"><%= ApiToken.human_attribute_name(:created_at) %></th>
-            <th class="p-3 uppercase text-left text-xs text-gray-500 dark:text-gray-300"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @api_tokens.each do |api_token| %>
-            <tr class="group border-t border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-900/75 dark:border-gray-800">
-              <td class="p-3 font-medium"><%= link_to api_token.name, api_token %></td>
-              <td class="p-3"><%= api_token.last_used_at? ? local_time_ago(api_token.last_used_at) : "—" %></td>
-              <td class="hidden sm:table-cell p-3"><%= api_token.created_at.strftime("%b %e, %Y") %></td>
-              <td class="p-3 font-medium text-sm text-right"><%= link_to t(".view"), api_token, class: "btn btn-secondary btn-sm" %></td>
-            </tr>
-          <% end %>
-          <tr class="hidden only:table-row">
-            <td colspan="4" class="p-3 text-center">You don't have any API tokens.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="shrink-0">
+    <%= link_to t(".create"), new_api_token_path, class: "btn btn-primary" %>
   </div>
 </div>
+
+<table class="table text-left">
+  <thead>
+    <tr>
+      <th class="p-3 uppercase text-left text-xs text-muted"><%= ApiToken.human_attribute_name(:name) %></th>
+      <th class="p-3 uppercase text-left text-xs text-muted"><%= ApiToken.human_attribute_name(:last_used_at) %></th>
+      <th class="hidden sm:table-cell p-3 uppercase text-left text-xs text-muted"><%= ApiToken.human_attribute_name(:created_at) %></th>
+      <th class="p-3 uppercase text-left text-xs text-muted"></th>
+    </tr>
+  </thead>
+  <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+    <% @api_tokens.each do |api_token| %>
+      <tr>
+        <td class="p-3 font-medium"><%= link_to api_token.name, api_token %></td>
+        <td class="p-3"><%= api_token.last_used_at? ? local_time_ago(api_token.last_used_at) : "—" %></td>
+        <td class="hidden sm:table-cell p-3 text-sm"><%= api_token.created_at.strftime("%b %e, %Y") %></td>
+        <td class="p-3 font-medium text-sm text-right"><%= link_to t(".view"), api_token, class: "btn btn-secondary" %></td>
+      </tr>
+    <% end %>
+    <tr class="hidden only:table-row">
+      <td colspan="4" class="p-3"><%= t(".none") %></td>
+    </tr>
+  </tbody>
+</table>

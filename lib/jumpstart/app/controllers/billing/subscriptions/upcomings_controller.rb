@@ -3,6 +3,8 @@ class Billing::Subscriptions::UpcomingsController < ApplicationController
   before_action :require_current_account_admin
   before_action :set_subscription
 
+  layout "sidebar"
+
   def show
     @invoice = @subscription.preview_invoice
   rescue Stripe::InvalidRequestError => e
