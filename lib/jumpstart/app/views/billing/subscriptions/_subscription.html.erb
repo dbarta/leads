@@ -31,7 +31,7 @@
         <div><%= t(".trial", date: l(subscription.trial_ends_at.to_date, format: :long)) %></div>
       <% elsif subscription.on_grace_period? %>
         <div class="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="inline-block fill-current text-gray-400 h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="inline-block fill-current text-muted size-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
           </svg>
           <% if subscription.ends_at? %>
@@ -49,7 +49,7 @@
       <% if subscription.on_grace_period? %>
         <%= link_to t(".resume"), billing_subscription_resume_path(subscription), class: "btn btn-primary" if subscription.resumable? %>
       <% elsif subscription.active? %>
-        <%= link_to t(".change_plan"), edit_billing_subscription_path(subscription), class: "btn btn-primary" %>
+        <%= link_to t(".change_plan"), edit_billing_subscription_path(subscription), class: "btn btn-secondary" %>
         <%# Only show pausing for Paddle customers because their subscription cancellations can be permanent %>
         <%= link_to t(".pause"), billing_subscription_pause_path(subscription), class: "btn btn-secondary" if subscription.paddle_classic? %>
         <%= link_to t(".update_payment_method"), new_billing_subscription_payment_method_path(subscription), class: "btn btn-secondary" %>

@@ -15,15 +15,11 @@
 }
 
 @import "./themes/dark.css" layer(theme);
-@import "./themes/juicy.css" layer(theme);
 @import "./themes/light.css" layer(theme);
-@import "./themes/jumpstart-dark.css" layer(theme);
-@import "./themes/jumpstart.css" layer(theme);
 
 @import "./components/base.css" layer(components);
 @import "./components/alert.css" layer(components);
 @import "./components/animation.css" layer(components);
-@import "./components/announcements.css" layer(components);
 @import "./components/buttons.css" layer(components);
 @import "./components/cards.css" layer(components);
 @import "./components/direct_uploads.css" layer(components);

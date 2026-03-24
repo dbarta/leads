@@ -47,11 +47,11 @@ end</code></pre>
 </div>
 
 <p>Using the association scopes the Projects to the <code>current_account</code>. The downside is accessing <code>Project.all</code> would return Projects for any account.</p>
-<p>To safeguard against this, you can integrate the <%= link_to "act_as_tenant", "https://github.com/ErwinM/acts_as_tenant", target: :_blank, class: "link" %> gem via the "Dependencies" section of the configuration wizard. This is especially useful for ensuring that queries are properly scoped to an account in the event you forget to do something like the above code example where the scoping is written by you in your controller actions or other queries. More information on <code>acts_as_tenant</code> is provided below.</p>
+<p>To safeguard against this, you can integrate the <%= link_to "act_as_tenant", "https://github.com/ErwinM/acts_as_tenant", target: :_blank %> gem via the "Dependencies" section of the configuration wizard. This is especially useful for ensuring that queries are properly scoped to an account in the event you forget to do something like the above code example where the scoping is written by you in your controller actions or other queries. More information on <code>acts_as_tenant</code> is provided below.</p>
 
 <%= h2_with_anchor "Multitenancy with ActsAsTenant" %>
 
-<p>To enable multitenancy with ActsAsTenant you can do so in the Dependencies section of the Jumpstart Pro configuration wizard UI located at <%= link_to nil, "/jumpstart", target: :_blank, class: "link" %>.</p>
+<p>To enable multitenancy with ActsAsTenant you can do so in the Dependencies section of the Jumpstart Pro configuration wizard UI located at <%= link_to nil, "/jumpstart", target: :_blank %>.</p>
 
 <%= link_to("https://jumpstartpro.b-cdn.net/jsp-acts-as-tenant-config-wizard-v1.png", target: "_blank") do %>
   <%= image_tag "https://jumpstartpro.b-cdn.net/jsp-acts-as-tenant-config-wizard-v1.png", class: "block mx-auto", alt: "Screenshot of Jumpstart Pro Dependencies configuration wizard", size: "800" %>
@@ -74,4 +74,4 @@ ActsAsTenant.configure do |config|
 end</code></pre>
 </div>
 <p>By enabling this feature, calling <code>Project.all</code> without a tenant set will result in an <code>ActsAsTenant::NoTenant</code> error.</p>
-<p>To learn more about ActsAsTenant, check out the <%= link_to "Row-level Multitenancy with ActsAsTenant", "https://gorails.com/episodes/row-level-multitenancy-in-rails?autoplay=1", class: "link", target: :_blank %> video on GoRails.</p>
+<p>To learn more about ActsAsTenant, check out the <%= link_to "Row-level Multitenancy with ActsAsTenant", "https://gorails.com/episodes/row-level-multitenancy-in-rails?autoplay=1", target: :_blank %> video on GoRails.</p>

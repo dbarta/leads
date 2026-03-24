@@ -2,6 +2,8 @@ class ApiTokensController < ApplicationController
   before_action :authenticate_user!
   before_action :set_api_token, only: [:show, :edit, :update, :destroy]
 
+  layout "sidebar"
+
   def index
     @api_tokens = current_user.api_tokens.sorted
   end

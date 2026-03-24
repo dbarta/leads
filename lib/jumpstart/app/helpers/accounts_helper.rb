@@ -1,6 +1,6 @@
 module AccountsHelper
-  def account_avatar(account, size: "size-8", image_size: 48, **options)
-    classes = options[:class] || "rounded-full shrink-0 object-cover"
+  def account_avatar(account, size: "size-8", image_size: 256, **options)
+    classes = options[:class] || "rounded-sm shrink-0"
 
     if account.personal? && account.owner?(current_user)
       image_tag(avatar_url_for(current_user, options), class: [classes, size], alt: account.name)

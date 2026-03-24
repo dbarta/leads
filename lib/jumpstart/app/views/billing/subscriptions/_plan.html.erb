@@ -1,13 +1,13 @@
-<div class="p-8 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-50 rounded-lg">
+<div class="p-8 border border-(--divider-color) rounded-lg">
   <h4 class="mb-4"><%= plan.name %></h4>
-  <p class="mb-6 text-sm/6 text-gray-600 dark:text-gray-300"><%= plan.description %></p>
+  <p class="mb-6 text-sm/6 text-muted"><%= plan.description %></p>
 
   <div class="mb-6">
     <% if plan.contact_url? %>
       <span class="text-4xl font-semibold"><%= t(".contact_us_price") %></span>
     <% else %>
       <span class="text-4xl font-semibold"><%= pay_amount_to_currency(plan, strip_insignificant_zeros: true) %></span>
-      <span class="text-sm/6 text-gray-600 dark:text-gray-300 font-semibold">
+      <span class="text-sm/6 text-muted font-semibold">
         <% if plan.unit_label? %>/ <%= plan.unit_label %><% end %>
           /<%= formatted_plan_interval(plan) %>
       </span>
@@ -20,7 +20,7 @@
   <% if plan.features.any? %>
     <div class="mt-8">
       <% plan.features.each do |plan_feature| %>
-        <div class="flex mb-2 text-sm/6 text-gray-600 dark:text-gray-300">
+        <div class="flex mb-2 text-sm/6 text-muted">
           <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 mr-3 text-primary h-6 w-5" viewBox="0 0 24 24" fill="currentColor">
             <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
           </svg>

@@ -1,13 +1,15 @@
-<div class="max-w-xl mx-auto mt-12 p-8 bg-white rounded-sm shadow-sm">
-  <h3><%= t ".title" %></h3>
+<% Current.meta_tags.set(title: t(".title")) %>
+
+<% content_for :sidebar, render(partial: "account_navbar") %>
+
+<div class="max-w-xl mx-auto mt-12">
+  <h1><%= t ".title" %></h1>
 
   <div class="my-8">
     <%= render partial: "billing/subscriptions/summary", locals: { subscription: @subscription } %>
   </div>
 
-  <div class="flex-1 mt-2 mb-4 text-gray-700">
-    <div class="mt-4"><%= t(".resume") %></div>
-  </div>
+  <div class="text-muted"><%= t(".resume") %></div>
 
   <div class="mt-8 flex justify-between items-center">
     <%= link_to t(".back"), billing_path, class: "btn btn-secondary" %>

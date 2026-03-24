@@ -10,7 +10,7 @@
       <%= notification.message %>
     </p>
 
-    <p class="text-sm text-gray-600 dark:text-gray-400"><%= local_time_ago notification&.created_at %></p>
+    <p class="text-sm text-muted"><%= local_time_ago notification&.created_at %></p>
   </div>
 
   <%# dot is toggled by CSS from the parent's data-read-at attribute presence %>

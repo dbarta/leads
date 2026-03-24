@@ -55,10 +55,11 @@
   display: block;
   margin: 0 -8px;
   padding: 2px 24px;
+  text-decoration: none;
 
   &:hover {
     background-color: var(--base-bg-hover);
-    color: var(--base-text-secondary);
+    color: var(--text-primary);
   }
 
   &.active {
@@ -75,11 +76,11 @@
 }
 
 .docs-main {
-  background: var(--base-bg-low);
   color: var(--base-text);
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
 
   @media (min-width: 1024px) {
     border-left: 1px solid var(--base-border-tertiary);
@@ -106,12 +107,6 @@
     font-size: 24px;
     font-weight: 400;
     line-height: 32px;
-
-    a {
-      color: var(--text-primary);
-      font-weight: 600;
-      text-decoration-line: underline;
-    }
   }
 }
 
@@ -119,12 +114,7 @@
   padding: 0 48px 48px 48px;
 
   ul {
-    list-style-type: none;
     margin-top: 1rem;
-
-    > * + * {
-      margin-top: 1rem;
-    }
   }
 
   >h3,
@@ -156,12 +146,18 @@
 
   }
 
-  section {
+  >section {
     margin-bottom: 32px;
 
-    section {
+    >section {
       margin-bottom: 16px;
     }
+  }
+
+  /* Padding above images */
+  a:has(> img) {
+    display: block;
+    margin-top: 32px;
   }
 }
 

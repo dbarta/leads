@@ -2,6 +2,8 @@ class Billing::Subscriptions::PaymentMethodsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_subscription
 
+  layout "sidebar"
+
   # Redirect or render the new payment method
   def new
     @payment_processor = @subscription.customer

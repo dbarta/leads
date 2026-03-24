@@ -19,13 +19,28 @@ main {
 }
 
 a {
-  color: var(--text-primary);
+  color: var(--base-text);
+  font-weight: var(--font-weight-medium);
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-color: #27272a33;
 
   &:hover,
   &:focus {
-    color: var(--text-primary-hover);
-    transform: none;
+    text-decoration-color: currentColor;
   }
+}
+
+@supports (color:color-mix(in lab,red,red)) {
+  a {
+    -webkit-text-decoration-color: color-mix(in oklab,var(--base-text),transparent 80%);
+    text-decoration-color: color-mix(in oklab, var(--base-text), transparent 80%);
+  }
+}
+
+hr {
+  margin-block: calc(var(--spacing) * 8);
+  border-color: var(--divider-color);
 }
 
 ul {

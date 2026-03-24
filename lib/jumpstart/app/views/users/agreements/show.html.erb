@@ -1,6 +1,6 @@
 <div class="max-w-4xl mx-auto p-4 my-8 lg:my-24">
   <h1 class="mb-4"><%= t(".title", agreement: @agreement.title) %></h1>
-  <%= tag.p t("users.agreements.show.last_updated", date: l(@agreement.updated.to_date, format: :long)), class: "mb-4 text-gray-700 leading-normal italic" %>
+  <%= tag.p t("users.agreements.show.last_updated", date: l(@agreement.updated.to_date, format: :long)), class: "mb-4 text-muted leading-normal italic" %>
 
   <%= render partial: @agreement %>
 

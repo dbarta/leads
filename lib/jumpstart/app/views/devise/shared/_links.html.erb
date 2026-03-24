@@ -1,21 +1,25 @@
 <%- if devise_mapping.omniauthable? && %w{ registrations sessions }.include?(controller_name) %>
-  <div class="flex flex-wrap justify-center -mx-2">
-    <%- resource_class.omniauth_providers.each do |provider| %>
-      <%= button_to t("oauth.sign_in_with", provider: t("oauth.#{provider}")), omniauth_authorize_path(:user, provider), class: "btn btn-#{provider} m-1", data: { turbo: false, disable_with: t(".redirecting") } %>
-    <% end -%>
+  <div class="flex items-center w-full my-4">
+    <hr class="w-full grow">
+    <span class="mx-6 text-sm text-muted font-medium">or</span>
+    <hr class="w-full grow">
   </div>
 
-  <hr class="my-4 border-gray-200">
+  <div class="mb-4 grid gap-2">
+    <%- resource_class.omniauth_providers.each do |provider| %>
+      <%= button_to t("oauth.sign_in_with", provider: t("oauth.#{provider}")), omniauth_authorize_path(:user, provider), class: "btn btn-secondary btn-expanded", data: { turbo: false, disable_with: t(".redirecting") } %>
+    <% end -%>
+  </div>
 <% end -%>
 
 <%- if devise_mapping.recoverable? && controller_name != "passwords" && controller_name != "registrations" %>
-  <%= link_to t(".forgot_your_password"), new_password_path(resource_name), class: "block text-sm font-semibold mt-2" %>
+  <%= link_to t(".forgot_your_password"), new_password_path(resource_name), class: "block text-sm mt-2" %>
 <% end -%>
 
 <%- if devise_mapping.confirmable? && controller_name != "confirmations" %>
-  <%= link_to t(".didn_t_receive_confirmation_instructions"), new_confirmation_path(resource_name), class: "block text-sm font-semibold mt-2" %>
+  <%= link_to t(".didn_t_receive_confirmation_instructions"), new_confirmation_path(resource_name), class: "block text-sm mt-2" %>
 <% end -%>
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != "unlocks" %>
-  <%= link_to t(".didn_t_receive_unlock_instructions"), new_unlock_path(resource_name), class: "block text-sm font-semibold mt-2" %>
+  <%= link_to t(".didn_t_receive_unlock_instructions"), new_unlock_path(resource_name), class: "block text-sm mt-2" %>
 <% end -%>

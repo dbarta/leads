@@ -4,6 +4,8 @@ class Accounts::AccountInvitationsController < Accounts::BaseController
   before_action :require_account_admin
   before_action :set_account_invitation, only: [:edit, :update, :destroy, :resend]
 
+  layout "sidebar"
+
   def new
     @account_invitation = AccountInvitation.new
   end

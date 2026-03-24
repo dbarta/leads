@@ -5,6 +5,8 @@ class AccountsController < Accounts::BaseController
   before_action :prevent_personal_account_deletion, only: [:destroy]
   before_action :ensure_team_accounts_enabled, except: [:index, :show]
 
+  layout "sidebar"
+
   # GET /accounts
   def index
     @pagy, @accounts = pagy(current_user.accounts)

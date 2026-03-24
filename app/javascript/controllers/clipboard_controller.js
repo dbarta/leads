@@ -1,11 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
 import ClipboardJS from "clipboard"
-import { autoPlacement, computePosition, offset, arrow } from "@floating-ui/dom"
+import { autoPlacement, computePosition, flip, offset, arrow } from "@floating-ui/dom"
 
 export default class extends Controller {
   static values = {
     hideTooltipAfter: 1500,
-    tooltipPlacement: String,
+    tooltipPlacement: "top",
     tooltipOffset: 6,
     errorMessage: { type: String, default: "Failed!" },
     successMessage: { type: String, default: "Copied!" }
@@ -51,10 +51,9 @@ export default class extends Controller {
 
   updatePosition() {
     computePosition(this.element, this.tooltip, {
+      placement: this.tooltipPlacementValue,
       middleware: [
-        autoPlacement({
-          allowedPlacements: (this.tooltipPlacementValue ? [this.tooltipPlacementValue] : undefined),
-        }),
+        flip(),
         offset(this.tooltipOffsetValue),
         arrow({element: this.arrow}),
       ]

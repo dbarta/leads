@@ -4,10 +4,10 @@
 <% end %>
 
 <%= h2_with_anchor "Overview" %>
-<p>To enable a transactional email provider you can do so in the Application section of the Jumpstart Pro configuration wizard UI located at <%= link_to nil, "/jumpstart", target: :_blank, class: "link underline" %>.</p>
+<p>To enable a transactional email provider, use the Application section of the Jumpstart Pro configuration wizard UI located at <%= link_to nil, "/jumpstart", target: :_blank %>.</p>
 
 <%= link_to("https://jumpstartpro.b-cdn.net/jsp-transactional-email-config-wizard-v1.png", target: "_blank") do %>
-  <%= image_tag "https://jumpstartpro.b-cdn.net/jsp-transactional-email-config-wizard-v1.png", class: "block mx-auto", alt: "Screenshot of Jumpstart Pro Application/transactional email provider configuration wizard", size: "800" %>
+  <%= image_tag "https://jumpstartpro.b-cdn.net/jsp-transactional-email-config-wizard-v1.png", alt: "Screenshot of Jumpstart Pro Application/transactional email provider configuration wizard", size: "800" %>
 <% end %>
 
 <%= h2_with_anchor "Transactional Email Services" %>
@@ -15,19 +15,19 @@
 <p>We have looked up the configurations for several different transactional email providers so you don't have to waste time fiddling with configs.</p>
 
 <ul>
-  <li><%= link_to "Amazon SES", "https://aws.amazon.com/ses/", target: :_blank, class: "link" %></li>
-  <li><%= link_to "Mailgun", "https://www.mailgun.com/", target: :_blank, class: "link" %></li>
-  <li><%= link_to "Mailjet", "https://www.mailjet.com/", target: :_blank, class: "link" %></li>
-  <li><%= link_to "Mandrill (Part of Mailchimp)", "https://mandrillapp.com/login/", target: :_blank, class: "link" %></li>
-  <li><%= link_to "MailPace (Previously OhMySMTP)", "https://mailpace.com/", target: :_blank, class: "link" %></li>
-  <li><%= link_to "Postmark", "https://postmarkapp.com/", target: :_blank, class: "link" %></li>
-  <li><%= link_to "Resend", "https://resend.com/", target: :_blank, class: "link" %></li>
-  <li><%= link_to "Sendgrid", "https://sendgrid.com/en-us", target: :_blank, class: "link" %></li>
-  <li><%= link_to "Brevo (Previously SendinBlue)", "https://www.brevo.com/", target: :_blank, class: "link" %></li>
-  <li><%= link_to "Bird (Previously Sparkpost)", "https://bird.com/api/email?sp=true", target: :_blank, class: "link" %></li>
+  <li><%= link_to "Amazon SES", "https://aws.amazon.com/ses/", target: :_blank %></li>
+  <li><%= link_to "Mailgun", "https://www.mailgun.com/", target: :_blank %></li>
+  <li><%= link_to "Mailjet", "https://www.mailjet.com/", target: :_blank %></li>
+  <li><%= link_to "Mandrill (Part of Mailchimp)", "https://mandrillapp.com/login/", target: :_blank %></li>
+  <li><%= link_to "MailPace (Previously OhMySMTP)", "https://mailpace.com/", target: :_blank %></li>
+  <li><%= link_to "Postmark", "https://postmarkapp.com/", target: :_blank %></li>
+  <li><%= link_to "Resend", "https://resend.com/", target: :_blank %></li>
+  <li><%= link_to "Sendgrid", "https://sendgrid.com/en-us", target: :_blank %></li>
+  <li><%= link_to "Brevo (Previously SendinBlue)", "https://www.brevo.com/", target: :_blank %></li>
+  <li><%= link_to "Bird (Previously Sparkpost)", "https://bird.com/api/email?sp=true", target: :_blank %></li>
 </ul>
 
-<p>To add credentials for your transactional email provider, check out <%= link_to "the Credentials section", credentials_docs_path, target: :_blank, class: "link" %> in the docs.</p>
+<p>To add credentials for your transactional email provider, check out <%= link_to "the Credentials section", credentials_docs_path, target: :_blank %> in the docs.</p>
 
 <%= h2_with_anchor "Default From Email" %>
 

@@ -27,7 +27,7 @@
 
 <%= h2_with_anchor "Devise I18n" %>
 
-<p>The <%= link_to "devise-i18n", "https://github.com/tigrish/devise-i18n", target: :_blank, class: "link" %> gem comes preinstalled to provide translations for most languages.</p>
+<p>The <%= link_to "devise-i18n", "https://github.com/tigrish/devise-i18n", target: :_blank %> gem comes preinstalled to provide translations for most languages.</p>
 <p>These translations don't include every key since Devise has been customized. You will need to customize the translations using the following command:</p>
 <div class="not-prose">
   <pre class="mb-4"><code>rails g devise:i18n:locale es</code></pre>
@@ -35,7 +35,7 @@
 
 <%= h2_with_anchor "I18n Examples" %>
 
-<p>Jumpstart Pro uses the standard Rails I18n functionality. See the <%= link_to "Rails I18n guide", "https://guides.rubyonrails.org/i18n.html", target: :_blank, class: "link" %> for details on how Rails implements I18n.</p>
+<p>Jumpstart Pro uses the standard Rails I18n functionality. See the <%= link_to "Rails I18n guide", "https://guides.rubyonrails.org/i18n.html", target: :_blank %> for details on how Rails implements I18n.</p>
 <p>Translations are automatically scoped by specifying a period <code>.</code> at the beginning of the key. Without the period (<code>.</code>) at the beginning, it will start lookup at the top level.</p>
 <p><code>t("hello")</code> in <code>app/views/dashboard/show.html.erb</code> will look for <code>en.hello</code></p>
 <p><code>t(".hello")</code> in <code>app/views/dashboard/show.html.erb</code> will look for <code>en.dashboard.show.hello</code></p>

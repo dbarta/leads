@@ -6,8 +6,8 @@
 <%= h2_with_anchor "Accepting Payments" %>
 
 <p>Jumpstart Pro supports using several payment processors depending on your needs and location of your business.</p>
-<p><%= link_to "Subscriptions", subscriptions_docs_path, class: "link" %> are associated with Accounts, which allows you to offer separate billing for each group of users. You'll commonly see this in apps that support multiple accounts like GitHub Organizations, Heroku Teams, etc.</p>
-<p><%= link_to "One-time payments", one_time_payments_docs_path, class: "link" %> are also supported by Jumpstart Pro too.</p>
+<p><%= link_to "Subscriptions", subscriptions_docs_path %> are associated with Accounts, which allows you to offer separate billing for each group of users. You'll commonly see this in apps that support multiple accounts like GitHub Organizations, Heroku Teams, etc.</p>
+<p><%= link_to "One-time payments", one_time_payments_docs_path %> are also supported by Jumpstart Pro too.</p>
 
 <%= h2_with_anchor "Payment Processors" %>
 
@@ -22,7 +22,7 @@
 
 <%= h5_with_anchor "Stripe CLI" %>
 
-<p>Stripe now requires webhooks in development and provides the <%= link_to "Stripe CLI", "https://stripe.com/docs/stripe-cli", target: :_blank, class: "link" %> to forward webhooks to your local Rails server. After enabling Stripe in Jumpstart Pro, you will need to install the Stripe CLI and login. Jumpstart Pro will add the stripe listen process to Procfile.dev to forward webhooks while your Rails application is running.</p>
+<p>Stripe now requires webhooks in development and provides the <%= link_to "Stripe CLI", "https://stripe.com/docs/stripe-cli", target: :_blank %> to forward webhooks to your local Rails server. After enabling Stripe in Jumpstart Pro, you will need to install the Stripe CLI and login. Jumpstart Pro will add the stripe listen process to Procfile.dev to forward webhooks while your Rails application is running.</p>
 
 <pre><code>stripe login</code><code>stripe listen --forward-to localhost:3000/webhooks/stripe</code></pre>
 

@@ -2,7 +2,7 @@ module AvatarHelper
   extend self
 
   def avatar_url_for(record, opts = {})
-    size = opts[:size] || 48
+    size = opts[:size] || 256
 
     if record.respond_to?(:avatar) && record.avatar.attached? && record.avatar.variable?
       record.avatar.variant(resize_to_fit: [size, size])
