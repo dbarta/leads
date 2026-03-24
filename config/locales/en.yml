@@ -164,8 +164,7 @@ en:
       privacy: "Privacy"
       terms: "Terms"
     account_menu:
-      account_settings: "Account settings"
-      create_account: "Create an account"
+      manage_accounts: "Manage accounts"
     account_navbar:
       profile: "Profile"
       password: "Password"
