@@ -52,6 +52,7 @@ en:
     authenticate: "Please login or create an account to accept this invitation"
     not_found: "Whoops, we weren't able to find this invitation. Check with your account admin for a new invitation."
     show:
+      title: "Join %{account}"
       invited_you_to_join_html: "<strong>%{inviter}</strong> invited you to join <strong>%{account}</strong>"
       accept: "Accept Invitation"
       decline: "Decline"

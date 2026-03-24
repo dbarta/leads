@@ -1,5 +1,5 @@
 <div class="max-w-md mx-auto mt-12 text-center">
-  <h1>Join <%= @account.name %></h1>
+  <h1><%= t(".title", account: @account.name) %></h1>
 
   <div class="mt-8 flex items-center justify-center">
     <%= image_tag avatar_url_for(@account_invitation.account), class: "size-5 rounded-full inline-block mr-1" %>
