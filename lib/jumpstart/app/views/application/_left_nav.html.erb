@@ -1,4 +1,5 @@
-<%= render "account_menu" if Jumpstart.config.team_accounts? && user_signed_in? && Current.other_accounts.any? %>
-
-<%# Place any links for the LEFT side of the nav bar here. For example: %>
-<%#= nav_link_to "Dashboard", root_path %>
+<% unless user_signed_in? %>
+  <%= nav_link_to t(".pricing"), pricing_path if Jumpstart.config.payments_enabled? %>
+<% else %>
+  <%= render "account_menu" if Jumpstart.config.team_accounts? && Current.other_accounts.any? %>
+<% end %>

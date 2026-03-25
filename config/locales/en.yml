@@ -185,8 +185,9 @@ en:
       admin: "Admin Area"
       dashboard: "Dashboard"
       sign_out: "Sign Out"
-    right_nav:
+    left_nav:
       pricing: "Pricing"
+    right_nav:
       log_in: "Log In"
       sign_up: "Sign Up"
     navbar:
