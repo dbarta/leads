@@ -228,7 +228,7 @@ en:
     no_plans_html: "There are no pricing plans configured. %{link}."
     show:
       heading: "Pricing Plans"
-      subhead: "Simple, straightforward pricing to get your online business up and running"
+      subhead: "Simple, straightforward pricing"
       monthly: "Monthly"
       yearly: "Yearly"
 
