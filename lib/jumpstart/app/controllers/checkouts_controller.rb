@@ -72,7 +72,7 @@ class CheckoutsController < ApplicationController
       payment_method_collection: :if_required,
       return_url: checkout_return_url(return_to: params[:return_to]),
       subscription_data: subscription_data,
-      ui_mode: :embedded
+      ui_mode: :embedded_page
     }
     args[:quantity] = current_account.per_unit_quantity if @plan.charge_per_unit?
     @checkout_session = payment_processor.checkout(**args)

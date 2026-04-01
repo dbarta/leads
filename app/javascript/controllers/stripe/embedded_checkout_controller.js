@@ -8,7 +8,7 @@ export default class extends Controller {
 
   async connect() {
     this.stripe = Stripe(this.publicKeyValue)
-    this.checkout = await this.stripe.createEmbeddedCheckoutPage({fetchClientSecret: this.fetchClientSecret.bind(this))
+    this.checkout = await this.stripe.createEmbeddedCheckoutPage({fetchClientSecret: this.fetchClientSecret.bind(this)})
     this.checkout.mount(this.element)
   }
 
