@@ -1,14 +1,13 @@
 :root,
 .light {
   /*Primary*/
-  --bg-primary: var(--color-blue-700);
-  --bg-primary-hover: var(--color-blue-600);
+  --bg-primary: var(--color-gray-950);
+  --bg-primary-hover: var(--color-gray-800);
   --text-on-primary: var(--color-white);
-  --border-primary: var(--color-blue-600);
-  --border-primary-hover: var(--color-blue-500);
-  --text-primary: var(--color-blue-700);
-  --text-primary-hover: var(--color-blue-600);
-  --logo-primary: var(--color-gray-800);
+  --border-primary: var(--color-gray-950);
+  --border-primary-hover: var(--color-gray-800);
+  --text-primary: var(--color-gray-950);
+  --text-primary-hover: var(--color-gray-800);
 
   /*Secondary*/
   --bg-secondary: var(--color-white);

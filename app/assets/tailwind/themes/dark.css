@@ -4,14 +4,13 @@
   color-scheme: dark;
 
   /*Primary*/
-  --bg-primary: var(--color-blue-700);
-  --bg-primary-hover: var(--color-blue-600);
-  --text-on-primary: var(--color-white);
-  --border-primary: var(--color-blue-500);
-  --border-primary-hover: var(--color-blue-400);
-  --text-primary: var(--color-blue-300);
-  --text-primary-hover: var(--color-blue-400);
-  --logo-primary: var(--color-gray-100);
+  --bg-primary: var(--color-white);
+  --bg-primary-hover: var(--color-gray-100);
+  --text-on-primary: var(--color-gray-950);
+  --border-primary: var(--color-gray-200);
+  --border-primary-hover: var(--color-gray-400);
+  --text-primary: var(--color-gray-300);
+  --text-primary-hover: var(--color-gray-400);
 
   /*Secondary*/
   --bg-secondary: var(--color-gray-800);

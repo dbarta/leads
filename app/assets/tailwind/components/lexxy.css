@@ -4,24 +4,19 @@
   --lexxy-color-ink: var(--base-text-secondary);
   --lexxy-color-ink-lighter: var(--base-border-tertiary);
   --lexxy-color-ink-lightest: var(--base-border-tertiary);
+  --lexxy-color-ink-inverted: var(--text-on-primary);
+  --lexxy-color-ink-medium: var(--text-primary-hover);
   --lexxy-color-selected: var(--base-border-tertiary);
   --lexxy-color-selected-hover: var(--base-border-tertiary);
-}
 
-.lexxy-highlight-button {
-  font: initial;
-}
-
-.lexxy-code-language-picker {
-  width: auto;
-}
-
-lexxy-highlight-dropdown button {
-  line-height: normal;
-}
-
-lexxy-link-dropdown input[type="url"] {
-  min-inline-size: 30ch;
-  line-height: normal;
+  .lexxy-editor__toolbar-dropdown {
+    & .lexxy-editor__toolbar-dropdown-list {
+      & button {
+        svg {
+          fill: currentColor;
+        }
+      }
+    }
+  }
 }
 
