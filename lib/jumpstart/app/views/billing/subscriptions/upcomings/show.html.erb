@@ -13,7 +13,7 @@
 </div>
 
 <div class="text-xl mb-4">
-  <%= l Time.at(@invoice.period_start).to_date, format: :long %> - <%= l Time.at(@invoice.period_end).to_date, format: :long %>
+  <%= l Time.at(@invoice.period_end).to_date, format: :long %>
 </div>
 <table class="min-w-full divide-y divide-gray-300">
   <thead class="text-left">
@@ -25,7 +25,13 @@
   <tbody>
     <% @invoice.lines.auto_paging_each do |line_item| %>
       <tr class="border-b border-gray-200">
-        <td class="p-3"><%= line_item.description %></td>
+        <td class="p-3">
+          <%= tag.div line_item.description %>
+          <div class="text-sm text-muted">
+            <%= l Time.at(line_item.period.start).to_date, format: :long %> -
+            <%= l Time.at(line_item.period.end).to_date, format: :long %>
+          </div>
+        </td>
         <td class="p-3 text-right"><%= line_item.quantity %></td>
         <td class="p-3 text-right"><%= Pay::Currency.format line_item.pricing.unit_amount_decimal, currency: line_item.currency %></td>
         <td class="p-3 text-right"><%= Pay::Currency.format line_item.amount, currency: line_item.currency %></td>
