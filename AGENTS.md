@@ -57,7 +57,7 @@ end
 ```
 
 ### Jumpstart Configuration System
-- **Dynamic configuration**: `config/jumpstart.yml` controls enabled features
+- **Dynamic configuration**: `config/jumpstart.rb` controls enabled features
 - **Runtime gem loading**: `Gemfile.jumpstart` loads gems based on configuration
 - **Feature toggles**: Payment processors, integrations, background jobs, etc.
 - Access via `Jumpstart.config.payment_processors`, `Jumpstart.config.stripe?`, etc.
