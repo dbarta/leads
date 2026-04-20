@@ -12,7 +12,7 @@ export default class extends Controller {
 
   // Switches visible plans
   switch(event) {
-    this.frequencyValue = event.target.dataset.frequency
+    this.frequencyValue = event.currentTarget.dataset.frequency
   }
 
   // Removes frequencies that have no plans in them
