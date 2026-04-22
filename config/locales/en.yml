@@ -232,6 +232,20 @@ en:
       monthly: "Monthly"
       yearly: "Yearly"
 
+  plan_intervals:
+    day:
+      one: "day"
+      other: "%{count} days"
+    week:
+      one: "week"
+      other: "%{count} weeks"
+    month:
+      one: "month"
+      other: "%{count} months"
+    year:
+      one: "year"
+      other: "%{count} years"
+
   scaffold:
     edit:
       title: "Edit %{model}"
