@@ -125,6 +125,19 @@ nl:
         vullen.
       back: Ga terug
       confirm_button: Bevestig betaling
+  plan_intervals:
+    day:
+      one: dag
+      other: "%{count} dagen"
+    week:
+      one: week
+      other: "%{count} weken"
+    month:
+      one: maand
+      other: "%{count} maanden"
+    year:
+      one: jaar
+      other: "%{count} jaar"
   static:
     no_plans: Er zijn geen prijzen geconfigureerd.
     pricing:

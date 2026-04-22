@@ -189,6 +189,20 @@ fr:
       back: "Retour"
       confirm_button: "Confirmer le paiement"
 
+  plan_intervals:
+    day:
+      one: "jour"
+      other: "%{count} jours"
+    week:
+      one: "semaine"
+      other: "%{count} semaines"
+    month:
+      one: "mois"
+      other: "%{count} mois"
+    year:
+      one: "an"
+      other: "%{count} ans"
+
   static:
     no_plans_html: "Il n'y a pas de plans de prix configurés. %{link}."
     pricing:
