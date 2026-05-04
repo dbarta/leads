@@ -1,7 +1,7 @@
 <%- if devise_mapping.omniauthable? && %w{ registrations sessions }.include?(controller_name) %>
   <div class="flex items-center w-full my-4">
     <hr class="w-full grow">
-    <span class="mx-6 text-sm text-muted font-medium">or</span>
+    <span class="mx-6 text-sm text-muted font-medium"><%= t(".or") %></span>
     <hr class="w-full grow">
   </div>
 
