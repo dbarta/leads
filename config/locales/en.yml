@@ -484,6 +484,7 @@ en:
       submit: "Continue"
       disabled: "Two-factor authentication is now disabled"
       enabled: "Two-factor authentication was enabled successfully"
+      verification_code: "Verification code"
       backup_codes:
         title: "Backup Codes"
         description: "Recovery codes are used to access your account in the event you cannot receive two-factor authentication codes."
@@ -529,6 +530,7 @@ en:
     account_transferred: "%{previous_owner} made you owner of the %{account} account."
     empty: "Nothing to see here — yet."
     empty_description: "We'll let you know when you have new notifications."
+    see_more: "See more notifications"
 
   activerecord:
     attributes:
