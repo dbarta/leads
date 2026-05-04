@@ -126,6 +126,20 @@ es-co:
       back: "Ir atrás"
       confirm_button: "Confirmar pago"
 
+  plan_intervals:
+    day:
+      one: "día"
+      other: "%{count} días"
+    week:
+      one: "semana"
+      other: "%{count} semanas"
+    month:
+      one: "mes"
+      other: "%{count} meses"
+    year:
+      one: "año"
+      other: "%{count} años"
+
   static:
     no_plans: "No hay planes de precios configurados."
     pricing:
