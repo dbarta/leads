@@ -16,13 +16,13 @@
   </div>
 
   <div class="form-group">
-    <%= form.label :name, "Full name" %>
-    <%= form.text_field :name, autofocus: true, autocomplete: "name", placeholder: "Steve Jobs", class: "form-control" %>
+    <%= form.label :name %>
+    <%= form.text_field :name, autofocus: true, autocomplete: "name", placeholder: true, class: "form-control" %>
   </div>
 
   <div class="form-group">
     <%= form.label :email %>
-    <%= form.email_field :email, autocomplete: "email", placeholder: "you@example.com", class: "form-control" %>
+    <%= form.email_field :email, autocomplete: "email", placeholder: true, class: "form-control" %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
