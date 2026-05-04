@@ -67,6 +67,7 @@ class CheckoutsController < ApplicationController
       automatic_tax: {enabled: @plan.taxed?},
       consent_collection: {terms_of_service: :required},
       customer_update: {address: :auto},
+      locale: I18n.locale.to_s,
       mode: :subscription,
       line_items: @plan.id_for_processor(:stripe),
       payment_method_collection: :if_required,
