@@ -36,6 +36,12 @@ class ActionText::Embed < ApplicationRecord
         /^https:\/\/bsky\.app\/profile\/.*\/post\/.*/
       ]
     },
+    bunny_stream: {
+      endpoint: "https://video.bunnycdn.com/OEmbed",
+      urls: [
+        /^https:\/\/player\.mediadelivery\.net\/play\/.*/
+      ]
+    },
     imgur: {
       endpoint: "https://api.imgur.com/oembed",
       urls: [
