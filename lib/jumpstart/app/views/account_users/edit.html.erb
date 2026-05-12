@@ -17,7 +17,7 @@
   </div>
 
   <% unless @account_user.account_owner? %>
-    <%= button_to t("delete"), account_account_user_path(@account, @account_user), class: "btn btn-danger btn-outline", data: { turbo_method: :delete, turbo_confirm: t("are_you_sure") } %>
+    <%= button_to t("delete"), account_account_user_path(@account, @account_user), method: :delete, class: "btn btn-danger btn-outline", data: { turbo_confirm: t("are_you_sure") } %>
   <% end %>
 </div>
 
