@@ -16,7 +16,7 @@
     </h1>
   </div>
 
-  <%= button_to t(".destroy"), account_account_invitation_path(@account, @account_invitation), data: { turbo_method: :delete, turbo_confirm: t("are_you_sure") }, class: "btn btn-danger btn-outline" %>
+  <%= button_to t(".destroy"), account_account_invitation_path(@account, @account_invitation), method: :delete, data: { turbo_confirm: t("are_you_sure") }, class: "btn btn-danger btn-outline" %>
 </div>
 
 <p class="my-4 text-muted"><%= t(".description") %></p>
