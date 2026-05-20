@@ -553,6 +553,34 @@ fr:
     empty_description: "On vous informera lorsque vous aurez de nouvelles notifications."
     see_more: "Voir plus de notifications"
 
+  activerecord:
+    attributes:
+      api_token:
+        last_used_at: "Dernière utilisation"
+        created_at: "Créé le"
+      account:
+        name_on_card: "Nom sur la carte"
+      user:
+        theme: "Thème de couleur"
+
+    errors:
+      models:
+        account:
+          attributes:
+            domain:
+              reserved: "%{value} est réservé."
+            subdomain:
+              reserved: "%{value} est réservé."
+              format: "doit comporter au moins 2 caractères et être alphanumérique"
+        account_invitation:
+          attributes:
+            email:
+              invited: "a déjà été invité"
+        account_user:
+          attributes:
+            admin:
+              cannot_be_removed: "le rôle ne peut pas être retiré du propriétaire du compte"
+
   errors:
     messages:
       image_format_not_supported: "ce format d'image n'est pas pris en charge"
@@ -560,6 +588,26 @@ fr:
   helpers:
     label:
       country: "Pays ou région"
+      account:
+        name: "Nom du compte"
+      user:
+        name: "Nom complet"
 
     placeholder:
       name_on_card: "Nom complet"
+      account_invitation:
+        name: "Nom complet"
+        email: "exemple@domaine.com"
+      account:
+        name: "Nom du compte"
+        domain: "exemple.com"
+        subdomain: "exemple"
+        name_on_card: "Nom complet"
+        extra_billing_info: "N° de TVA, raison sociale, adresse, etc."
+        billing_email: "compte@exemple.com"
+      api_token:
+        name: "Nom du jeton"
+      user:
+        name: "Steve Jobs"
+        email: "vous@exemple.com"
+        password: "mot de passe"
