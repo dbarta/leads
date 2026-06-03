@@ -15,4 +15,18 @@ class AccountMailer < ApplicationMailer
       subject: t(".subject", inviter: @invited_by.name, account: @account.name)
     )
   end
+
+  def cancellation_reason
+    @subscription = params[:subscription]
+    @account = @subscription.customer.owner
+
+    return unless @subscription.canceled?
+
+    mail(
+      to: @account.billing_contacts,
+      from: email_address_with_name(Jumpstart.config.support_email, Jumpstart.config.application_name),
+      reply_to: Jumpstart.config.support_email,
+      subject: t(".subject", application_name: Jumpstart.config.application_name)
+    )
+  end
 end

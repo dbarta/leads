@@ -47,6 +47,8 @@ en:
       subject: "%{inviter} invited you to %{account}"
       header_html: "%{inviter} has invited you to collaborate on <strong>%{account}</strong>"
       view_invitation: "View invitation"
+    cancellation_reason:
+      subject: "Your %{application_name} subscription"
 
   account_invitations:
     authenticate: "Please login or create an account to accept this invitation"

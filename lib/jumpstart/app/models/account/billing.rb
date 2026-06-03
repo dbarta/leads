@@ -20,4 +20,8 @@ module Account::Billing
   def per_unit_quantity
     account_users_count
   end
+
+  def billing_contacts
+    (admins.map(&:email) | [email]).compact_blank
+  end
 end

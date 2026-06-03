@@ -22,6 +22,7 @@ class Billing::Subscriptions::CancelsController < ApplicationController
       @subscription.cancel
     end
 
+    AccountMailer.with(subscription: @subscription).cancellation_reason.deliver_later(wait: 90.minutes)
     redirect_to billing_path, status: :see_other
   rescue Pay::Error => e
     flash[:alert] = e.message
