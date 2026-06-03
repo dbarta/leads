@@ -7,5 +7,7 @@ class Api::V1::AccountsController < Api::BaseController
   def show
     @account = current_user.accounts.find(params[:id])
     render "accounts/show"
+  rescue ActiveRecord::RecordNotFound
+    render json: {error: "Account not found"}
   end
 end
