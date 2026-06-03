@@ -109,9 +109,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_18_192532) do
     t.string "token"
     t.string "name"
     t.jsonb "metadata"
-    t.boolean "transient", default: false
     t.datetime "last_used_at", precision: nil
-    t.datetime "expires_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["token"], name: "index_api_tokens_on_token", unique: true

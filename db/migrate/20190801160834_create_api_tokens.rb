@@ -9,9 +9,7 @@ class CreateApiTokens < ActiveRecord::Migration[6.0]
       else
         t.json :metadata
       end
-      t.boolean :transient, default: false
       t.datetime :last_used_at
-      t.datetime :expires_at
 
       t.timestamps
     end

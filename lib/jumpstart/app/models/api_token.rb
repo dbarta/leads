@@ -23,15 +23,6 @@ class ApiToken < ApplicationRecord
     (metadata || {}).fetch(key, default)
   end
 
-  def expired?
-    expires_at? && Time.current >= expires_at
-  end
-
-  def touch_last_used_at
-    return if transient?
-    update(last_used_at: Time.current)
-  end
-
   def generate_token
     loop do
       self.token = SecureRandom.hex(16)
