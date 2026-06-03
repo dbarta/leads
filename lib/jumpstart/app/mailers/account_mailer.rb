@@ -1,4 +1,6 @@
 class AccountMailer < ApplicationMailer
+  before_action :ensure_subscription_canceled, only: :cancellation_reason
+
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -17,16 +19,23 @@ class AccountMailer < ApplicationMailer
   end
 
   def cancellation_reason
-    @subscription = params[:subscription]
     @account = @subscription.customer.owner
-
-    return unless @subscription.canceled?
+    @application_name = Jumpstart.config.application_name
 
     mail(
-      to: @account.billing_contacts,
-      from: email_address_with_name(Jumpstart.config.support_email, Jumpstart.config.application_name),
+      to: (@account.admins.map(&:email) | [@account.email]).compact_blank,
+      from: email_address_with_name(Jumpstart.config.support_email, @application_name),
       reply_to: Jumpstart.config.support_email,
-      subject: t(".subject", application_name: Jumpstart.config.application_name)
+      subject: t(".subject", application_name: @application_name)
     )
+  end
+
+  private
+
+  def ensure_subscription_canceled
+    @subscription = params[:subscription]
+
+    # Don't send if subscription was resumed since this email was queued up
+    throw :abort unless @subscription.canceled?
   end
 end

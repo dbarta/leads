@@ -1,11 +1,11 @@
-<p>Hey there,</p>
+<p><%= t(".greeting") %></p>
 
-<p>We noticed you recently cancelled your <%= Jumpstart.config.application_name %> subscription.</p>
+<p><%= t(".noticed", application_name: @application_name) %></p>
 
-<p>What made you cancel?</p>
+<p><%= t(".what_made_you_cancel") %></p>
 
-<p>Hit "Reply" and let us know. Your feedback goes directly to us and genuinely helps improve <%= Jumpstart.config.application_name %>.</p>
+<p><%= t(".feedback", application_name: @application_name) %></p>
 
 <p>
-  — The <%= Jumpstart.config.application_name %> Team
+  <%= t(".sign_off", application_name: @application_name) %>
 </p>

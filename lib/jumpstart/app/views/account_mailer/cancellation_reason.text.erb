@@ -1,9 +1,9 @@
-Hey there,
+<%= t(".greeting") %>
 
-We noticed you recently cancelled your <%= Jumpstart.config.application_name %> subscription.
+<%= t(".noticed", application_name: @application_name) %>
 
-What made you cancel?
+<%= t(".what_made_you_cancel") %>
 
-Hit "Reply" and let us know. Your feedback goes directly to us and genuinely helps improve <%= Jumpstart.config.application_name %>.
+<%= t(".feedback", application_name: @application_name) %>
 
-— The <%= Jumpstart.config.application_name %> Team
+<%= t(".sign_off", application_name: @application_name) %>
