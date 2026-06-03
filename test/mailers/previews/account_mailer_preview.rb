@@ -7,6 +7,7 @@ class AccountMailerPreview < ActionMailer::Preview
     AccountMailer.with(account_invitation: account_invitation).invite
   end
 
+  # Preview this email at http://localhost:3000/rails/mailers/account_mailer/cancellation_reason
   def cancellation_reason
     subscription = Pay::Subscription.new(
       type: Pay::FakeProcessor::Subscription,
@@ -19,8 +20,6 @@ class AccountMailerPreview < ActionMailer::Preview
       trial_ends_at: 1.week.ago,
       ends_at: Time.current
     )
-
-    # Preview this email at http://localhost:3000/rails/mailers/account_mailer/cancellation_reason
     AccountMailer.with(subscription: subscription).cancellation_reason
   end
 end
