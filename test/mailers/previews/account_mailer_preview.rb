@@ -9,8 +9,7 @@ class AccountMailerPreview < ActionMailer::Preview
 
   # Preview this email at http://localhost:3000/rails/mailers/account_mailer/cancellation_reason
   def cancellation_reason
-    subscription = Pay::Subscription.new(
-      type: Pay::FakeProcessor::Subscription,
+    subscription = Pay::FakeProcessor::Subscription.new(
       customer: Pay::Customer.new(owner: Account.first),
       name: "default",
       processor_id: "fake_1",
