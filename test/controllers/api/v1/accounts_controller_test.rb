@@ -13,6 +13,6 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     account = accounts(:company)
     get api_v1_account_url(account), headers: {Authorization: "token #{user.api_tokens.first.token}"}
     assert_response :success
-    assert_includes response.parsed_body.pluck("name"), account.name
+    assert_includes response.parsed_body["name"], account.name
   end
 end
