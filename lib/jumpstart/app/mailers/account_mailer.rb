@@ -20,7 +20,7 @@ class AccountMailer < ApplicationMailer
     mail(
       to: email_address_with_name(params[:user].email, params[:user].name),
       from: email_address_with_name(Jumpstart.config.support_email, Jumpstart.config.application_name),
-      reply_to: Jumpstart.config.support_email,
+      reply_to: Jumpstart.config.support_email
     )
   end
 end
