@@ -1,5 +1,6 @@
 class AccountMailer < ApplicationMailer
-  before_deliver :ensure_subscription_canceled
+  # Don't send if subscription was resumed since this email was queued up
+  before_deliver ->{ throw :abort }, if: ->{ action_name == "cancellation_reason" && !params[:subscription].canceled? }
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -28,12 +29,5 @@ class AccountMailer < ApplicationMailer
       reply_to: Jumpstart.config.support_email,
       subject: t(".subject", application_name: @application_name)
     )
-  end
-
-  private
-
-  # Don't send if subscription was resumed since this email was queued up
-  def ensure_subscription_canceled
-    throw :abort if action_name == "cancellation_reason" && !params[:subscription].canceled?
   end
 end
