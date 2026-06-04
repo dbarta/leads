@@ -1,11 +1,3 @@
-<p><%= t(".greeting") %></p>
-
-<p><%= t(".noticed", application_name: @application_name) %></p>
-
-<p><%= t(".what_made_you_cancel") %></p>
-
-<p><%= t(".feedback", application_name: @application_name) %></p>
-
-<p>
-  <%= t(".sign_off", application_name: @application_name) %>
-</p>
+<p><%= t ".greeting", application_name: Jumpstart.config.application_name %></p>
+<p><%= t ".what_made_you_cancel" %></p>
+<p><%= t ".feedback", application_name: Jumpstart.config.application_name %></p>

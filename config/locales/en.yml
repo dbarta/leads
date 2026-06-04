@@ -49,11 +49,9 @@ en:
       view_invitation: "View invitation"
     cancellation_reason:
       subject: "Quick question"
-      greeting: "Hey there,"
-      noticed: "We noticed you recently cancelled your %{application_name} subscription."
-      what_made_you_cancel: "What made you cancel?"
-      feedback: 'Hit "Reply" and let us know. Your feedback goes directly to us and genuinely helps improve %{application_name}.'
-      sign_off: "— The %{application_name} Team"
+      greeting: "Thanks so much for giving %{application_name} a try."
+      what_made_you_cancel: "Quick question, what made you cancel?"
+      feedback: "I'd really appreciate your feedback to help us make %{application_name} better."
 
   account_invitations:
     authenticate: "Please login or create an account to accept this invitation"

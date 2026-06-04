@@ -28,20 +28,12 @@ ActiveSupport.on_load :pay_subscription do
   has_prefix_id :sub
   delegate :currency, to: :plan
 
-  after_update_commit :send_cancellation_reason_email, if: -> {
-    saved_change_to_ends_at? && ends_at_before_last_save.nil?
-  }
-
   def plan
     @plan ||= Plan.where("#{customer.processor}_id": processor_plan).first
   end
 
   def amount
     (quantity == 0) ? plan.amount : plan.amount * quantity
-  end
-
-  def send_cancellation_reason_email
-    AccountMailer.with(subscription: self).cancellation_reason.deliver_later(wait: 1.hour)
   end
 end
 
