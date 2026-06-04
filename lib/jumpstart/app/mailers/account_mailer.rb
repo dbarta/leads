@@ -1,5 +1,5 @@
 class AccountMailer < ApplicationMailer
-  before_deliver :ensure_subscription_canceled, only: [:cancellation_reason]
+  before_deliver :ensure_subscription_canceled
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -34,6 +34,6 @@ class AccountMailer < ApplicationMailer
 
   # Don't send if subscription was resumed since this email was queued up
   def ensure_subscription_canceled
-    throw :abort unless params[:subscription].canceled?
+    throw :abort if action_name == "cancellation_reason" && !params[:subscription].canceled?
   end
 end
