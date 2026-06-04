@@ -22,7 +22,7 @@ class Billing::Subscriptions::CancelsController < ApplicationController
       @subscription.cancel
     end
 
-    AccountMailer.with(subscription: self, user: current_user).cancellation_reason.deliver_later(wait: 1.hour)
+    AccountMailer.with(subscription: @subscription, user: current_user).cancellation_reason.deliver_later(wait: 1.hour)
 
     redirect_to billing_path, status: :see_other
   rescue Pay::Error => e
