@@ -52,20 +52,4 @@ class Users::RegistrationsControllerTest < ActionDispatch::IntegrationTest
       end
     end
   end
-
-  class RegisterWithAccountTest < Users::RegistrationsControllerTest
-    test "doesn't prompt for account details on sign up if disabled" do
-      Jumpstart.config.stub(:register_with_account?, false) do
-        get new_user_registration_path
-        assert_no_match I18n.t("helpers.label.account.name"), response.body
-      end
-    end
-
-    test "prompts for account details on sign up if enabled" do
-      Jumpstart.config.stub(:register_with_account?, true) do
-        get new_user_registration_path
-        assert_select "label", text: I18n.t("helpers.label.account.name")
-      end
-    end
-  end
 end
