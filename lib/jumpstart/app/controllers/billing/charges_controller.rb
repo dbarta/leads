@@ -6,7 +6,7 @@ class Billing::ChargesController < ApplicationController
     respond_to do |format|
       format.pdf {
         send_data @charge.receipt,
-          filename: @charge.filename,
+          filename: @charge.receipt_filename,
           type: "application/pdf",
           disposition: :inline
       }
