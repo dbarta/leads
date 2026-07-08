@@ -101,6 +101,7 @@ class ActionText::Embed < ApplicationRecord
       response = JSON.parse Net::HTTP.get(uri)
       create(url: url, fields: response)
     end
+  rescue JSON::ParserError
   end
 
   # Returns OEmbed endpoint for URL
