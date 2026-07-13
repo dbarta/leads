@@ -4,6 +4,7 @@ class AirportsController < ApplicationController
 
   def index
     @airports = Airport.all
+    @airports = @airports.commercial_only if params[:commercial_only] == "1"
     @airports = @airports.search_text(params[:q])
     @airports = @airports.by_state(params[:state])
     @airports = @airports.by_facility_type(params[:facility_type])

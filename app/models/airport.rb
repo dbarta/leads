@@ -17,9 +17,15 @@ class Airport < ApplicationRecord
   scope :by_state, ->(state) { where(state: state) if state.present? }
   scope :by_facility_type, ->(type) { where(facility_type: type) if type.present? }
   scope :by_discovery_status, ->(status) { where(discovery_status: status) if status.present? }
+  scope :commercial_only, -> { where.not(far_139_type_code: [nil, ""]) }
+  scope :public_use_only, -> { where(public_use: true) }
   scope :search_text, ->(q) {
     where("name ILIKE :q OR faa_code ILIKE :q OR icao_code ILIKE :q OR iata_code ILIKE :q OR city ILIKE :q", q: "%#{sanitize_sql_like(q)}%") if q.present?
   }
+
+  def commercial?
+    far_139_type_code.present?
+  end
 
   def display_name
     "#{name} (#{faa_code})"

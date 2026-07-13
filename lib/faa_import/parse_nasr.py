@@ -173,21 +173,24 @@ def parse_apt_csv(file_obj):
         except (ValueError, TypeError):
             lon = None
 
+        facility_use = get("FACILITY_USE_CODE", "FACILITY_USE")
         airports.append({
-            "faa_code":       faa_code,
-            "name":           get("ARPT_NAME", "AIRPORT_NAME", "NAME", "FACILITY_NAME"),
-            "city":           get("CITY", "ASSOC_CITY"),
-            "county":         get("COUNTY_NAME", "COUNTY"),
-            "state":          state,
-            "facility_type":  get("SITE_TYPE_CODE", "FACILITY_TYPE", "TYPE_CODE"),
-            "ownership_type": get("OWNERSHIP_TYPE_CODE", "OWNERSHIP_TYPE", "OWNERSHIP"),
-            "owner_name":     get("OWNER_NAME", "OWNER"),
-            "airport_status": get("ARPT_STATUS", "STATUS_CODE", "AIRPORT_STATUS", "STATUS"),
-            "icao_code":      get("ICAO_ID", "ICAO_CODE", "INTL_ID"),
-            "iata_code":      get("IATA_CODE", "IATA_ID"),
-            "latitude":       lat,
-            "longitude":      lon,
-            "source_url":     "https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/NASR_Subscription/",
+            "faa_code":          faa_code,
+            "name":              get("ARPT_NAME", "AIRPORT_NAME", "NAME", "FACILITY_NAME"),
+            "city":              get("CITY", "ASSOC_CITY"),
+            "county":            get("COUNTY_NAME", "COUNTY"),
+            "state":             state,
+            "facility_type":     get("SITE_TYPE_CODE", "FACILITY_TYPE", "TYPE_CODE"),
+            "ownership_type":    get("OWNERSHIP_TYPE_CODE", "OWNERSHIP_TYPE", "OWNERSHIP"),
+            "owner_name":        get("OWNER_NAME", "OWNER"),
+            "airport_status":    get("ARPT_STATUS", "STATUS_CODE", "AIRPORT_STATUS", "STATUS"),
+            "icao_code":         get("ICAO_ID", "ICAO_CODE", "INTL_ID"),
+            "iata_code":         get("IATA_CODE", "IATA_ID"),
+            "far_139_type_code": get("FAR_139_TYPE_CODE"),
+            "public_use":        facility_use == "PU",
+            "latitude":          lat,
+            "longitude":         lon,
+            "source_url":        "https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/NASR_Subscription/",
         })
 
     return airports

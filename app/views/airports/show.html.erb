@@ -44,6 +44,8 @@
             <%= render "detail_row", label: "Coordinates",
                 value: "#{number_with_precision(@airport.latitude, precision: 6)}, #{number_with_precision(@airport.longitude, precision: 6)}" %>
           <% end %>
+          <%= render "detail_row", label: "FAR Part 139", value: @airport.far_139_type_code %>
+          <%= render "detail_row", label: "Public Use", value: @airport.public_use? ? "Yes" : "No" %>
           <%= render "detail_row", label: "Dataset Date", value: @airport.source_dataset_date&.strftime("%B %-d, %Y") %>
           <%= render "detail_row", label: "Last Imported", value: @airport.last_imported_at&.strftime("%Y-%m-%d %H:%M UTC") %>
         </div>

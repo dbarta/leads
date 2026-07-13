@@ -90,6 +90,8 @@ class FaaAirportImporter
       airport_status:      data["airport_status"].to_s.strip,
       icao_code:           data["icao_code"].to_s.strip,
       iata_code:           iata_from(data),
+      far_139_type_code:   data["far_139_type_code"].to_s.strip.presence,
+      public_use:          data["public_use"],
       source_url:          data["source_url"],
       source_dataset_date: dataset_date,
       last_imported_at:    Time.current

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_13_142111) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_13_142657) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -128,6 +128,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_142111) do
     t.string "discovery_status", default: "not_started", null: false
     t.string "faa_code", null: false
     t.string "facility_type"
+    t.string "far_139_type_code"
     t.string "iata_code"
     t.string "icao_code"
     t.datetime "last_imported_at"
@@ -136,6 +137,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_142111) do
     t.string "name", null: false
     t.string "owner_name"
     t.string "ownership_type"
+    t.boolean "public_use"
     t.date "source_dataset_date"
     t.string "source_url"
     t.string "state"
@@ -143,6 +145,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_142111) do
     t.index ["discovery_status"], name: "index_airports_on_discovery_status"
     t.index ["faa_code"], name: "index_airports_on_faa_code", unique: true
     t.index ["facility_type"], name: "index_airports_on_facility_type"
+    t.index ["far_139_type_code"], name: "index_airports_on_far_139_type_code"
+    t.index ["public_use"], name: "index_airports_on_public_use"
     t.index ["state"], name: "index_airports_on_state"
   end
 
