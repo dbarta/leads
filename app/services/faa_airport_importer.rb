@@ -63,6 +63,13 @@ class FaaAirportImporter
     JSON.parse(stdout)
   end
 
+  def iata_from(data)
+    explicit = data["iata_code"].to_s.strip
+    return explicit if explicit.present?
+    faa = data["faa_code"].to_s.strip
+    faa if faa.match?(/\A[A-Z]{3}\z/)
+  end
+
   def upsert_airport(data, dataset_date)
     faa_code = data["faa_code"].to_s.upcase.strip
     return if faa_code.blank?
@@ -82,7 +89,7 @@ class FaaAirportImporter
       owner_name:          data["owner_name"].to_s.strip,
       airport_status:      data["airport_status"].to_s.strip,
       icao_code:           data["icao_code"].to_s.strip,
-      iata_code:           data["iata_code"].to_s.strip,
+      iata_code:           iata_from(data),
       source_url:          data["source_url"],
       source_dataset_date: dataset_date,
       last_imported_at:    Time.current
