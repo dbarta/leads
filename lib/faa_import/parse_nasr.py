@@ -130,27 +130,32 @@ def parse_apt_txt(file_obj):
 
 
 def parse_apt_csv(file_obj):
-    """Parse the APT_BASE.csv format that FAA also publishes."""
+    """Parse APT_BASE.csv from the FAA NASR subscription."""
     airports = []
+    import codecs
     if isinstance(file_obj.read(0), bytes):
-        import codecs
         reader = csv.DictReader(codecs.getreader("utf-8-sig")(file_obj))
     else:
         reader = csv.DictReader(file_obj)
 
     for row in reader:
-        # Field names vary slightly by version; try common variants
-        state = (row.get("STATE_CODE") or row.get("STATE-CODE") or row.get("STATE") or "").strip()
+        # Filter to U.S. records only (COUNTRY_CODE = US or state in known list)
+        country = row.get("COUNTRY_CODE", "").strip()
+        state = (row.get("STATE_CODE") or row.get("STATE") or "").strip()
+        if country not in ("US", "") and state not in VALID_STATES:
+            continue
         if state not in VALID_STATES:
             continue
-        faa_code = (row.get("LOCATION_ID") or row.get("LOC_ID") or row.get("FAA_ID") or "").strip()
+
+        # FAA location identifier — APT_BASE.csv uses ARPT_ID; older formats use LOCATION_ID
+        faa_code = (row.get("ARPT_ID") or row.get("LOCATION_ID") or row.get("LOC_ID") or "").strip()
         if not faa_code:
             continue
 
         def get(*keys):
             for k in keys:
                 v = row.get(k, "")
-                if v:
+                if v and v.strip():
                     return v.strip()
             return ""
 
@@ -159,22 +164,27 @@ def parse_apt_csv(file_obj):
         except (ValueError, TypeError):
             lat = None
         try:
-            lon = float(get("LONG_DECIMAL", "LONGITUDE", "LON")) or None
+            lon_str = get("LONG_DECIMAL", "LONGITUDE", "LON")
+            lon_val = float(lon_str) if lon_str else None
+            # Western hemisphere longitudes from FAA are stored as positive; negate them
+            if lon_val and lon_val > 0 and state in VALID_STATES:
+                lon_val = -lon_val
+            lon = lon_val
         except (ValueError, TypeError):
             lon = None
 
         airports.append({
             "faa_code":       faa_code,
-            "name":           get("AIRPORT_NAME", "NAME", "FACILITY_NAME"),
+            "name":           get("ARPT_NAME", "AIRPORT_NAME", "NAME", "FACILITY_NAME"),
             "city":           get("CITY", "ASSOC_CITY"),
-            "county":         get("COUNTY", "COUNTY_NAME"),
+            "county":         get("COUNTY_NAME", "COUNTY"),
             "state":          state,
-            "facility_type":  get("FACILITY_TYPE", "TYPE_CODE", "SITE_TYPE_CODE"),
-            "ownership_type": get("OWNERSHIP_TYPE", "OWNERSHIP", "OWNER_TYPE"),
+            "facility_type":  get("SITE_TYPE_CODE", "FACILITY_TYPE", "TYPE_CODE"),
+            "ownership_type": get("OWNERSHIP_TYPE_CODE", "OWNERSHIP_TYPE", "OWNERSHIP"),
             "owner_name":     get("OWNER_NAME", "OWNER"),
-            "airport_status": get("STATUS_CODE", "AIRPORT_STATUS", "STATUS"),
+            "airport_status": get("ARPT_STATUS", "STATUS_CODE", "AIRPORT_STATUS", "STATUS"),
             "icao_code":      get("ICAO_ID", "ICAO_CODE", "INTL_ID"),
-            "iata_code":      get("IATA_CODE", "IATA_ID", ""),
+            "iata_code":      get("IATA_CODE", "IATA_ID"),
             "latitude":       lat,
             "longitude":      lon,
             "source_url":     "https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/NASR_Subscription/",
@@ -217,8 +227,11 @@ def download_and_parse(url):
         names = zf.namelist()
         print(f"ZIP contents: {names}", file=sys.stderr)
 
-        # Prefer CSV
-        csv_files = [n for n in names if n.upper().endswith(".CSV") and "APT" in n.upper()]
+        # Prefer APT_BASE.csv specifically, then any APT CSV, then fixed-width
+        base_csv = [n for n in names if os.path.basename(n).upper() == "APT_BASE.CSV"]
+        csv_files = base_csv or [n for n in names if n.upper().endswith(".CSV") and "APT_BASE" in n.upper()]
+        if not csv_files:
+            csv_files = [n for n in names if n.upper().endswith(".CSV") and n.upper().startswith("APT")]
         apt_files = [n for n in names if n.upper() == "APT.TXT" or n.upper().endswith("/APT.TXT")]
 
         if csv_files:
@@ -248,9 +261,13 @@ def load_local_file(path):
     if ext == ".zip":
         with zipfile.ZipFile(path) as zf:
             names = zf.namelist()
-            csv_files = [n for n in names if n.upper().endswith(".CSV") and "APT" in n.upper()]
+            base_csv = [n for n in names if os.path.basename(n).upper() == "APT_BASE.CSV"]
+            csv_files = base_csv or [n for n in names if n.upper().endswith(".CSV") and "APT_BASE" in n.upper()]
+            if not csv_files:
+                csv_files = [n for n in names if n.upper().endswith(".CSV") and "APT" in n.upper()]
             apt_files = [n for n in names if "APT" in n.upper() and n.upper().endswith(".TXT")]
             if csv_files:
+                print(f"Using {csv_files[0]}", file=sys.stderr)
                 with zf.open(csv_files[0]) as f:
                     return parse_apt_csv(f)
             elif apt_files:
