@@ -1,0 +1,128 @@
+<% Current.meta_tags.set(title: "Airports") %>
+
+<div class="container mx-auto px-4 py-6">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold">Airports</h1>
+      <p class="text-sm text-gray-500 mt-1"><%= number_with_delimiter(@total_airports) %> total airports in database</p>
+    </div>
+    <div class="text-sm text-gray-500">
+      Showing <%= @pagy.count %> results
+    </div>
+  </div>
+
+  <%# Search and filter form %>
+  <%= form_with url: airports_path, method: :get, data: {turbo_frame: "_top"} do |f| %>
+    <div class="bg-white border border-gray-200 rounded-lg p-4 mb-6 shadow-sm">
+      <div class="flex flex-wrap gap-3 items-end">
+        <div class="flex-1 min-w-48">
+          <%= f.label :q, "Search", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.search_field :q, value: params[:q], placeholder: "Name, FAA code, ICAO, IATA, city…",
+              class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+
+        <div>
+          <%= f.label :state, "State", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.select :state, [["All states", ""]] + @states.map { |s| [s, s] },
+              {selected: params[:state]},
+              class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+
+        <div>
+          <%= f.label :facility_type, "Type", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.select :facility_type, [["All types", ""]] + @facility_types.map { |t| [t.titleize, t] },
+              {selected: params[:facility_type]},
+              class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+
+        <div>
+          <%= f.label :discovery_status, "Discovery", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.select :discovery_status,
+              [["Any status", ""]] + @discovery_statuses.map { |s| [s.humanize, s] },
+              {selected: params[:discovery_status]},
+              class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+
+        <div>
+          <%= f.label :airport_status, "Status", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.select :airport_status, [["Any", ""], ["Open (O)", "O"], ["Closed (X)", "X"]],
+              {selected: params[:airport_status]},
+              class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+
+        <div class="flex gap-2">
+          <%= f.submit "Filter", class: "bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700 cursor-pointer" %>
+          <%= link_to "Clear", airports_path, class: "bg-gray-100 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-200" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%# Results table %>
+  <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+    <% if @airports.any? %>
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">FAA</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">ICAO</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Name</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">City</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">State</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Type</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Status</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Discovery</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% @airports.each do |airport| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-4 py-3">
+                <%= link_to airport.faa_code, airport_path(airport), class: "font-mono font-semibold text-blue-600 hover:text-blue-800" %>
+              </td>
+              <td class="px-4 py-3 font-mono text-gray-600"><%= airport.icao_code.presence || "—" %></td>
+              <td class="px-4 py-3">
+                <%= link_to airport.name, airport_path(airport), class: "text-gray-900 hover:text-blue-600" %>
+              </td>
+              <td class="px-4 py-3 text-gray-600"><%= airport.city %></td>
+              <td class="px-4 py-3 text-gray-600"><%= airport.state %></td>
+              <td class="px-4 py-3 text-gray-500 text-xs"><%= airport.facility_type&.titleize %></td>
+              <td class="px-4 py-3">
+                <% if airport.airport_status == "O" %>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Open</span>
+                <% elsif airport.airport_status.present? %>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600"><%= airport.airport_status %></span>
+                <% end %>
+              </td>
+              <td class="px-4 py-3">
+                <%= render "discovery_status_badge", status: airport.discovery_status %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <%# Pagination %>
+      <% if @pagy.last > 1 %>
+        <div class="px-4 py-3 border-t border-gray-200 flex items-center justify-between">
+          <div class="text-sm text-gray-500">
+            Page <%= @pagy.page %> of <%= @pagy.pages %> &middot; <%= number_with_delimiter(@pagy.count) %> results
+          </div>
+          <div class="flex gap-1">
+            <%== @pagy.series_nav %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="px-6 py-12 text-center text-gray-500">
+        <p class="text-lg font-medium mb-2">No airports found</p>
+        <% if Airport.count == 0 %>
+          <p class="text-sm">Run <code class="bg-gray-100 px-1 py-0.5 rounded font-mono">rake airports:import_faa</code> to import FAA airport data.</p>
+        <% else %>
+          <p class="text-sm">Try adjusting your search or filter criteria.</p>
+          <%= link_to "Clear filters", airports_path, class: "mt-2 inline-block text-blue-600 hover:underline text-sm" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

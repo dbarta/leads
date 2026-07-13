@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     root to: "dashboard#show", as: :user_root
     # Alternate route to use if logged in users should still see public root
     # get "/dashboard", to: "dashboard#show", as: :user_root
+
+    resources :airports, only: [:index, :show]
+    resources :activity_logs, only: [:index]
   end
 
   # Public marketing homepage

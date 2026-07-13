@@ -1,0 +1,146 @@
+<% Current.meta_tags.set(title: @airport.display_name) %>
+
+<div class="container mx-auto px-4 py-6">
+  <%# Back link %>
+  <div class="mb-4">
+    <%= link_to "← Airports", airports_path, class: "text-sm text-blue-600 hover:underline" %>
+  </div>
+
+  <%# Header %>
+  <div class="flex items-start justify-between mb-6">
+    <div>
+      <div class="flex items-center gap-3 mb-1">
+        <h1 class="text-2xl font-bold"><%= @airport.name %></h1>
+        <%= render "discovery_status_badge", status: @airport.discovery_status %>
+        <% if @airport.airport_status == "O" %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Open</span>
+        <% elsif @airport.airport_status.present? %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600"><%= @airport.airport_status %></span>
+        <% end %>
+      </div>
+      <p class="text-gray-500 text-sm"><%= [@airport.city, @airport.state].compact.join(", ") %></p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <%# FAA Data card %>
+    <div class="lg:col-span-2 space-y-6">
+      <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div class="px-5 py-4 border-b border-gray-200">
+          <h2 class="font-semibold text-gray-800">FAA Data</h2>
+        </div>
+        <div class="px-5 py-4 grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
+          <%= render "detail_row", label: "FAA Code", value: @airport.faa_code %>
+          <%= render "detail_row", label: "ICAO Code", value: @airport.icao_code %>
+          <%= render "detail_row", label: "IATA Code", value: @airport.iata_code %>
+          <%= render "detail_row", label: "Facility Type", value: @airport.facility_type&.titleize %>
+          <%= render "detail_row", label: "City", value: @airport.city %>
+          <%= render "detail_row", label: "County", value: @airport.county %>
+          <%= render "detail_row", label: "State", value: @airport.state %>
+          <%= render "detail_row", label: "Ownership", value: @airport.ownership_type %>
+          <%= render "detail_row", label: "Owner / Operator", value: @airport.owner_name %>
+          <%= render "detail_row", label: "Airport Status", value: @airport.airport_status %>
+          <% if @airport.latitude && @airport.longitude %>
+            <%= render "detail_row", label: "Coordinates",
+                value: "#{number_with_precision(@airport.latitude, precision: 6)}, #{number_with_precision(@airport.longitude, precision: 6)}" %>
+          <% end %>
+          <%= render "detail_row", label: "Dataset Date", value: @airport.source_dataset_date&.strftime("%B %-d, %Y") %>
+          <%= render "detail_row", label: "Last Imported", value: @airport.last_imported_at&.strftime("%Y-%m-%d %H:%M UTC") %>
+        </div>
+        <% if @airport.source_url.present? %>
+          <div class="px-5 pb-4 text-xs text-gray-400">
+            Source: <%= link_to @airport.source_url, @airport.source_url, target: "_blank", class: "hover:underline truncate" %>
+          </div>
+        <% end %>
+      </div>
+
+      <%# Sources %>
+      <% if @sources.any? %>
+        <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+          <div class="px-5 py-4 border-b border-gray-200">
+            <h2 class="font-semibold text-gray-800">Sources (<%= @airport.sources.count %>)</h2>
+          </div>
+          <table class="w-full text-sm">
+            <thead class="bg-gray-50 border-b border-gray-200">
+              <tr>
+                <th class="text-left px-4 py-2 font-medium text-gray-600">Type</th>
+                <th class="text-left px-4 py-2 font-medium text-gray-600">Title</th>
+                <th class="text-left px-4 py-2 font-medium text-gray-600">Accessed</th>
+                <th class="text-left px-4 py-2 font-medium text-gray-600">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <% @sources.each do |source| %>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-4 py-2 text-xs text-gray-500"><%= source.source_type.humanize %></td>
+                  <td class="px-4 py-2">
+                    <% if source.url.present? %>
+                      <%= link_to(source.title.presence || source.url, source.url, target: "_blank",
+                          class: "text-blue-600 hover:underline truncate block max-w-xs") %>
+                    <% else %>
+                      <%= source.title.presence || "—" %>
+                    <% end %>
+                  </td>
+                  <td class="px-4 py-2 text-xs text-gray-500"><%= source.accessed_at&.strftime("%Y-%m-%d") %></td>
+                  <td class="px-4 py-2">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
+                      <%= source.processing_status == "completed" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-600" %>">
+                      <%= source.processing_status&.humanize %>
+                    </span>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Sidebar %>
+    <div class="space-y-6">
+      <%# Discovery runs %>
+      <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div class="px-5 py-4 border-b border-gray-200">
+          <h2 class="font-semibold text-gray-800">Discovery Runs</h2>
+        </div>
+        <% if @recent_runs.any? %>
+          <div class="divide-y divide-gray-100">
+            <% @recent_runs.each do |run| %>
+              <div class="px-5 py-3 text-sm">
+                <div class="flex items-center justify-between mb-1">
+                  <%= render "discovery_status_badge", status: run.status %>
+                  <span class="text-xs text-gray-400"><%= run.started_at&.strftime("%Y-%m-%d") %></span>
+                </div>
+                <div class="text-xs text-gray-500">
+                  <%= run.sources_found %> sources &middot; <%= run.companies_found %> companies
+                </div>
+                <% if run.summary.present? %>
+                  <p class="text-xs text-gray-600 mt-1 truncate" title="<%= run.summary %>"><%= run.summary %></p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="px-5 py-6 text-sm text-gray-400 text-center">No discovery runs yet</div>
+        <% end %>
+      </div>
+
+      <%# Quick stats %>
+      <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div class="px-5 py-4 border-b border-gray-200">
+          <h2 class="font-semibold text-gray-800">Quick Stats</h2>
+        </div>
+        <div class="px-5 py-4 space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-gray-500">Sources</span>
+            <span class="font-medium"><%= @airport.sources.count %></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-500">Discovery runs</span>
+            <span class="font-medium"><%= @airport.discovery_runs.count %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
