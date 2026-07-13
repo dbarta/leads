@@ -1,0 +1,22 @@
+import_started:
+  occurred_at: 2026-07-13 00:00:00
+  actor_type: system
+  action_name: faa_import_started
+  status: success
+  summary: FAA airport import started
+
+import_completed:
+  occurred_at: 2026-07-13 00:01:00
+  actor_type: system
+  action_name: faa_import_completed
+  status: success
+  summary: FAA import complete - 100 created
+  airport: lax
+
+import_failed:
+  occurred_at: 2026-07-12 00:00:00
+  actor_type: system
+  action_name: faa_import_failed
+  status: failed
+  summary: Python parser failed
+  error_message: FileNotFoundError

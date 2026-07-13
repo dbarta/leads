@@ -1,0 +1,7 @@
+faa_nasr:
+  airport: lax
+  source_type: faa_airport_dataset
+  title: FAA NASR Airport Subscription Data
+  url: https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/NASR_Subscription/
+  processing_status: completed
+  accessed_at: 2026-07-13 00:00:00
