@@ -1,16 +1,84 @@
-# 🎉 Jumpstart Pro Rails
+# Airport Service Provider Discovery Platform
 
-Welcome! To get started, clone the repository and push it to a new repository.
+Internal tool for identifying companies that provide operational services at U.S. airports.
+Built on Jumpstart Pro Rails 8.1.
 
 ## Requirements
 
-You'll need the following installed to run the template successfully:
-
-* Ruby 3.2+
-* PostgreSQL 12+ (can be switched to SQLite or MySQL)
+* Ruby 4.0+
+* PostgreSQL 12+
+* Redis (for Sidekiq)
+* Python 3.12+ (for FAA NASR data parsing)
 * Libvips or Imagemagick
 
-Optionally, the [Stripe CLI](https://docs.stripe.com/stripe-cli) to sync webhooks in development.
+## Setup
+
+```bash
+bin/setup
+```
+
+## Running
+
+```bash
+bin/dev
+```
+
+Starts Rails server, CSS/JS watching, and Sidekiq via Overmind.
+
+## FAA Airport Import
+
+Airport data is imported from the [FAA NASR subscription dataset](https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/NASR_Subscription/), updated every 28 days.
+
+### Import all U.S. airports
+
+```bash
+rake airports:import_faa
+```
+
+Downloads the current NASR ZIP, extracts airport records, and upserts all U.S. airports. Safe to re-run — will not create duplicates.
+
+### Import from a local file
+
+```bash
+rake airports:import_faa[/path/to/APT_BASE.csv]
+rake airports:import_faa[/path/to/nasr.zip]
+```
+
+Accepts a local CSV (`APT_BASE.csv` format), ZIP, or fixed-width `APT.txt` file.
+
+The Python parser is at `lib/faa_import/parse_nasr.py` and can be used standalone:
+
+```bash
+python3 lib/faa_import/parse_nasr.py /path/to/file.csv
+```
+
+Outputs a JSON array of airport records to stdout.
+
+## Data Model (Stage 1)
+
+| Model | Purpose |
+|-------|---------|
+| `Airport` | One FAA airport or landing facility, keyed by `faa_code` |
+| `Source` | A page, file, or document used during discovery |
+| `DiscoveryRun` | Per-airport discovery attempt with status and counters |
+| `ActivityLog` | Structured log of every meaningful system action |
+
+Discovery statuses: `not_started`, `queued`, `running`, `completed`, `completed_no_sources`, `completed_no_providers`, `needs_review`, `failed`.
+
+## Testing
+
+```bash
+bin/rails test
+```
+
+273 tests, all passing. Integration tests use a fixture CSV at `test/fixtures/files/sample_apt.csv` — no network access required.
+
+## Health Check
+
+```
+GET /health  →  {"status":"ok","timestamp":"..."}
+GET /up      →  Rails built-in boot check
+```
 
 ## Create Your Repository
 
