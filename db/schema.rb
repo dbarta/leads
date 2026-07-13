@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_13_142657) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_13_142937) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -142,6 +142,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_142657) do
     t.string "source_url"
     t.string "state"
     t.datetime "updated_at", null: false
+    t.string "website"
     t.index ["discovery_status"], name: "index_airports_on_discovery_status"
     t.index ["faa_code"], name: "index_airports_on_faa_code", unique: true
     t.index ["facility_type"], name: "index_airports_on_facility_type"
