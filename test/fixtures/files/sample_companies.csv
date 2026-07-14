@@ -1,0 +1,4 @@
+Legal company name,DBA,Airport(s) serviced,Airport service categories,Website,Ultimate parent company,Estimated consolidated employees,Employee source,Airline?,"Under 5,000?",Qualified lead?,Notes,Verified date,Official roster source(s)
+Sample Ground LLC,,LAX,Ramp; Cargo Handling,https://sampleground.example.com,Independent,51-200,Company website,No,Yes,Yes,Test company,2026-01-15,https://example.com/roster
+Big Air Inc,,LAX,Passenger Services,,Major Airlines Group,10000+,Company website,Yes,No,No,Airline - excluded,2026-01-15,https://example.com/roster
+Multi Airport LLC,,"ORD, MDW",Ground Handling,https://multi.example.com,Independent,201-500,LinkedIn,No,Yes,Yes,Serves multiple airports,2026-01-15,https://example.com/roster

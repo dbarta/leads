@@ -13,6 +13,10 @@
 
   <%# Search and filter form %>
   <%= form_with url: airports_path, method: :get, data: {turbo_frame: "_top"} do |f| %>
+    <%# Preserve sort/direction across filter submissions %>
+    <%= hidden_field_tag :sort, params[:sort] if params[:sort].present? %>
+    <%= hidden_field_tag :direction, params[:direction] if params[:direction].present? %>
+
     <div class="bg-white border border-gray-200 rounded-lg p-4 mb-6 shadow-sm">
       <div class="flex flex-wrap gap-3 items-end">
         <div class="flex-1 min-w-48">
@@ -30,7 +34,8 @@
 
         <div>
           <%= f.label :facility_type, "Type", class: "block text-xs font-medium text-gray-700 mb-1" %>
-          <%= f.select :facility_type, [["All types", ""]] + @facility_types.map { |t| [t.titleize, t] },
+          <%= f.select :facility_type,
+              [["All types", ""]] + @facility_types.map { |t| [Airport::FACILITY_TYPE_LABELS.fetch(t, t), t] },
               {selected: params[:facility_type]},
               class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
         </div>
@@ -47,6 +52,13 @@
           <%= f.label :airport_status, "Status", class: "block text-xs font-medium text-gray-700 mb-1" %>
           <%= f.select :airport_status, [["Any", ""], ["Open (O)", "O"], ["Closed (X)", "X"]],
               {selected: params[:airport_status]},
+              class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+
+        <div>
+          <%= f.label :size, "Size", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.select :size, [["Any size", ""], ["Large", "Large"], ["Medium", "Medium"], ["Small", "Small"], ["Tiny", "Tiny"]],
+              {selected: params[:size]},
               class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
         </div>
 
@@ -74,13 +86,27 @@
       <table class="w-full text-sm">
         <thead class="bg-gray-50 border-b border-gray-200">
           <tr>
-            <th class="text-left px-4 py-3 font-medium text-gray-600">IATA / FAA</th>
-            <th class="text-left px-4 py-3 font-medium text-gray-600">ICAO</th>
-            <th class="text-left px-4 py-3 font-medium text-gray-600">Name</th>
-            <th class="text-left px-4 py-3 font-medium text-gray-600">City</th>
-            <th class="text-left px-4 py-3 font-medium text-gray-600">State</th>
-            <th class="text-left px-4 py-3 font-medium text-gray-600">Type</th>
-            <th class="text-left px-4 py-3 font-medium text-gray-600">Discovery</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("IATA / FAA", "faa_code", airports_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Name", "name", airports_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("City", "city", airports_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("State", "state", airports_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Type", "facility_type", airports_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Size", "size", airports_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Discovery", "discovery_status", airports_path, params) %>
+            </th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
@@ -101,13 +127,29 @@
                   <% end %>
                 </div>
               </td>
-              <td class="px-4 py-3 font-mono text-gray-600"><%= airport.icao_code.presence || "—" %></td>
               <td class="px-4 py-3">
                 <%= link_to airport.name, airport_path(airport), class: "text-gray-900 hover:text-blue-600" %>
               </td>
               <td class="px-4 py-3 text-gray-600"><%= airport.city %></td>
               <td class="px-4 py-3 text-gray-600"><%= airport.state %></td>
-              <td class="px-4 py-3 text-gray-500 text-xs"><%= airport.facility_type %></td>
+              <td class="px-4 py-3 text-gray-500 text-xs">
+                <%= Airport::FACILITY_TYPE_LABELS.fetch(airport.facility_type, airport.facility_type) %>
+              </td>
+              <td class="px-4 py-3">
+                <% size = airport.hub_size %>
+                <% if size %>
+                  <span class="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium
+                    <%= case size
+                        when "Large"  then "bg-indigo-100 text-indigo-800"
+                        when "Medium" then "bg-blue-100 text-blue-800"
+                        when "Small"  then "bg-cyan-100 text-cyan-800"
+                        when "Tiny"   then "bg-gray-100 text-gray-600"
+                        end %>"
+                    title="FAR Part 139 <%= airport.far_139_type_code %>">
+                    <%= size %>
+                  </span>
+                <% end %>
+              </td>
               <td class="px-4 py-3">
                 <%= render "discovery_status_badge", status: airport.discovery_status %>
               </td>

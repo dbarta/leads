@@ -1,0 +1,12 @@
+<% css = case status
+         when "Yes"       then "bg-green-100 text-green-800"
+         when "No"        then "bg-red-100 text-red-800"
+         when "Review"    then "bg-yellow-100 text-yellow-800"
+         when "Uncertain" then "bg-gray-100 text-gray-600"
+         else                  "bg-gray-100 text-gray-400"
+         end %>
+<% if status.present? %>
+  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium <%= css %>">
+    <%= status %>
+  </span>
+<% end %>

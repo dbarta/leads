@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_13_142937) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_14_163245) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -120,6 +120,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_142937) do
     t.index ["status"], name: "index_activity_logs_on_status"
   end
 
+  create_table "airport_company_relationships", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.bigint "airport_id", null: false
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.text "evidence_notes"
+    t.text "service_categories", default: [], array: true
+    t.string "source_url"
+    t.datetime "updated_at", null: false
+    t.index ["airport_id", "company_id"], name: "index_acr_on_airport_and_company", unique: true
+    t.index ["airport_id"], name: "index_airport_company_relationships_on_airport_id"
+    t.index ["company_id"], name: "index_airport_company_relationships_on_company_id"
+  end
+
   create_table "airports", force: :cascade do |t|
     t.string "airport_status"
     t.string "city"
@@ -173,6 +187,32 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_142937) do
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
+  create_table "companies", force: :cascade do |t|
+    t.string "canonical_name", null: false
+    t.datetime "created_at", null: false
+    t.string "dba"
+    t.string "employee_estimate_text"
+    t.text "employee_evidence"
+    t.integer "employee_max"
+    t.integer "employee_min"
+    t.boolean "is_airline", default: false, null: false
+    t.string "naics_codes"
+    t.string "normalized_name", null: false
+    t.text "notes"
+    t.string "qualification_status"
+    t.string "research_status"
+    t.string "sam_cage_code"
+    t.string "sam_registration_status"
+    t.string "ultimate_parent_name"
+    t.datetime "updated_at", null: false
+    t.date "verified_at"
+    t.string "website"
+    t.index ["canonical_name"], name: "index_companies_on_canonical_name"
+    t.index ["is_airline"], name: "index_companies_on_is_airline"
+    t.index ["normalized_name"], name: "index_companies_on_normalized_name", unique: true
+    t.index ["qualification_status"], name: "index_companies_on_qualification_status"
+  end
+
   create_table "connected_accounts", force: :cascade do |t|
     t.string "access_token"
     t.string "access_token_secret"
@@ -186,6 +226,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_142937) do
     t.string "uid"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["owner_id", "owner_type"], name: "index_connected_accounts_on_owner_id_and_owner_type"
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "first_name"
+    t.string "full_name", null: false
+    t.string "last_name"
+    t.string "linkedin_url"
+    t.text "notes"
+    t.string "phone"
+    t.string "source"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["company_id", "email"], name: "index_contacts_on_company_id_and_email", unique: true, where: "((email IS NOT NULL) AND ((email)::text <> ''::text))"
+    t.index ["company_id"], name: "index_contacts_on_company_id"
+    t.index ["email"], name: "index_contacts_on_email"
   end
 
   create_table "discovery_runs", force: :cascade do |t|
@@ -716,7 +774,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_142937) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "activity_logs", "airports"
   add_foreign_key "activity_logs", "discovery_runs"
+  add_foreign_key "airport_company_relationships", "airports"
+  add_foreign_key "airport_company_relationships", "companies"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "contacts", "companies"
   add_foreign_key "discovery_runs", "airports"
   add_foreign_key "hke_cemeteries", "hke_communities", column: "community_id"
   add_foreign_key "hke_communities", "accounts"

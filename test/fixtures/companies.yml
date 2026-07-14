@@ -1,0 +1,22 @@
+acme_ground:
+  canonical_name: Acme Ground Services LLC
+  normalized_name: acme ground services
+  website: https://acmeground.example.com
+  is_airline: false
+  employee_min: 51
+  employee_max: 200
+  employee_estimate_text: "51–200"
+  qualification_status: "Yes"
+  research_status: Verified
+
+big_airline:
+  canonical_name: Big Airline Inc
+  normalized_name: big airline
+  is_airline: true
+  qualification_status: "No"
+
+unknown_corp:
+  canonical_name: Unknown Corp
+  normalized_name: unknown corp
+  is_airline: false
+  qualification_status: "Review"

@@ -1,0 +1,250 @@
+<% Current.meta_tags.set(title: @company.canonical_name) %>
+
+<div class="container mx-auto px-4 py-6">
+  <div class="mb-4">
+    <%= link_to "← Companies", companies_path, class: "text-sm text-blue-600 hover:underline" %>
+  </div>
+
+  <div class="flex items-start justify-between mb-6">
+    <div>
+      <div class="flex items-center gap-3 mb-1">
+        <h1 class="text-2xl font-bold"><%= @company.canonical_name %></h1>
+        <%= render "qualification_badge", status: @company.qualification_status %>
+        <% if @company.is_airline? %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-700">Airline</span>
+        <% end %>
+      </div>
+      <% if @company.dba.present? %>
+        <p class="text-gray-500 text-sm">DBA: <%= @company.dba %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+      <%# Company Details %>
+      <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div class="px-5 py-4 border-b border-gray-200">
+          <h2 class="font-semibold text-gray-800">Company Details</h2>
+        </div>
+        <div class="px-5 py-4 grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
+          <% if @company.website.present? %>
+            <div class="col-span-2">
+              <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Website</dt>
+              <dd class="mt-0.5">
+                <%= link_to @company.website, @company.website, target: "_blank", rel: "noopener",
+                    class: "text-blue-600 hover:underline break-all" %>
+              </dd>
+            </div>
+          <% end %>
+
+          <% if @company.ultimate_parent_name.present? %>
+            <div>
+              <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Ultimate Parent</dt>
+              <dd class="mt-0.5 font-medium"><%= @company.ultimate_parent_name %></dd>
+            </div>
+          <% end %>
+
+          <div>
+            <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Employees</dt>
+            <dd class="mt-0.5 font-medium">
+              <% if @company.employee_min || @company.employee_max %>
+                <%= [@company.employee_min, @company.employee_max].compact.map { |n| number_with_delimiter(n) }.join("–") %>
+              <% elsif @company.employee_estimate_text.present? %>
+                <%= @company.employee_estimate_text %>
+              <% else %>
+                <span class="text-gray-400">Unknown</span>
+              <% end %>
+            </dd>
+          </div>
+
+          <% if @company.employee_evidence.present? %>
+            <div class="col-span-2">
+              <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Employee Evidence</dt>
+              <dd class="mt-0.5 text-xs text-gray-600 break-all"><%= @company.employee_evidence %></dd>
+            </div>
+          <% end %>
+
+          <% if @company.research_status.present? %>
+            <div>
+              <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Research Status</dt>
+              <dd class="mt-0.5 font-medium"><%= @company.research_status %></dd>
+            </div>
+          <% end %>
+
+          <% if @company.verified_at.present? %>
+            <div>
+              <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Verified</dt>
+              <dd class="mt-0.5"><%= @company.verified_at.strftime("%B %-d, %Y") %></dd>
+            </div>
+          <% end %>
+
+          <% if @company.naics_codes.present? %>
+            <div class="col-span-2">
+              <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">NAICS Codes</dt>
+              <dd class="mt-0.5 text-xs text-gray-700 font-mono"><%= @company.naics_codes %></dd>
+            </div>
+          <% end %>
+
+          <% if @company.sam_cage_code.present? %>
+            <div>
+              <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">SAM CAGE Code</dt>
+              <dd class="mt-0.5 font-mono font-medium"><%= @company.sam_cage_code %></dd>
+            </div>
+          <% end %>
+
+          <% if @company.sam_registration_status.present? %>
+            <div>
+              <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">SAM Status</dt>
+              <dd class="mt-0.5">
+                <% sam_css = @company.sam_registration_status == "Active" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-600" %>
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium <%= sam_css %>">
+                  <%= @company.sam_registration_status %>
+                </span>
+              </dd>
+            </div>
+          <% end %>
+
+          <% if @company.notes.present? %>
+            <div class="col-span-2">
+              <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Notes</dt>
+              <dd class="mt-0.5 text-xs text-gray-700"><%= @company.notes %></dd>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <%# Contacts %>
+      <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
+          <h2 class="font-semibold text-gray-800">
+            Contacts
+            <% if @contacts.any? %>
+              <span class="ml-1 text-gray-400 font-normal text-sm">(<%= @contacts.size %>)</span>
+            <% end %>
+          </h2>
+        </div>
+        <% if @contacts.any? %>
+          <table class="w-full text-sm">
+            <thead class="bg-gray-50 border-b border-gray-200">
+              <tr>
+                <th class="text-left px-4 py-2 font-medium text-gray-600">Name</th>
+                <th class="text-left px-4 py-2 font-medium text-gray-600">Title</th>
+                <th class="text-left px-4 py-2 font-medium text-gray-600">Phone</th>
+                <th class="text-left px-4 py-2 font-medium text-gray-600">Email</th>
+                <th class="text-left px-4 py-2 font-medium text-gray-600">Source</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <% @contacts.each do |contact| %>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-4 py-2 font-medium">
+                    <% if contact.linkedin_url.present? %>
+                      <%= link_to contact.full_name, contact.linkedin_url, target: "_blank",
+                          rel: "noopener", class: "text-blue-600 hover:underline" %>
+                    <% else %>
+                      <%= contact.full_name %>
+                    <% end %>
+                  </td>
+                  <td class="px-4 py-2 text-gray-600 text-xs"><%= contact.title.presence || "—" %></td>
+                  <td class="px-4 py-2 font-mono text-xs">
+                    <% if contact.phone.present? %>
+                      <a href="tel:<%= contact.phone.gsub(/\D/, '') %>" class="text-blue-600 hover:underline">
+                        <%= contact.phone %>
+                      </a>
+                    <% else %>
+                      <span class="text-gray-400">—</span>
+                    <% end %>
+                  </td>
+                  <td class="px-4 py-2 text-xs">
+                    <% if contact.email.present? %>
+                      <a href="mailto:<%= contact.email %>" class="text-blue-600 hover:underline break-all">
+                        <%= contact.email %>
+                      </a>
+                    <% else %>
+                      <span class="text-gray-400">—</span>
+                    <% end %>
+                  </td>
+                  <td class="px-4 py-2">
+                    <% source_css = {"apollo" => "bg-orange-100 text-orange-700",
+                                     "pdl"    => "bg-blue-100 text-blue-700",
+                                     "both"   => "bg-green-100 text-green-800"}[contact.source] || "bg-gray-100 text-gray-600" %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium <%= source_css %>">
+                      <%= contact.source || "—" %>
+                    </span>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p class="px-5 py-6 text-sm text-gray-400 text-center">
+            No contacts found yet.
+            Run <code class="font-mono bg-gray-100 px-1 rounded">python find_contacts.py</code> to search Apollo &amp; PDL.
+          </p>
+        <% end %>
+      </div>
+
+      <%# Airport Relationships %>
+      <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div class="px-5 py-4 border-b border-gray-200">
+          <h2 class="font-semibold text-gray-800">Airport Relationships (<%= @relationships.size %>)</h2>
+        </div>
+        <table class="w-full text-sm">
+          <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th class="text-left px-4 py-2 font-medium text-gray-600">Airport</th>
+              <th class="text-left px-4 py-2 font-medium text-gray-600">Services</th>
+              <th class="text-left px-4 py-2 font-medium text-gray-600">Source</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            <% @relationships.each do |rel| %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2">
+                  <%= link_to "#{rel.airport.faa_code} — #{rel.airport.name}", airport_path(rel.airport),
+                      class: "text-blue-600 hover:underline font-medium" %>
+                  <div class="text-xs text-gray-400"><%= rel.airport.city %>, <%= rel.airport.state %></div>
+                </td>
+                <td class="px-4 py-2 text-xs text-gray-600">
+                  <%= rel.service_categories.join("; ").presence || "—" %>
+                </td>
+                <td class="px-4 py-2 text-xs">
+                  <% if rel.source_url.present? %>
+                    <%= link_to "Source ↗", rel.source_url, target: "_blank", rel: "noopener",
+                        class: "text-blue-500 hover:underline truncate block max-w-xs" %>
+                  <% else %>
+                    <span class="text-gray-400">—</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <%# Sidebar — quick stats %>
+    <div class="space-y-6">
+      <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div class="px-5 py-4 border-b border-gray-200">
+          <h2 class="font-semibold text-gray-800">Quick Stats</h2>
+        </div>
+        <div class="px-5 py-4 space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-gray-500">Airports served</span>
+            <span class="font-medium"><%= @relationships.size %></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-500">Qualification</span>
+            <span><%= render "qualification_badge", status: @company.qualification_status %></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-500">Airline</span>
+            <span class="font-medium"><%= @company.is_airline? ? "Yes" : "No" %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

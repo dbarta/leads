@@ -1,0 +1,173 @@
+<% Current.meta_tags.set(title: "Companies") %>
+
+<div class="container mx-auto px-4 py-6">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold">Companies</h1>
+      <p class="text-sm text-gray-500 mt-1"><%= number_with_delimiter(@total_companies) %> total companies</p>
+    </div>
+    <div class="text-sm text-gray-500">
+      Showing <%= number_with_delimiter(@pagy.count) %> results
+    </div>
+  </div>
+
+  <%= form_with url: companies_path, method: :get, data: {turbo_frame: "_top"} do |f| %>
+    <%= hidden_field_tag :sort, params[:sort] if params[:sort].present? %>
+    <%= hidden_field_tag :direction, params[:direction] if params[:direction].present? %>
+
+    <div class="bg-white border border-gray-200 rounded-lg p-4 mb-6 shadow-sm">
+      <div class="flex flex-wrap gap-3 items-end">
+        <div class="flex-1 min-w-48">
+          <%= f.label :q, "Search", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.search_field :q, value: params[:q], placeholder: "Company name…",
+              class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+
+        <div>
+          <%= f.label :airport_id, "Airport", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.select :airport_id,
+              [["All airports", ""]] + @airports_with_companies.map { |a| ["#{a.faa_code} — #{a.name}", a.id] },
+              {selected: params[:airport_id]},
+              class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+
+        <div>
+          <%= f.label :qualification_status, "Qualified?", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.select :qualification_status,
+              [["Any", ""], ["Yes", "Yes"], ["Review", "Review"], ["No", "No"], ["Uncertain", "Uncertain"]],
+              {selected: params[:qualification_status]},
+              class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+
+        <div class="flex items-center gap-2 pb-0.5 border-l border-gray-200 pl-3">
+          <%= f.check_box :hide_airlines, checked: params[:hide_airlines] == "1",
+              class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
+          <div>
+            <%= f.label :hide_airlines, "Hide airlines", class: "text-sm font-medium text-gray-700 block leading-none" %>
+            <span class="text-xs text-gray-400">Service providers only</span>
+          </div>
+        </div>
+
+        <div class="border-l border-gray-200 pl-3">
+          <label class="block text-xs font-medium text-gray-700 mb-1">Employees</label>
+          <div class="flex items-center gap-1">
+            <%= f.number_field :emp_min, value: params[:emp_min], placeholder: "min",
+                min: 0, class: "w-20 border border-gray-300 rounded px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+            <span class="text-gray-400 text-xs">–</span>
+            <%= f.number_field :emp_max, value: params[:emp_max], placeholder: "max",
+                min: 0, class: "w-20 border border-gray-300 rounded px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+          </div>
+          <span class="text-xs text-gray-400">numeric data only</span>
+        </div>
+
+        <div>
+          <%= f.label :naics, "NAICS", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.text_field :naics, value: params[:naics], placeholder: "e.g. 488190",
+              class: "w-24 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono" %>
+        </div>
+
+        <div class="flex items-center gap-2 pb-0.5">
+          <%= f.check_box :in_sam, checked: params[:in_sam] == "1",
+              class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
+          <div>
+            <%= f.label :in_sam, "In SAM.gov", class: "text-sm font-medium text-gray-700 block leading-none" %>
+            <span class="text-xs text-gray-400">Has CAGE code</span>
+          </div>
+        </div>
+
+        <div class="flex gap-2">
+          <%= f.submit "Filter", class: "bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700 cursor-pointer" %>
+          <%= link_to "Clear", companies_path, class: "bg-gray-100 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-200" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+    <% if @companies.any? %>
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Company", "canonical_name", companies_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">DBA</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Airports</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Services</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Employees", "employee_max", companies_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Parent</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Qualified", "qualification_status", companies_path, params) %>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% @companies.each do |company| %>
+            <% rels = company.airport_company_relationships.includes(:airport) %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-4 py-3">
+                <%= link_to company.canonical_name, company_path(company),
+                    class: "font-medium text-blue-600 hover:text-blue-800" %>
+                <% if company.is_airline? %>
+                  <span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-700">Airline</span>
+                <% end %>
+                <% if company.naics_codes.present? %>
+                  <div class="mt-0.5 font-mono text-xs text-gray-400" title="<%= company.naics_codes %>">
+                    <%= company.naics_codes.split(",").first.strip %>
+                  </div>
+                <% end %>
+              </td>
+              <td class="px-4 py-3 text-gray-500 text-xs"><%= company.dba %></td>
+              <td class="px-4 py-3">
+                <div class="flex flex-wrap gap-1">
+                  <% rels.each do |rel| %>
+                    <%= link_to rel.airport.faa_code, airport_path(rel.airport),
+                        class: "font-mono text-xs text-blue-600 hover:text-blue-800 hover:underline" %>
+                  <% end %>
+                </div>
+              </td>
+              <td class="px-4 py-3 text-gray-600 text-xs">
+                <% all_services = rels.flat_map(&:service_categories).uniq %>
+                <% shown = all_services.first(2) %>
+                <%= shown.join("; ") %>
+                <% if all_services.size > 2 %>
+                  <span class="text-gray-400" title="<%= all_services.join('; ') %>">…+<%= all_services.size - 2 %> more</span>
+                <% end %>
+              </td>
+              <td class="px-4 py-3 text-gray-600 text-xs">
+                <% if company.employee_min || company.employee_max %>
+                  <%= [company.employee_min, company.employee_max].compact.map { |n| number_with_delimiter(n) }.join("–") %>
+                <% elsif company.employee_estimate_text.present? %>
+                  <%= company.employee_estimate_text %>
+                <% end %>
+              </td>
+              <td class="px-4 py-3 text-gray-500 text-xs"><%= company.ultimate_parent_name&.truncate(40) %></td>
+              <td class="px-4 py-3">
+                <%= render "qualification_badge", status: company.qualification_status %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <% if @pagy.last > 1 %>
+        <div class="px-4 py-3 border-t border-gray-200 flex items-center justify-between">
+          <div class="text-sm text-gray-500">
+            Page <%= @pagy.page %> of <%= @pagy.pages %> &middot; <%= number_with_delimiter(@pagy.count) %> results
+          </div>
+          <div class="flex gap-1">
+            <%== @pagy.series_nav %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="px-6 py-12 text-center text-gray-500">
+        <p class="text-lg font-medium mb-2">No companies found</p>
+        <p class="text-sm">Try adjusting your search or filter criteria.</p>
+        <%= link_to "Clear filters", companies_path, class: "mt-2 inline-block text-blue-600 hover:underline text-sm" %>
+      </div>
+    <% end %>
+  </div>
+</div>

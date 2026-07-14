@@ -3,5 +3,6 @@
 <% else %>
   <%= render "account_menu" if Jumpstart.config.team_accounts? && Current.other_accounts.any? %>
   <%= nav_link_to "Airports", airports_path %>
+  <%= nav_link_to "Companies", companies_path %>
   <%= nav_link_to "Activity Log", activity_logs_path %>
 <% end %>

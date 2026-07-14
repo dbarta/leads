@@ -1,0 +1,11 @@
+acme_at_lax:
+  airport: lax
+  company: acme_ground
+  service_categories: "{Ground Handling,Cargo}"
+  active: true
+
+airline_at_lax:
+  airport: lax
+  company: big_airline
+  service_categories: "{Passenger Services}"
+  active: true
