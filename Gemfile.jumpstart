@@ -8,7 +8,7 @@ gem "madmin", "~> 2.0"
 gem "name_of_person", "~> 1.0"
 gem "nokogiri", ">= 1.12.5" # Security update
 gem "noticed", "~> 3.0"
-gem "pagy", "~> 43.0"
+gem "pagy", "~> 43.6"
 gem "pay", "~> 11.0"
 gem "prefixed_ids", "~> 1.2"
 gem "pretender", "~> 1.0"
