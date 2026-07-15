@@ -28,8 +28,15 @@ if [[ "${1:-}" == "--code" ]]; then
 fi
 
 # ── reset + push database ────────────────────────────────────────────────────
-info "Resetting Heroku Postgres..."
-heroku pg:reset DATABASE_URL --app "$APP" --confirm "$APP"
+info "Resetting Heroku Postgres (retrying up to 3x on 504)..."
+for attempt in 1 2 3; do
+  if heroku pg:reset DATABASE_URL --app "$APP" --confirm "$APP" 2>&1; then
+    break
+  fi
+  [[ $attempt -eq 3 ]] && die "pg:reset failed after 3 attempts"
+  info "  Attempt $attempt failed, retrying in 15s..."
+  sleep 15
+done
 ok "Database reset"
 
 info "Pushing $LOCAL_DB → Heroku..."
