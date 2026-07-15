@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   end
 
   resources :airports, only: [:index, :show]
-  resources :companies, only: [:index, :show]
+  resources :companies, only: [:index, :show] do
+    collection { get :export }
+  end
   resources :activity_logs, only: [:index]
 
   # Public marketing homepage

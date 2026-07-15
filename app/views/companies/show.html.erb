@@ -38,6 +38,17 @@
             </div>
           <% end %>
 
+          <% if @company.phone.present? %>
+            <div>
+              <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Main Phone</dt>
+              <dd class="mt-0.5 font-mono font-medium">
+                <a href="tel:<%= @company.phone.gsub(/\D/, '') %>" class="text-blue-600 hover:underline">
+                  <%= @company.phone %>
+                </a>
+              </dd>
+            </div>
+          <% end %>
+
           <% if @company.ultimate_parent_name.present? %>
             <div>
               <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Ultimate Parent</dt>

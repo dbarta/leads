@@ -6,8 +6,17 @@
       <h1 class="text-2xl font-bold">Companies</h1>
       <p class="text-sm text-gray-500 mt-1"><%= number_with_delimiter(@total_companies) %> total companies</p>
     </div>
-    <div class="text-sm text-gray-500">
-      Showing <%= number_with_delimiter(@pagy.count) %> results
+    <div class="flex items-center gap-3">
+      <span class="text-sm text-gray-500">Showing <%= number_with_delimiter(@pagy.count) %> results</span>
+      <%= link_to export_companies_path(params.permit(:q, :airport_id, :qualification_status,
+            :hide_airlines, :emp_min, :emp_max, :naics, :in_sam, :sort, :direction).to_h),
+          class: "inline-flex items-center gap-1.5 bg-green-600 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-green-700" do %>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+        </svg>
+        Export CSV
+      <% end %>
     </div>
   </div>
 
@@ -98,6 +107,8 @@
               <%= sort_link_for("Employees", "employee_max", companies_path, params) %>
             </th>
             <th class="text-left px-4 py-3 font-medium text-gray-600">Parent</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Phone</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Top Contact</th>
             <th class="text-left px-4 py-3 font-medium text-gray-600">
               <%= sort_link_for("Qualified", "qualification_status", companies_path, params) %>
             </th>
@@ -143,7 +154,30 @@
                   <%= company.employee_estimate_text %>
                 <% end %>
               </td>
-              <td class="px-4 py-3 text-gray-500 text-xs"><%= company.ultimate_parent_name&.truncate(40) %></td>
+              <td class="px-4 py-3 text-gray-500 text-xs"><%= company.ultimate_parent_name&.truncate(30) %></td>
+              <td class="px-4 py-3 font-mono text-xs">
+                <% if company.phone.present? %>
+                  <a href="tel:<%= company.phone.gsub(/\D/, '') %>" class="text-blue-600 hover:underline whitespace-nowrap">
+                    <%= company.phone %>
+                  </a>
+                <% else %>
+                  <span class="text-gray-300">—</span>
+                <% end %>
+              </td>
+              <td class="px-4 py-3 text-xs">
+                <% if (c = @top_contacts[company.id]) %>
+                  <div class="font-medium text-gray-800 whitespace-nowrap"><%= c.full_name %></div>
+                  <div class="text-gray-400 text-xs truncate max-w-[160px]" title="<%= c.title %>"><%= c.title %></div>
+                  <% if c.phone.present? %>
+                    <a href="tel:<%= c.phone.gsub(/\D/, '') %>" class="text-blue-600 hover:underline font-mono"><%= c.phone %></a>
+                  <% end %>
+                  <% if c.email.present? %>
+                    <div><a href="mailto:<%= c.email %>" class="text-blue-600 hover:underline break-all"><%= c.email %></a></div>
+                  <% end %>
+                <% else %>
+                  <span class="text-gray-300">—</span>
+                <% end %>
+              </td>
               <td class="px-4 py-3">
                 <%= render "qualification_badge", status: company.qualification_status %>
               </td>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_14_163245) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_14_195735) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -199,6 +199,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_163245) do
     t.string "naics_codes"
     t.string "normalized_name", null: false
     t.text "notes"
+    t.string "phone"
     t.string "qualification_status"
     t.string "research_status"
     t.string "sam_cage_code"

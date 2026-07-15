@@ -135,23 +135,44 @@ namespace :companies do
     errors.each { |e| puts "  ERROR: #{e}" }
   end
 
-  desc "Export companies to CSV for enrichment script"
+  desc "Import business phones scraped from websites: rake companies:import_phones[path/to/phones.csv]"
+  task :import_phones, [:file] => :environment do |_, args|
+    file = args[:file] or abort "Usage: rake companies:import_phones[path/to/phones.csv]"
+    require "csv"
+    updated = skipped = 0
+    CSV.foreach(file, headers: true) do |row|
+      phone = row["phone"].to_s.strip
+      next if phone.blank?
+      company = Company.find_by(id: row["id"].to_i)
+      next unless company
+      company.update_column(:phone, phone)
+      updated += 1
+    end
+    puts "Phones import: #{updated} updated"
+  end
+
+  desc "Export companies to CSV for enrichment script (skip food-only companies)"
   task export_for_enrichment: :environment do
     require "csv"
     out = "python/companies_for_enrichment.csv"
+    food_terms = %w[food catering restaurant beverage]
+    exported = 0
     CSV.open(out, "w", headers: true) do |csv|
       csv << %w[id canonical_name normalized_name website airport_codes service_categories
                 employee_min employee_max naics_codes sam_cage_code qualification_status]
       Company.includes(:airports, :airport_company_relationships).order(:id).each do |c|
+        cats = c.airport_company_relationships.flat_map(&:service_categories).map { |s| s.downcase.strip }.uniq.reject(&:empty?)
+        next if cats.any? && cats.all? { |s| food_terms.any? { |f| s.include?(f) } }
         csv << [
           c.id, c.canonical_name, c.normalized_name, c.website,
           c.airports.map(&:faa_code).join("; "),
-          c.airport_company_relationships.flat_map(&:service_categories).uniq.reject(&:empty?).join("; "),
+          cats.join("; "),
           c.employee_min, c.employee_max, c.naics_codes, c.sam_cage_code, c.qualification_status
         ]
+        exported += 1
       end
     end
-    puts "Exported #{Company.count} companies to #{out}"
+    puts "Exported #{exported} companies (#{Company.count - exported} food-only skipped) to #{out}"
   end
 
   def run_import(file, label:, airport_hint: nil)

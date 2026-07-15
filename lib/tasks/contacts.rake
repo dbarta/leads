@@ -100,21 +100,57 @@ namespace :contacts do
         .order("companies.canonical_name", :last_name, :first_name)
         .each do |c|
           csv << [
-            c.company_id,
-            c.company.canonical_name,
+            c.company_id, c.company.canonical_name,
             c.company.airports.map(&:faa_code).sort.join("; "),
             c.company.qualification_status,
-            c.full_name,
-            c.title,
-            c.phone,
-            c.email,
-            c.linkedin_url,
-            c.source
+            c.full_name, c.title, c.phone, c.email, c.linkedin_url, c.source
           ]
         end
     end
 
     count = Contact.with_phone.count
     puts "Exported #{count} contacts with phone to #{out}"
+  end
+
+  desc "Export broker call list: named contacts + companies with only a main phone"
+  task export_calllist: :environment do
+    require "csv"
+    out = "python/output/calllist_#{Date.today}.csv"
+    headers = %w[company_id company_name airports qualification_status
+                 contact_name title phone email source]
+
+    # Companies that have named contacts with phones
+    companies_with_contacts = Contact.with_phone.select(:company_id).distinct.pluck(:company_id)
+
+    CSV.open(out, "w") do |csv|
+      csv << headers
+
+      # Named contacts first
+      Contact.with_phone
+        .includes(company: [:airports])
+        .order("companies.canonical_name", :last_name, :first_name)
+        .each do |c|
+          csv << [c.company_id, c.company.canonical_name,
+                  c.company.airports.map(&:faa_code).sort.join("; "),
+                  c.company.qualification_status,
+                  c.full_name, c.title, c.phone, c.email, c.source]
+        end
+
+      # Companies with main phone but no named contacts
+      Company.where.not(phone: [nil, ""])
+        .where.not(id: companies_with_contacts)
+        .includes(:airports)
+        .order(:canonical_name)
+        .each do |co|
+          csv << [co.id, co.canonical_name,
+                  co.airports.map(&:faa_code).sort.join("; "),
+                  co.qualification_status,
+                  "(main office)", "Main Phone", co.phone, "", "website"]
+        end
+    end
+
+    named  = Contact.with_phone.count
+    main   = Company.where.not(phone: [nil, ""]).where.not(id: companies_with_contacts).count
+    puts "Call list: #{named} named contacts + #{main} main office numbers = #{out}"
   end
 end

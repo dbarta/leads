@@ -1,0 +1,400 @@
+id,canonical_name,normalized_name,website,airport_codes,service_categories,employee_min,employee_max,naics_codes,sam_cage_code,qualification_status
+216,Aerocharter LLC,aerocharter,https://aerocharterusa.com/,LAX,cargo handling; into-plane fueling; ramp; passenger cargo handling,11,50,"488190, 447190, 488510",,Yes
+217,"Black Knight Patrol, Inc.",black knight patrol,https://blackknightpatrol.com/,LAX,security,11,50,561612,,Yes
+218,Airline Coach Service LLC,airline coach service,https://www.airlinecoach.com/,LAX,airfield transportation,51,200,485999,,Yes
+220,Certified Aviation Services LLC,certified aviation services,https://www.certifiedaviation.com/,EWR; LAX,certified aviation services; llc; aircraft line maintenance,201,750,488190,,Yes
+221,Airport Terminal Management Inc,airport terminal management,https://www.atmlax.com/,LAX,wheelchair; baggage management; security; cargo handling; airfield transportation,501,1000,"561612, 488190, 488510, 485999",,Yes
+222,American Guard Services Inc,american guard services,https://www.americanguardservices.com/,LAX,security,501,1000,561612,,Yes
+224,Mercury Air Center-Los Angeles Inc,mercury air centerlos angeles,https://www.atlanticaviation.com/,LAX,into-plane fueling,4000,7000,447190,,Review
+225,SIA Engineering (USA) Inc,sia engineering usa,https://www.siaec.com.sg/,EWR; LAX,sia engineering (usa); inc.; aircraft line maintenance,5000,10000,488190,,No
+226,China Airlines Ltd,china airlines,https://www.china-airlines.com/,LAX,cargo handling,10000,10000,"488190, 488510",,No
+228,"AGI Cargo, LLC",agi cargo,https://agi.aero/,LAX,cargo handling; ramp,12000,12000,"488190, 488510",,No
+229,"AGI Ground, Inc.",agi ground,https://agi.aero/,LAX,aircraft cabin cleaning; terminal; ramp,12000,12000,"488190, 561720",,No
+230,AGI Secure - CA,agi secure ca,https://agi.aero/,LAX,security,12000,12000,561612,,No
+231,ACTS Aviation Security Inc,acts aviation security,https://www.acts-sec.com/,LAX,cargo screening; security,16000,16000,"561612, 488510, 488190",,No
+233,Japan Airlines Co Ltd,japan airlines co,https://www.jal.com/,LAX,aircraft line maintenance,30000,30000,488190,,No
+234,Unifi Aviation LLC,unifi aviation,https://unifiservice.com/,LAX,aircraft cabin cleaning; baggage management; ramp; terminal,30000,30000,"488190, 561720",,No
+235,Menzies Aviation (USA) Inc,menzies aviation usa,https://menziesaviation.com/,LAX,cargo handling; into-plane fueling; ramp; interior aircraft cleaning,45000,45000,"488190, 447190, 488510",,No
+236,WFS Express Inc,wfs express,https://www.wfs.aero/,EWR; LAX,cargo handling,50000,50000,"488190, 488510",,No
+237,Worldwide Flight Services Inc,worldwide flight services,https://www.wfs.aero/,LAX,aircraft cabin cleaning; cargo handling; ramp,50000,50000,"488190, 488510, 561720",,No
+238,Swissport Cargo Services LP,swissport cargo services,https://www.swissport.com/,EWR; LAX,cargo handling,60000,60000,"488190, 488510",,No
+239,Swissport USA Inc,swissport usa,https://www.swissport.com/,EWR; LAX,swissport usa; inc.; into-plane fueling,60000,60000,447190,,No
+240,Societe Air France,societe air france,https://www.airfrance.com/,LAX,aircraft line maintenance,70000,70000,488190,,No
+241,"ABM Aviation, Inc",abm aviation,https://www.abm.com/aviation/,EWR; LAX,airfield transportation; aircraft cabin cleaning; wheelchair; janitorial; baggage management,100000,100000,"488190, 561720, 485999",,No
+242,American Airlines Inc,american airlines,https://www.aa.com/,LAX,aircraft line maintenance,100000,100000,488190,,No
+243,Swiss International Airlines,swiss international airlines,https://www.swiss.com/,LAX,aircraft line maintenance,100000,100000,488190,,No
+245,Ground Services International Inc,ground services international,https://www.dnata.com/,EWR; LAX,aircraft cabin cleaning; cargo handling; ramp,100000,100000,"488190, 488510, 561720",,No
+246,Prosegur Services Group Inc,prosegur services group,https://www.prosegur.com/,EWR; LAX,cargo screening; security; wheelchair,150000,150000,"561612, 488510, 488190",,No
+247,Panasonic Avionics Corporation,panasonic avionics corporation,https://www.panasonic.aero/,LAX,aircraft line maintenance,200000,200000,488190,,No
+248,Michael Stapleton Associates Ltd,michael stapleton associates,https://www.aus.com/,LAX,cargo screening,800000,800000,"488510, 488190",,No
+249,Universal Protection Service LP,universal protection service,https://www.aus.com/,EWR; LAX,security,800000,800000,561612,,No
+250,American K-9 Detection Services CA Inc,american k9 detection services ca,http://www.amk9.com,LAX,cargo screening,750,750,"488510, 488190",,Review
+251,Americorp International Group Inc,americorp international group,,LAX,terminal,,,488190,,Review
+252,Arinwine Aircraft Maintenance LLC,arinwine aircraft maintenance,,LAX,aircraft line maintenance,,,488190,,Review
+253,Baggage Airline Guest Services Inc,baggage airline guest services,http://www.bagsvip.com,EWR; LAX,baggage airline guest services inc; terminal,5,5,488190,,Review
+254,Calop Aeroground Services,calop aeroground services,,LAX,cargo screening; baggage management; security; terminal,62,62,"561612, 488190, 488510",,Review
+255,"Cargo HS, LLC",cargo hs,http://www.cargohs.com,LAX,cargo handling; ramp,22,22,"488190, 488510",,Review
+256,Eagle Security Services Inc,eagle security services,http://www.eaglesecurityagency.com,LAX,security,2,2,561612,,Review
+257,EcoServices LLC,ecoservices,http://www.ecopowerenginewash.com,EWR; LAX,ecoservices; llc; aircraft line maintenance,52,52,488190,,Review
+258,"Elite Team Logistics California, Inc.",elite team logistics california,http://www.eliteteamlogistics.com,LAX,security,82,82,561612,,Review
+259,ERMC Aviation LLC,ermc aviation,http://www.ermcaviation.com,EWR; LAX,aircraft cabin cleaning; baggage management; wheelchair; security,520,520,"561612, 488190, 561720",,Review
+260,F & E Aircraft Maintenance (Miami) LLC,f e aircraft maintenance miami,,LAX,aircraft line maintenance,36,36,488190,,Review
+262,G2 Secure Staff,g2 secure staff,http://www.g2securestaff.com,LAX,aircraft cabin cleaning; baggage management; wheelchair; security; terminal,11000,11000,"561612, 488190, 561720",,Review
+263,G2 Security Services Inc,g2 security services,,LAX,security,,,561612,,Review
+264,Global Airport Concierge LLC,global airport concierge,globalairportconcierge.com,LAX,terminal,8,8,488190,,Review
+265,Global Aviation Management Group Corp,global aviation management group corp,http://www.globav.com,LAX,security,,,561612,,Review
+266,Global K9 Protection Group,global k9 protection group,http://www.globalk9protection.com,LAX,cargo screening,9,9,"488510, 488190",,Review
+267,"GUS, Inc.",gus,http://www.gus.biz,LAX,aircraft cabin cleaning; airfield transportation; terminal,26,26,"561720, 488190, 485999",,Review
+269,Hallmark Aviation Services,hallmark aviation services,,LAX,baggage management; terminal,80,80,488190,,Review
+270,Horizon Aviation Services Inc,horizon aviation services,http://www.horizon-aviation.com,LAX,baggage management; security,1,1,"561612, 488190",,Review
+271,Huntleigh USA Corporation,huntleigh usa corporation,,LAX,security,,,561612,,Review
+272,Immaculate Flight LLC,immaculate flight,http://www.immaculateflight.com,LAX,aircraft cabin cleaning,190,190,561720,,Review
+273,Imperial Security Services Inc,imperial security services,http://www.iessevents.com,LAX,cargo screening; security,84,84,"561612, 488510, 488190",,Review
+275,Master Lightning Security Solutions,master lightning security solutions,http://www.mlsscorp.com,LAX,security,33,33,561612,,Review
+276,Matrix Aviation Services Inc,matrix aviation services,http://www.matrix-aviation.com,EWR; LAX,terminal,510,510,488190,,Review
+277,McGee Air Services Inc,mcgee air services,http://www.mcgeeairservices.com,LAX,cargo handling; ramp,2900,2900,"488190, 488510",,Review
+278,Meliora Aviation LLC,meliora aviation,,LAX,interior aircraft cleaning; aeronautical maintenance (exterior aircraft cleaning),,,488190,,Review
+279,Mercury Air Cargo Inc,mercury air cargo,mercuryaircargo.com,LAX,cargo handling,103,103,"488190, 488510",,Review
+280,Pacific Aviation Corporation,pacific aviation corporation,,LAX,aircraft cabin cleaning; terminal,,,"561720, 488190",,Review
+281,Prime Flight Aviation Services,prime flight aviation services,primeflight.com,LAX,aircraft cabin cleaning; terminal; aeronautical maintenance (exterior aircraft cleaning),1250,1250,"488190, 561720",,Review
+282,Professional Aviation Marketing Inc,professional aviation marketing,,EWR; LAX,aircraft line maintenance; airfield transportation; cargo; ramp; cargo screening; terminal,6,6,"488190, 488510, 485999",,Review
+283,Ranger Logistics USA LLC,ranger logistics usa,http://www.gorangerusa.com,LAX,security; aircraft cabin cleaning; terminal,2,2,"561612, 561720, 488190",,Review
+284,SCIS Air Security Corporation,scis air security corporation,,LAX,security,4,4,561612,,Review
+285,Service Aircraft Maintenance LLC,service aircraft maintenance,,LAX,aircraft line maintenance,,,488190,,Review
+286,Sharp Details LLC,sharp details,sharpdetails.com,LAX,aircraft cabin cleaning,39,39,561720,,Review
+288,SkySquad Inc,skysquad,http://www.skysquad.com,LAX,terminal,25,25,488190,,Review
+289,So Cal Jet Services Inc,so cal jet services,socaljetservices.com,LAX,aircraft line maintenance,13,13,488190,,Review
+290,The ACT 1 Group Inc,the act 1 group,,LAX,aircraft line maintenance,1,1,488190,,Review
+291,"Thornton Aircraft Company, LLC",thornton aircraft company,,LAX,aircraft line maintenance,7,7,488190,,Review
+292,UGS Private Security Inc,ugs private security,,LAX,security,,,561612,,Review
+293,"Covenant Aviation Security, LLC",covenant aviation security,https://covenantsecurity.com/,SFO; ORD,passenger and baggage screening; general airport security; security services,347,347,"561612, 488190",,Review
+294,"Pegasus Aviation Services, LLC",pegasus aviation services,https://www.pegasusaviationservices.com/,SFO,aircraft line maintenance; gse support,39,39,488190,,Review
+295,"PrimeFlight Aviation Services, Inc.",primeflight aviation services,https://www.primeflight.com/,EWR; SFO,passenger services; aircraft cleaning; ramp; wheelchair,10000,,488190,,No
+296,"Prospect Airport Services, Inc.",prospect airport services,https://www.prospectair.com/,EWR; SFO,wheelchair; passenger assistance; terminal services,10000,,488190,,No
+297,"SFO Fuel Company, LLC",sfo fuel company,,SFO,airport fuel-system ownership / consortium,,,447190,,Review
+298,Signature Flight Support LLC,signature flight support,https://www.signatureaviation.com/,SFO,fbo; aircraft fueling; hangarage; private-aviation support,5000,,447190,,Review
+299,"Total Airport Services, LLC",total airport services,https://www.totalairportservices.com/,SFO,ramp; cargo handling; ground handling,12000,12000,"488190, 488510",,Yes
+300,"Airport Butler, LLC",airport butler,https://www.airportbutler.com/,SFO,meet-and-assist; baggage assistance; terminal concierge,,5000,488190,,Yes
+301,"CLEAR Secure, Inc.",clear secure,https://www.clearme.com/,SFO,identity verification; expedited passenger access,3708,3708,561612,,Review
+302,SFO Shuttle Bus Company,sfo shuttle bus company,,SFO,airport employee/passenger shuttle transportation,,,485999,,Review
+303,ABX Air Inc.,abx air,abxair.com,EWR; JFK,abx air inc.; aircraft maintenance services,455,455,488190,,No
+304,"AccuFleet International, Inc.",accufleet international,accufleet.com,EWR; JFK,cleaning services,45,45,561720,,Review
+305,"AD Partnerships, LLC",ad partnerships,,EWR; JFK,lounge services,,,722515,,Review
+306,"Aero Mag 2000 JFK, LLC",aero mag 2000 jfk,,EWR; JFK,de-icing services,,,,,Review
+307,AeroSnow,aerosnow,aerosnow.com,JFK,snow removal services,23,23,561790,,Review
+308,"Aerotek Aviation, LLC",aerotek aviation,aerotek-aviation.co.uk,EWR; JFK,ground service equipment maintenance services,54,54,"488190, 811310",,Review
+309,"Air General, Inc",air general,https://www.airgeneral.com,ORD,cargo,238,238,488510,,Review
+310,"Airist NY, Inc.",airist ny,,EWR; JFK,lounge services; miscellaneous,,,722515,,Review
+311,"Airline Tech Reps, LLC",airline tech reps,https://www.stslm.com,EWR; JFK; MDW,airline tech reps; llc; aeronautical maintenance services; aircraft maintenance services,,,488190,,Review
+312,"Airport Ground Handlers, Inc.",airport ground handlers,agh-inc.com,EWR; JFK,in-terminal handling services,7,7,488190,,Review
+313,Airport Ground Service & Leasing LLC,airport ground service leasing,,EWR; JFK,ground service equipment maintenance services,,,"488190, 811310",,Review
+314,"Airway Cleaners, LLC",airway cleaners,,EWR; JFK,airway cleaners; llc; baggage services; cleaning services; ground handling services,,,"488190, 561720",,Review
+315,"Airway Maintenance, LLC",airway maintenance,airwayllc.com,EWR; JFK,lounge services,13,13,722515,,Review
+316,"Alpha-Tech Aviation Services, Inc.",alphatech aviation services,https://www.alphatechaviation.com,MDW; ORD,aeronautical maintenance; aeronautical maintenance services,15,15,488190,,Review
+317,Alstate Maintenance,alstate maintenance,,JFK,in-terminal handling services; passenger ramp services,,,488190,,Review
+318,"Altitude Aero, LLC",altitude aero,altitudeaero.net,EWR; JFK,in-terminal handling services,15,15,488190,,Review
+319,"American Cybersystems, Inc.",american cybersystems,,EWR; JFK,personnel services,23,23,561320,,Review
+320,"American Sales & Management Organization, LLC",american sales management organization,,EWR; JFK,cargo handling & ramp services; in-terminal handling services,,,"488190, 488510",,Review
+321,AOA Fueling,aoa fueling,https://www.aoafueling.com,ORD,into-plane fueling services,,,447190,,Review
+322,Aries Shuttle Chicago,aries shuttle chicago,https://www.ariesshuttle.com,ORD,passenger/terminal services,8,8,488190,,Review
+323,ARK Development LLC,ark development,thearkdevelopment.com,EWR; JFK,cargo handling & ramp services,72,72,"488190, 488510",,Review
+324,"ASAK Solutions, LLC",asak solutions,asak.aero,EWR; JFK,cargo handling & ramp services; snow removal services,33,33,"488190, 488510, 561790",,Review
+325,"AtkinsRealis USA, Inc.",atkinsrealis usa,,EWR; JFK,security services,35000,,561612,,No
+326,"Aviation Solutions Holdings, L.P.",aviation solutions holdings lp,,JFK,personnel services,,,561320,,Review
+327,"Brancato Landscaping, Inc.",brancato landscaping,,JFK,ramp sweeping services; snow removal services,,,"488190, 561790",,Review
+328,British Airways,british airways,britishairways.com,EWR; JFK,british airways; aircraft maintenance services,20126,20126,488190,,No
+329,"Burbank Security Services, Inc.",burbank security services,burbanksecurityservices.com,EWR; JFK,security services,5,5,561612,,Review
+330,Centurion Lounge Flik Hospitality,centurion lounge flik hospitality,,JFK,lounge services,500000,,722515,,No
+331,"Choice Aviation Services, Inc.",choice aviation services,choice.aero,EWR; JFK,cargo handling & ramp services,111,111,"488190, 488510",,Review
+332,Corporate Loss Prevention Assoc.,corporate loss prevention assoc,,JFK,security services,,,561612,,Review
+333,Cowbay Contracting,cowbay contracting,cowbaycontracting.com,JFK,snow removal services,13,13,561790,,Review
+334,Cristi Cleaning,cristi cleaning,,JFK,snow removal services,5,5,561790,,Review
+335,"Cypress King, Inc.",cypress king,,EWR; JFK,security services,,,561612,,Review
+336,"Dejana Services, LLC",dejana services,,EWR; JFK,ramp sweeping services,,,488190,,Review
+337,"Delta Air Lines, Inc.",delta air lines,delta.com,JFK,aircraft maintenance services,45019,45019,488190,,No
+338,Diverse Facility Solutions,diverse facility solutions,https://www.dfscompany.com,MDW; ORD,baggage sorting & management services; in-terminal janitorial services; passenger & terminal services,68,68,"488190, 561720, 541611",,Review
+339,DO & CO Chicago Catering,do co chicago catering,https://www.doco.com,ORD,food services; international garbage & waste removal,,,"722310, 562998",,Review
+341,"Ecogreen Carpet Care, Inc",ecogreen carpet care,,ORD,in-terminal janitorial services,5,5,"561720, 488190",,Review
+342,"Elite Airline Linen of New York, Inc.",elite airline linen of new york,,EWR; JFK,cleaning services,,,561720,,Review
+343,Emirates Airline,emirates airline,,EWR; JFK,emirates airline; aircraft maintenance services,,,488190,,No
+344,F & E Aircraft Maintenance (New York) LLC,f e aircraft maintenance new york,,EWR; JFK,f & e aircraft maintenance (new york) llc; aircraft maintenance services,,,488190,,Review
+345,Faro Cargo Handling Solutions,faro cargo handling solutions,https://www.farochs.com,ORD,cargo,,,488510,,Review
+346,Federal Express Corporation,federal express corporation,,EWR; JFK,federal express corporation; aircraft maintenance services,,,488190,,No
+347,"Fenix Logistix, Inc.",fenix logistix,,EWR; JFK,cargo handling & ramp services; cleaning services; in-terminal handling services; security services,,,"561612, 488190, 488510, 561720",,Review
+348,"Firefly Systems, Inc.",firefly systems,,EWR; JFK,miscellaneous,,,,,Review
+349,"Flight Check Commercial Aviation Services, LLC",flight check commercial aviation services,https://www.flightcheck.us,ORD,aeronautical maintenance services; aircraft deicing services; passenger/terminal services; ramp/below-wing handling services,,,488190,,Review
+350,"Flight Ops International, Inc.",flight ops international,,EWR; JFK,ground handling services,,,488190,,Review
+351,Genuine Parts Company,genuine parts company,,JFK,ground service equipment maintenance services,60000,,"488190, 811310",,No
+352,"Go Local Promotions, Inc.",go local promotions,,EWR; JFK,personnel services,,,561320,,Review
+353,Guardian Professional Services,guardian professional services,,JFK,in-terminal handling services,,,488190,,Review
+354,Hall Technical Services,hall technical services,,JFK,ground service equipment maintenance services,,,"488190, 811310",,Review
+355,"Hanjin Transportation Co., Ltd.",hanjin transportation co,https://www.hanjinusa.com,EWR; JFK; ORD,cargo; cargo handling & ramp services,,,"488190, 488510",,Review
+356,"HHS Aviation, LLC",hhs aviation,,EWR; JFK,cleaning services; in-terminal handling services,,,"561720, 488190",,Review
+357,"Hyde Park Hospitality, LLC",hyde park hospitality,,SEA; EWR; JFK,personnel services,,,561320,,Review
+358,"I.K. Hofmann USA, Inc.",ik hofmann usa,,EWR; JFK,personnel services,,,561320,,Review
+359,"Integrated Deicing Services, LLC",integrated deicing services,https://www.inlandgroup.ca,ORD,aircraft deicing & related services,,,488190,,Review
+360,"ISS Action, Inc",iss action,,EWR; JFK,security services,,,561612,,Review
+361,J-Blatt Inc.,jblatt,,EWR; JFK,in-terminal handling services,,,488190,,Review
+362,JCM Business Solutions LLC,jcm business solutions,,EWR; JFK,cleaning services; security services,,,"561612, 561720",,Review
+363,"Jet Way Aviation Services, LLC",jet way aviation services,,EWR; JFK,in-terminal handling services,,,488190,,Review
+364,"Jet Way Security & Investigations, LLC",jet way security investigations,,EWR; JFK,security services,,,561612,,Review
+365,JetBlue Airways Corporation,jetblue airways corporation,,EWR; JFK,jetblue airways corporation; aircraft maintenance services; cleaning services; in-terminal handling services; passenger ramp services,,,"488190, 561720",,No
+366,"Jett Pro Line Maintenance, Corp.",jett pro line maintenance corp,,EWR; JFK,jett pro line maintenance; corp.; aircraft maintenance services,,,488190,,Review
+367,JFK Management Corp.,jfk management corp,,EWR; JFK,cleaning services; lounge services,,,"561720, 722515",,Review
+368,Kennedy Advanced Professional Service Ltd.,kennedy advanced professional service,,EWR; JFK,security services,,,561612,,Review
+369,KSA Protection Corporation,ksa protection corporation,,JFK,security services,,,561612,,Review
+370,"Labor Management Concepts, Inc.",labor management concepts,,EWR; JFK,security services,,,561612,,Review
+371,"LSG Sky Chefs Lounge, Inc.",lsg sky chefs lounge,,EWR; JFK,lounge services,,,722515,,Review
+372,Lufthansa Cargo AG,lufthansa cargo ag,,JFK,cargo handling & ramp services,,,"488190, 488510",,No
+373,Lufthansa German Airlines,lufthansa german airlines,,EWR; JFK,lufthansa german airlines; aircraft maintenance services,,,488190,,No
+374,Mach II Maintenance Corporation,mach ii maintenance corporation,,EWR; JFK,mach ii maintenance corporation; aircraft maintenance services; de-icing services,,,488190,,Review
+375,Manpower Group US Inc,manpower group us,https://www.manpowergroup.com,ORD,cargo,25400,25400,488510,,No
+376,"Masterpiece Security Group, LLC",masterpiece security group,,EWR; JFK,security services,,,561612,,Review
+377,"Maximus Global Services, LLC",maximus global services,,EWR; JFK,passenger ramp services,,,488190,,Review
+378,"MG Security Services, LLC",mg security services,,EWR; JFK,security services,,,561612,,Review
+379,Millennial Enterprises,millennial enterprises,https://www.workwithmillennial.com,MDW,in-terminal janitorial services,,,"561720, 488190",,Review
+380,"Modern Aviation Lightning, LLC",modern aviation lightning,,EWR; JFK,de-icing services,,,,,Review
+381,MSN Air Service Inc.,msn air service,,EWR; JFK,cargo handling & ramp services; passenger ramp services,,,"488190, 488510",,Review
+382,"MSN Aviation Services, Inc.",msn aviation services,,EWR; JFK,cargo handling & ramp services,,,"488190, 488510",,Review
+383,National Organization of Animal Handlers (NOAH),national organization of animal handlers noah,,JFK,cargo handling & ramp services,,,"488190, 488510",,Review
+384,New York Air Courier Clearance Inc.,new york air courier clearance,,EWR; JFK,new york air courier clearance inc.; baggage services,,,488190,,Review
+385,"North American Food Services, Inc.",north american food services,,EWR; JFK,lounge services; personnel services,,,"722515, 561320",,Review
+386,Omni-Serv LLC,omniserv,,EWR; JFK,cargo handling & ramp services; cleaning services; in-terminal handling services; passenger ramp services; security services,,,"561612, 488190, 488510, 561720",,Review
+387,"On-Board Media, Inc.",onboard media,,EWR; JFK,in flight media services; miscellaneous,,,722310,,Review
+388,"ORD Lift & GSE, Inc.",ord lift gse,,EWR; JFK,miscellaneous,,,811310,,Review
+389,"Oxford Electronics, Inc.",oxford electronics,,EWR; JFK,cargo handling & ramp services,,,"488190, 488510",,Review
+390,Pacific Atlantic Handling Services LLC,pacific atlantic handling services,,EWR; JFK,in-terminal handling services; passenger ramp services,,,488190,,Review
+391,Pasona,pasona,https://www.pasona.com,ORD,passenger & terminal services,,,488190,,Review
+392,"Pasona NA, Inc.",pasona na,,EWR; JFK,in-terminal handling services,,,488190,,Review
+393,PAX Assist Inc.,pax assist,,EWR; JFK,in-terminal handling services; passenger ramp services; security services,,,"561612, 488190",,Review
+394,"Perry Onah Enterprises, Inc.",perry onah enterprises,,EWR; JFK,security services,,,561612,,Review
+395,Plaza Premium Lounge New York LLC,plaza premium lounge new york,,EWR; JFK,lounge services,,,722515,,Review
+396,"Professional Business Providers, Inc.",professional business providers,https://www.pbpservices.com,MDW,aircraft cooling & heating; baggage sorting & management; other -- passenger loading bridge maintenance,,,488190,,Review
+397,"Qatar Airways, Q.C.S.C.",qatar airways qcsc,,EWR; JFK,qatar airways; q.c.s.c.; aircraft maintenance services,,,488190,,No
+398,"Red Eye Aviation Service, LLC",red eye aviation service,,EWR; JFK,personnel services,,,561320,,Review
+399,"Restaurant Associates, LLC",restaurant associates,,EWR; JFK,lounge services,500000,,722515,,No
+400,"Rock-it Cargo USA, LLC",rockit cargo usa,,JFK,security services,,,561612,,Review
+401,Roma Cleaning Inc.,roma cleaning,,EWR; JFK,cleaning services; in-terminal handling services,,,"561720, 488190",,Review
+402,"Roma Escort Security, Inc.",roma escort security,,EWR; JFK,security services,,,561612,,Review
+404,Sage Parts (New York) LLC,sage parts new york,,EWR; JFK,ground service equipment maintenance services,,,"488190, 811310",,Review
+405,Sam Schwartz Pedestrian Traffic Management Service,sam schwartz pedestrian traffic management service,,JFK,security services,,,561612,,Review
+406,SAMSIC,samsic,https://www.samsic.aero,ORD,cargo - passenger & freight aircraft services; ramp/below-wing handling services,8000,8000,"488190, 488510",,Review
+407,SCIS Security Services,scis security services,https://www.scisairsecurity.com,ORD,"",700,700,561612,,Review
+408,"SeatBoost, Inc.",seatboost,,EWR; JFK,in-terminal handling services,,,488190,,Review
+409,"Sky and Ground Services, Inc.",sky and ground services,,ORD,in-terminal janitorial; interior aircraft cleaning; international garbage & waste removal; security,,,"561612, 561720, 488190, 562998",,Review
+410,Sky Blue Catering,sky blue catering,https://www.skybluecatering.com,MDW; ORD,food services; international garbage & waste removal,,,"722310, 562998",,Review
+411,"Sodexo Magic, LLC",sodexo magic,,EWR; JFK,lounge services,400000,,722515,,No
+412,Sodexo Operations,sodexo operations,,JFK,lounge services,400000,,722515,,No
+413,"Staff Management Solutions, LLC",staff management solutions,https://www.trueblue.com,ORD,cargo - passenger & freight aircraft services,,,488510,,Review
+414,STS Aviation Services,sts aviation services,,EWR; JFK,sts aviation services; aircraft maintenance services,,,488190,,Review
+415,Sunline Services Inc,sunline services,https://www.sunlineservices.com,ORD,passenger & terminal services,,,488190,,Review
+416,Sunrise Ground Equipment,sunrise ground equipment,,JFK,cargo handling & ramp services,,,"488190, 488510",,Review
+417,"Sunrise Recruiting, Inc.",sunrise recruiting,,EWR; JFK,personnel services,,,561320,,Review
+418,SureWx,surewx,,JFK,miscellaneous,,,541512,,Review
+420,"Swissport SA Fuel Services, LLC",swissport sa fuel services,https://www.swissport.com,ORD,into-plane fueling services,,,447190,,Review
+421,"TAV New York Operation Services, LLC",tav new york operation services,,EWR; JFK,lounge services,,,722515,,Review
+422,Texas World Service Company Inc.,texas world service company,https://www.worldserviceco.com,ORD,interior aircraft cleaning services; international garbage/waste removal; security services,,,"561612, 561720, 562998",,Review
+423,Thales USA,thales usa,,JFK,in flight entertainment system services,80000,,722310,,No
+424,"The FSM Group, LLC",the fsm group,,JFK,ground service equipment maintenance services,,,"488190, 811310",,Review
+425,Triangle Aviation Services,triangle aviation services,,EWR; JFK,triangle aviation services; baggage services; cargo handling & ramp services,,,"488190, 488510",,Review
+426,"U.S. Security Associates, Inc.",us security associates,,EWR; JFK,security services,800000,,561612,,No
+427,"United Air Lines, Inc.",united air lines,,EWR; JFK,united air lines; inc.; aircraft maintenance services,,,488190,,No
+428,"UST Investments, LLC",ust investments,https://www.ustechs.us,ORD,other -- aircraft repositioning,,,,,Review
+429,"Viasat, Inc.",viasat,,EWR; JFK,in flight entertainment system services,7000,,722310,,No
+430,"VIP Hospitality, LLC",vip hospitality,,EWR; JFK,miscellaneous,,,,,Review
+431,Acai and Expresso LLC,acai and expresso,,SEA,"",,,,,Review
+432,Airport Field Services LLC,airport field services,,SEA,"",,,488190,,Review
+433,Airworks Concessions and Conrac Supplies LLC,airworks concessions and conrac supplies,,SEA,"",,,488190,,Review
+434,"Amber Janitorial, Inc",amber janitorial,,SEA,"",,,561720,,Review
+435,BACKDRAFT LLC,backdraft,,SEA,"",,,,,Review
+436,Baggage Claim Coffee LLC,baggage claim coffee,,SEA,"",,,722515,,Review
+437,Bambuza South Waterfront LLC,bambuza south waterfront,,SEA,"",,,,,Review
+438,"Bite Me, Inc",bite me,,SEA,"",,,,,Review
+439,"Brown Sugar Baking Company, LLC",brown sugar baking company,,SEA,"",,,722515,,Review
+440,Catco Business Consulting LLC,catco business consulting,,SEA,"",,,,,Review
+441,Chandler & Campbelle Investment Group LLC,chandler campbelle investment group,,SEA,"",,,,,Review
+442,CityNews Ohio Company,citynews ohio company,,SEA,"",,,,,Review
+443,Concourse Concessions LLC,concourse concessions,,SEA,"",,,,,Review
+444,"Convergence Architecture, Inc",convergence architecture,,SEA,"",,,,,Review
+445,Corliss Stone-Littles LLC,corliss stonelittles,,SEA,"",,,,,Review
+446,Cyclo Corporation,cyclo corporation,,SEA,"",,,,,Review
+447,DES Wholesale LLC,des wholesale,,SEA,"",,,,,Review
+448,Devil Dog Installations LLC,devil dog installations,,SEA,"",,,,,Review
+449,"Dilettante Chocolates, Inc",dilettante chocolates,,SEA,"",,,722515,,Review
+450,Diversity Food Brands LLC,diversity food brands,,SEA,"",,,722515,,Review
+451,E & K Retail Inc,e k retail,,SEA,"",,,453998,,Review
+452,Eastside International Management Corporation,eastside international management corporation,,SEA,"",,,,,Review
+453,Estudio LLC,estudio,,SEA,"",,,,,Review
+454,"Excel Gloves & Safety Supplies, Inc",excel gloves safety supplies,,SEA,"",,,,,Review
+455,Inc/3E Medical.Com,inc3e medicalcom,,SEA,"",,,,,Review
+456,Filo Foods LLC,filo foods,,SEA,"",,,722515,,Review
+457,FIREHOUSE EXPRESS LLC,firehouse express,,SEA,"",,,,,Review
+458,"Flying Leap, Inc",flying leap,,SEA,"",,,,,Review
+459,"Ford of Santa Monica, Inc",ford of santa monica,,SEA,"",,,,,Review
+460,Heigh Connects LLC,heigh connects,,SEA,"",,,,,Review
+461,Hilltop Concessions LLC,hilltop concessions,,SEA,"",,,,,Review
+462,"HWCC, LLC",hwcc,,SEA,"",,,,,Review
+463,Hyflyers LLC,hyflyers,,SEA,"",,,,,Review
+464,I Love Chicago Inc,i love chicago,,SEA,"",,,,,Review
+465,"La Trelles Express, Inc",la trelles express,,SEA,"",,,,,Review
+466,Leslie Saunders Insurance Agency Inc,leslie saunders insurance agency,,SEA,"",,,,,Review
+467,"Longhouse Inventory Solutions, LLC",longhouse inventory solutions,,SEA,"",,,,,Review
+468,Love By The Slice Baking & Catering Company LLC,love by the slice baking catering company,,SEA,"",,,"722515, 722310",,Review
+469,Massage Bar Inc,massage bar,,SEA,"",,,,,Review
+470,Master Concessionair LLC,master concessionair,,SEA,"",,,,,Review
+471,"MCSB, Inc",mcsb,,SEA,"",,,,,Review
+472,"Mission Yogurt, Inc",mission yogurt,,SEA,"",,,,,Review
+473,"On the House Restaurant Group, LLC",on the house restaurant group,,SEA,"",,,722515,,Review
+474,Optimal Technologies LLC,optimal technologies,,SEA,"",,,,,Review
+475,Pacific Park Management Inc,pacific park management,,SEA,"",,,,,Review
+476,Palladium Holdings LLC,palladium holdings,,SEA,"",,,,,Review
+477,"Paracom, Inc",paracom,,SEA,"",,,,,Review
+478,"PIE Management, LLC",pie management,,SEA,"",,,,,Review
+479,Piraas LLC,piraas,,SEA,"",,,,,Review
+480,Richards Corporation,richards corporation,,SEA,"",,,,,Review
+481,RMD Holdings LLC,rmd holdings,,SEA,"",,,,,Review
+482,"RMES Communications, Inc",rmes communications,,SEA,"",,,541613,,Review
+483,"Robinson Hill Hospitality Group, Inc",robinson hill hospitality group,,SEA,"",,,,,Review
+484,Rosario & Rosario LLC,rosario rosario,,SEA,"",,,,,Review
+485,Rylo Management LLC,rylo management,,SEA,"",,,,,Review
+486,"SAAS Hot Sauce, LLC",saas hot sauce,,SEA,"",,,,,Review
+487,SeaTac Bar Group LLC,seatac bar group,,SEA,"",,,,,Review
+488,Shrewsberry & Associates LLC,shrewsberry associates,,SEA,"",,,,,Review
+489,"Silver Slice Bakery, Inc",silver slice bakery,,SEA,"",,,,,Review
+490,"Skyview Concessions, Inc",skyview concessions,,SEA,"",,,,,Review
+491,Something Silver Inc,something silver,,SEA,"",,,,,Review
+492,Stewart Manhattan Investments Inc,stewart manhattan investments,,SEA,"",,,,,Review
+493,Sublime Gifts and Finds LLC,sublime gifts and finds,,SEA,"",,,,,Review
+494,Sun's Inc,suns,,SEA,"",,,,,Review
+495,"Susan Druckman, Inc",susan druckman,,SEA,"",,,,,Review
+496,T & L Vending Inc,t l vending,,SEA,"",,,,,Review
+497,Warren's News & Gift Inc,warrens news gift,,SEA,"",,,,,Review
+498,WDB Inc,wdb,,SEA,"",,,,,Review
+499,"Whayne and Sons Enterprises, Inc",whayne and sons enterprises,,SEA,"",,,,,Review
+500,"Z Venture Capital Frontiers, Inc",z venture capital frontiers,,SEA,"",,,,,Review
+509,PrimeFlight Aviation Svcs Inc,primeflight aviation svcs,,EWR,"",,,,,Review
+511,"Launch Management Services, LLC",launch management services,,EWR,"",,,,,Review
+513,"AGI Secure, LLC",agi secure,,EWR,"",,,,,Review
+514,"American K-9 Detection Services, LLC",american k9 detection services,,EWR,"",,,,,Review
+515,"Andy Frain Services, Inc",andy frain services,,EWR,"",,,,,Review
+516,"GK9PG-Aviation Services, LLC",gk9pgaviation services,,EWR,"",,,,,Review
+517,"Global Security Associates, LLC",global security associates,,EWR,"",,,561612,,Review
+518,"Unifi Security, LLC",unifi security,,EWR,"",,,561612,,Review
+519,"Airist JFK, Inc",airist jfk,,EWR,"",,,,,Review
+555,"MarketPlace Logan, LLC",marketplace logan,,BOS,"",,,453998,,Review
+556,"Legal Sea Foods, Inc",legal sea foods,,BOS,"",,,722515,,Review
+557,Lenlyn Ltd. dba ICE Currency Services USA,lenlyn ltd dba ice currency services usa,,BOS,"",,,523130,,Review
+558,Travel Content LLC,travel content,,BOS,"",,,541613,,Review
+559,HLT Logan LLC (Hilton),hlt logan llc hilton,,BOS,"",,,721110,,Review
+560,"LHO Harborside Hotel, LLC (Hyatt)",lho harborside hotel llc hyatt,,BOS,"",,,721110,,Review
+663,"Keville Enterprises, Inc",keville enterprises,,BOS,"",,,541330,,Review
+664,Lazo Foods LLC. DBA Lazo Empanadas,lazo foods llc dba lazo empanadas,,DEN,"",,,722515,,Review
+665,LITTLE SISTER & CO DBA PLAYGROUND EATS,little sister co dba playground eats,,DEN,"",,,722515,,Review
+666,LoCo Food Distribution,loco food distribution,,DEN,"",,,"722515, 722310",,Review
+667,Malhotra Investments Inc,malhotra investments,,DEN,"",,,,,Review
+668,Nancy Harkey Enterprises LLC,nancy harkey enterprises,,DEN,"",,,,,Review
+669,National Essentials,national essentials,,DEN,"",,,453998,,Review
+670,Olive & Finch Collective,olive finch collective,,DEN,"",,,,,Review
+671,Optimal Concessions,optimal concessions,,DEN,"",,,,,Review
+672,"Rubio Enterprises, LLC",rubio enterprises,,DEN,"",,,,,Review
+673,Tyler Communications Inc,tyler communications,,DEN,"",,,541613,,Review
+674,Victory Holdings,victory holdings,,DEN,"",,,,,Review
+675,Whittier Cafe,whittier cafe,,DEN,"",,,722515,,Review
+676,Groome Transportation,groome transportation,,ATL,auburn,,,485999,,Review
+677,"Covenant Capital, LLC",covenant capital,,DFW,"",,,,,Review
+678,Ascension Business Capital,ascension business capital,,DFW,"",,,,,Review
+679,DFW WBC Lift Fund,dfw wbc lift fund,,DFW,"",,,,,Review
+680,SBA-Small Business Association,sbasmall business association,,DFW,"",,,,,Review
+681,Prosperity Bank,prosperity bank,,DFW,"",,,,,Review
+682,Amegy Bank,amegy bank,,DFW,"",,,,,Review
+683,Chase Bank-Fort Worth,chase bankfort worth,,DFW,"",,,,,Review
+684,Chase Bank-Irving,chase bankirving,,DFW,"",,,,,Review
+685,Regions Bank Simmons Bank,regions bank simmons bank,,DFW,"",,,,,Review
+686,Frost Bank,frost bank,,DFW,"",,,,,Review
+687,African American Entrepreneurs Association,african american entrepreneurs association,,DFW,"",,,,,Review
+688,Your Company or Division,your company or division,,LAS,"",,,,,Review
+689,Location of Accident,location of accident,,LAS,"",,,,,Review
+690,Ron Lynn,ron lynn,,LAS,"",,,,,Review
+691,Sami Real,sami real,,LAS,"",,,,,Review
+692,Lisa Kremer,lisa kremer,,LAS,"",,,,,Review
+693,James Gerren,james gerren,,LAS,"",,,,,Review
+694,Werner K. Hellmer,werner k hellmer,,LAS,"",,,,,Review
+695,Proposer Address,proposer address,,CLT,"",,,,,Review
+696,Project Name,project name,,CLT,"",,,,,Review
+697,Project Number,project number,,CLT,"",,,,,Review
+698,Contract Nº,contract n,,CLT,"",,,,,Review
+699,Solicitation Name,solicitation name,,CLT,"",,,,,Review
+700,ACDBE Goal,acdbe goal,,CLT,"",,,,,Review
+701,Annual Subcontractor / Supplier ACDBE Utilization,annual subcontractor supplier acdbe utilization,,CLT,"",,,,,Review
+702,Precent ACDBE Utilization (B ÷ A),precent acdbe utilization b a,,CLT,"",,,,,Review
+703,Contract Number,contract number,,CLT,"",,,,,Review
+704,Solicitation Number,solicitation number,,CLT,"",,,,,Review
+705,Bidder/Proposer Address,bidderproposer address,,CLT,"",,,,,Review
+706,Bidder/Proposer Annual Gross,bidderproposer annual gross,,CLT,"",,,,,Review
+707,Annual Gross Receipts (AGR),annual gross receipts agr,,CLT,"",,,,,Review
+708,AND Phone Number,and phone number,,CLT,"",,,,,Review
+709,"FCI Constructors, Inc",fci constructors,,PHX,"",,,,,Review
+710,"Rummel Construction, Inc",rummel construction,,PHX,"",,,236220,,Review
+711,"J Banicki Construction, Inc",j banicki construction,,PHX,"",,,236220,,Review
+712,"McCarthy Building Companies, Inc",mccarthy building companies,,PHX,"",,,,,Review
+713,or related assistance or services,or related assistance or services,,DTW,"",,,,,Review
+714,Concourse A,concourse a,,DTW,"",,,,,Review
+715,Be Relax,be relax,,DTW,"",,,,,Review
+716,Brooks Brothers,brooks brothers,,DTW,"",,,,,Review
+717,CarryOn - Bankruptcy,carryon bankruptcy,,DTW,"",,,,,Review
+718,Cat Cora's Taproom,cat coras taproom,,DTW,"",,,,,Review
+719,CNBC Smartshop,cnbc smartshop,,DTW,"",,,,,Review
+720,Coffee Beanery,coffee beanery,,DTW,"",,,722515,,Review
+721,Corridor Kitchen,corridor kitchen,,DTW,"",,,722515,,Review
+722,Corsa Collections/Tumi,corsa collectionstumi,,DTW,"",,,,,Review
+723,Crave Robata Grill & Bar,crave robata grill bar,,DTW,"",,,,,Review
+724,Creative Kidstuff,creative kidstuff,,DTW,"",,,,,Review
+725,Desigual & Utique,desigual utique,,DTW,"",,,,,Review
+726,Detroit Street LunchBox,detroit street lunchbox,,DTW,"",,,,,Review
+727,Dylan's Candy Bar,dylans candy bar,,DTW,"",,,,,Review
+728,EA Sports,ea sports,,DTW,"",,,,,Review
+729,Estee Lauder/MAC,estee laudermac,,DTW,"",,,,,Review
+730,Gordon Biersch,gordon biersch,,DTW,"",,,,,Review
+731,Green-A Natural Living Store,greena natural living store,,DTW,"",,,,,Review
+732,Illy Coffee & Fountain Bar,illy coffee fountain bar,,DTW,"",,,722515,,Review
+733,Johnston & Murphy,johnston murphy,,DTW,"",,,,,Review
+734,Leo's Coney Island,leos coney island,,DTW,"",,,,,Review
+735,Longhorn Steakhouse,longhorn steakhouse,,DTW,"",,,,,Review
+736,Max & Erma's,max ermas,,DTW,"",,,,,Review
+737,McDonald's Restaurant,mcdonalds restaurant,,DTW,"",,,722515,,Review
+738,Mezza Mediterranean Grille,mezza mediterranean grille,,DTW,"",,,,,Review
+739,Michigan Sports,michigan sports,,DTW,"",,,,,Review
+740,Palazzolo's Artisan Gelato & Sorbett,palazzolos artisan gelato sorbett,,DTW,"",,,,,Review
+741,PF Chang's China Bistro,pf changs china bistro,,DTW,"",,,722515,,Review
+742,PGA Tour Shop,pga tour shop,,DTW,"",,,,,Review
+743,Plum Market serving Zingerman's,plum market serving zingermans,,DTW,"",,,,,Review
+744,Popeye's Louisiana Kitchen,popeyes louisiana kitchen,,DTW,"",,,722515,,Review
+745,Porsche/Hugo Boss,porschehugo boss,,DTW,"",,,,,Review
+746,Running Fit,running fit,,DTW,"",,,,,Review
+747,Concourse A Cont,concourse a cont,,DTW,"",,,,,Review
+748,So Chocolate,so chocolate,,DTW,"",,,722515,,Review
+749,Sound Balance,sound balance,,DTW,"",,,,,Review
+750,Sunglass Icon,sunglass icon,,DTW,"",,,,,Review
+751,The Body Shop,the body shop,,DTW,"",,,,,Review
+752,The New York Times,the new york times,,DTW,"",,,,,Review
+753,The Shed,the shed,,DTW,"",,,,,Review
+754,Time Newsstand,time newsstand,,DTW,"",,,453998,,Review
+755,Time Newsstand/Starbucks,time newsstandstarbucks,,DTW,"",,,453998,,Review
+756,Travelex Currency Services,travelex currency services,,DTW,"",,,523130,,Review
+757,Vino Volo,vino volo,,DTW,"",,,,,Review
+758,Wall Street Journal,wall street journal,,DTW,"",,,,,Review
+759,Wall Street Journal/Starbucks,wall street journalstarbucks,,DTW,"",,,,,Review
+760,World Duty Free,world duty free,,DTW,"",,,453998,,Review
+761,Concourse B,concourse b,,DTW,"",,,,,Review
+762,Chili's/Papa Joe's Gourmet Market,chilispapa joes gourmet market,,DTW,"",,,,,Review
+763,Ember's - A Fire & Ice Lounge,embers a fire ice lounge,,DTW,"",,,722515,,Review
+764,Papa Joe's Dining Room,papa joes dining room,,DTW,"",,,722515,,Review
+765,Z Market & Mills Pharmacy,z market mills pharmacy,,DTW,"",,,,,Review
+766,Concourse C,concourse c,,DTW,"",,,,,Review
+767,CNBC & Tim Hortons,cnbc tim hortons,,DTW,"",,,,,Review
+768,Harvest & Grounds,harvest grounds,,DTW,"",,,722515,,Review
+769,Robert Mondavi Experience,robert mondavi experience,,DTW,"",,,,,Review
+770,Domestic Baggage Claim,domestic baggage claim,,DTW,"",,,,,Review
+771,Coffee Bean & Tea Leaf Company,coffee bean tea leaf company,,DTW,"",,,722515,,Review
+772,FIS Level,fis level,,DTW,"",,,,,Review
+773,New York Times & Tim Hortons,new york times tim hortons,,DTW,"",,,,,Review

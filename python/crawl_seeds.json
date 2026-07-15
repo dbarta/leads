@@ -1,0 +1,148 @@
+{
+  "_comment": "Seed URLs for airport service-provider crawling. Add more airports as discovered.",
+  "_format": "homepage + known candidate paths the crawler will try. Paths are tried in order; found links are scored and followed.",
+
+  "ATL": {
+    "name": "Hartsfield-Jackson Atlanta Intl",
+    "homepage": "https://www.atl.com",
+    "seed_paths": ["/doing-business", "/business", "/ground-transportation", "/concessions", "/vendors", "/contractors",
+                   "/doing-business/dbe", "/business/diversity", "/acdbe"]
+  },
+  "DFW": {
+    "name": "Dallas Fort Worth Intl",
+    "homepage": "https://www.dfwairport.com",
+    "seed_paths": ["/business", "/vendors", "/ground-transportation", "/doing-business", "/procurement", "/concessions",
+                   "/business/diversity/dbe", "/doing-business/dbe", "/acdbe"]
+  },
+  "DEN": {
+    "name": "Denver Intl",
+    "homepage": "https://www.flydenver.com",
+    "seed_paths": ["/business-at-den", "/doing-business", "/vendors", "/ground-transportation", "/concessions",
+                   "/business-at-den/dbe", "/doing-business/dbe", "/acdbe"]
+  },
+  "SEA": {
+    "name": "Seattle-Tacoma Intl",
+    "homepage": "https://www.portseattle.org",
+    "seed_paths": [
+      "/business/doing-business-sea-tac", "/business/sea-tac", "/doing-business", "/vendors", "/ground-transportation",
+      "/page/commercial-gt-services-operators",
+      "/sea/ground-transportation",
+      "/sea/leasing-tenant-resources",
+      "/doing-business/dbe", "/sea/dbe", "/business/diversity"
+    ]
+  },
+  "MIA": {
+    "name": "Miami Intl",
+    "homepage": "https://www.miami-airport.com",
+    "seed_paths": ["/ground_transportation.asp", "/business", "/vendors", "/air-cargo", "/concessions",
+                   "/doing-business/dbe", "/business-development/dbe", "/acdbe"]
+  },
+  "IAH": {
+    "name": "George Bush Intercontinental",
+    "homepage": "https://www.fly2houston.com",
+    "seed_paths": [
+      "/airport-business", "/airport-business/business-partnerships", "/airport-business/ground-transportation",
+      "/airport-business/concessions", "/airport-business/business-partnerships/contracting",
+      "/airport-business/business-partnerships/dbe", "/acdbe"
+    ]
+  },
+  "EWR": {
+    "name": "Newark Liberty Intl",
+    "homepage": "https://www.panynj.gov",
+    "seed_paths": [
+      "/airports/en/newark.html", "/airports/en/vendors-contractors.html",
+      "/airports/en/at-the-airports/vendors-contractors.html", "/airports/en/doing-business.html",
+      "/airports/en/business/dbe.html", "/airports/en/business/acdbe.html"
+    ]
+  },
+  "LGA": {
+    "name": "LaGuardia",
+    "homepage": "https://www.panynj.gov",
+    "seed_paths": [
+      "/airports/en/laguardia.html", "/airports/en/vendors-contractors.html",
+      "/airports/en/at-the-airports/vendors-contractors.html",
+      "/airports/en/business/dbe.html", "/airports/en/business/acdbe.html"
+    ]
+  },
+  "BOS": {
+    "name": "Logan Intl",
+    "homepage": "https://www.massport.com",
+    "seed_paths": ["/diversity-inclusion-compliance/programs",
+                   "/diversity-inclusion-compliance",
+                   "/doing-business", "/business",
+                   "/logan-airport/doing-business-at-logan",
+                   "/doing-business/dbe-programs", "/doing-business/acdbe", "/business/diversity"]
+  },
+  "IAD": {
+    "name": "Washington Dulles Intl",
+    "homepage": "https://www.flydulles.com",
+    "seed_paths": ["/doing-business", "/business", "/vendors", "/ground-transportation", "/concessions",
+                   "/doing-business/dbe", "/business/diversity/dbe", "/acdbe"]
+  },
+  "PHX": {
+    "name": "Phoenix Sky Harbor Intl",
+    "homepage": "https://www.skyharbor.com",
+    "seed_paths": ["/business", "/vendors", "/ground-transportation", "/doing-business", "/air-cargo",
+                   "/business/vendor-resources", "/doing-business/dbe", "/business/diversity", "/acdbe"]
+  },
+  "LAS": {
+    "name": "Harry Reid Intl",
+    "homepage": "https://www.harryreidairport.com",
+    "seed_paths": ["/business", "/vendors", "/ground-transportation", "/doing-business", "/air-cargo",
+                   "/doing-business/dbe", "/business/diversity", "/acdbe"]
+  },
+  "MSP": {
+    "name": "Minneapolis-Saint Paul Intl",
+    "homepage": "https://www.mspairport.com",
+    "seed_paths": ["/business", "/vendors", "/ground-transportation", "/doing-business", "/concessions",
+                   "/business/doing-business-at-msp", "/doing-business/dbe", "/business/diversity-programs", "/acdbe"]
+  },
+  "DTW": {
+    "name": "Detroit Metropolitan Wayne County",
+    "homepage": "https://www.metroairport.com",
+    "seed_paths": ["/business", "/vendors", "/ground-transportation", "/doing-business", "/air-cargo",
+                   "/doing-business/dbe", "/business/diversity", "/acdbe"]
+  },
+  "CLT": {
+    "name": "Charlotte Douglas Intl",
+    "homepage": "https://www.cltairport.com",
+    "seed_paths": ["/business", "/business/doing-business-with-clt", "/business/vendor-resources",
+                   "/business/concessions", "/business/ground-transportation",
+                   "/business/dbe", "/business/diversity", "/acdbe"]
+  },
+  "PHL": {
+    "name": "Philadelphia Intl",
+    "homepage": "https://www.phl.org",
+    "seed_paths": ["/business", "/business/business-opportunities", "/business/ground-transportation",
+                   "/business/dbe", "/business/diversity", "/acdbe"]
+  },
+  "SAN": {
+    "name": "San Diego Intl",
+    "homepage": "https://www.san.org",
+    "seed_paths": ["/business", "/vendors", "/ground-transportation", "/doing-business", "/concessions",
+                   "/smallbusiness", "/commercial-vehicle-permits",
+                   "/doing-business/dbe", "/business/diversity", "/acdbe"]
+  },
+  "TPA": {
+    "name": "Tampa Intl",
+    "homepage": "https://www.tampaairport.com",
+    "seed_paths": ["/business", "/vendors", "/ground-transportation", "/doing-business", "/concessions",
+                   "/business/business-opportunities/small-business-enterprise-program",
+                   "/business/business-opportunities/program-directories",
+                   "/business/business-opportunities/policies-and-programs",
+                   "/doing-business/dbe", "/business/diversity", "/acdbe"]
+  },
+  "MCO": {
+    "name": "Orlando Intl",
+    "homepage": "https://www.orlandoairports.net",
+    "seed_paths": ["/business", "/vendors", "/ground-transportation", "/doing-business", "/business-development",
+                   "/doing-business/dbe", "/business/diversity", "/acdbe"]
+  },
+  "BWI": {
+    "name": "Baltimore/Washington Intl Thurgood Marshall",
+    "homepage": "https://www.bwiairport.com",
+    "seed_paths": ["/doing-business", "/doing-business/vendors-contractors", "/doing-business/ground-transportation",
+                   "/doing-business/concessions", "/business-with-maa",
+                   "/doing-business/dbe", "/doing-business/acdbe", "/business/diversity"]
+  }
+}
