@@ -1,0 +1,168 @@
+<% Current.meta_tags.set(title: "Contacts") %>
+
+<div class="container mx-auto px-4 py-6">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold">Contacts</h1>
+      <p class="text-sm text-gray-500 mt-1"><%= number_with_delimiter(@total_contacts) %> total contacts</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="text-sm text-gray-500">Showing <%= number_with_delimiter(@pagy.count) %> results</span>
+      <%= link_to export_contacts_path(params.permit(:q, :has_email, :has_phone, :source, :qualification, :sort, :direction).to_h),
+          class: "inline-flex items-center gap-1.5 bg-green-600 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-green-700" do %>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+        </svg>
+        Export CSV
+      <% end %>
+    </div>
+  </div>
+
+  <%= form_with url: contacts_path, method: :get, data: {turbo_frame: "_top"} do |f| %>
+    <%= hidden_field_tag :sort, params[:sort] if params[:sort].present? %>
+    <%= hidden_field_tag :direction, params[:direction] if params[:direction].present? %>
+
+    <div class="bg-white border border-gray-200 rounded-lg p-4 mb-6 shadow-sm">
+      <div class="flex flex-wrap gap-3 items-end">
+        <div class="flex-1 min-w-48">
+          <%= f.label :q, "Search", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.search_field :q, value: params[:q], placeholder: "Name, title, or email…",
+              class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+
+        <div>
+          <%= f.label :qualification, "Qualified?", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.select :qualification,
+              [["Any", ""], ["Yes", "Yes"], ["Review", "Review"], ["No", "No"], ["Uncertain", "Uncertain"]],
+              {selected: params[:qualification]},
+              class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+
+        <div>
+          <%= f.label :source, "Source", class: "block text-xs font-medium text-gray-700 mb-1" %>
+          <%= f.select :source,
+              [["All sources", ""], ["MeetLeo", "meetleo"], ["Apollo", "apollo"], ["PDL", "pdl"]],
+              {selected: params[:source]},
+              class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+
+        <div class="flex items-center gap-4 pb-0.5">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <%= f.check_box :has_email, checked: params[:has_email] == "1",
+                class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
+            <span class="text-sm font-medium text-gray-700">Has email</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <%= f.check_box :has_phone, checked: params[:has_phone] == "1",
+                class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
+            <span class="text-sm font-medium text-gray-700">Has phone</span>
+          </label>
+        </div>
+
+        <div class="flex gap-2">
+          <%= f.submit "Filter", class: "bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700 cursor-pointer" %>
+          <%= link_to "Clear", contacts_path, class: "bg-gray-100 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-200" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+    <% if @contacts.any? %>
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Name", "last_name", contacts_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Title", "title", contacts_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Contact Info</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Company</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Airports</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Qualified</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Source", "source", contacts_path, params) %>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% @contacts.each do |contact| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-4 py-3">
+                <div class="font-medium text-gray-900"><%= contact.full_name %></div>
+              </td>
+              <td class="px-4 py-3 text-gray-600 text-xs max-w-[200px]">
+                <div class="truncate" title="<%= contact.title %>"><%= contact.title %></div>
+              </td>
+              <td class="px-4 py-3 text-xs">
+                <% if contact.email.present? %>
+                  <div><a href="mailto:<%= contact.email %>" class="text-blue-600 hover:underline break-all"><%= contact.email %></a></div>
+                <% end %>
+                <% if contact.phone.present? %>
+                  <div><a href="tel:<%= contact.phone.gsub(/\D/, '') %>" class="text-blue-600 hover:underline font-mono whitespace-nowrap"><%= contact.phone %></a></div>
+                <% end %>
+                <% if contact.linkedin_url.present? %>
+                  <div><a href="<%= contact.linkedin_url %>" target="_blank" rel="noopener" class="text-blue-600 hover:underline text-xs">LinkedIn ↗</a></div>
+                <% end %>
+                <% unless contact.email.present? || contact.phone.present? || contact.linkedin_url.present? %>
+                  <span class="text-gray-300">—</span>
+                <% end %>
+              </td>
+              <td class="px-4 py-3">
+                <% if contact.company %>
+                  <%= link_to contact.company.canonical_name, company_path(contact.company),
+                      class: "text-blue-600 hover:text-blue-800 font-medium text-xs" %>
+                  <% if contact.company.phone.present? %>
+                    <div class="mt-0.5">
+                      <a href="tel:<%= contact.company.phone.gsub(/\D/, '') %>" class="text-gray-500 hover:underline font-mono text-xs whitespace-nowrap"><%= contact.company.phone %></a>
+                    </div>
+                  <% end %>
+                <% end %>
+              </td>
+              <td class="px-4 py-3 text-xs">
+                <div class="flex flex-wrap gap-1">
+                  <% contact.company&.airports&.each do |airport| %>
+                    <%= link_to airport.faa_code, airport_path(airport),
+                        class: "font-mono text-blue-600 hover:underline" %>
+                  <% end %>
+                </div>
+              </td>
+              <td class="px-4 py-3">
+                <%= render "companies/qualification_badge", status: contact.company&.qualification_status %>
+              </td>
+              <td class="px-4 py-3">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
+                  <%= contact.source == 'meetleo' ? 'bg-blue-100 text-blue-700' :
+                      contact.source == 'apollo' ? 'bg-purple-100 text-purple-700' :
+                      contact.source == 'pdl' ? 'bg-teal-100 text-teal-700' :
+                      'bg-gray-100 text-gray-600' %>">
+                  <%= contact.source&.upcase || '—' %>
+                </span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <% if @pagy.last > 1 %>
+        <div class="px-4 py-3 border-t border-gray-200 flex items-center justify-between">
+          <div class="text-sm text-gray-500">
+            Page <%= @pagy.page %> of <%= @pagy.pages %> &middot; <%= number_with_delimiter(@pagy.count) %> results
+          </div>
+          <div class="flex gap-1">
+            <%== @pagy.series_nav %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="px-6 py-12 text-center text-gray-500">
+        <p class="text-lg font-medium mb-2">No contacts found</p>
+        <p class="text-sm">Try adjusting your search or filter criteria.</p>
+        <%= link_to "Clear filters", contacts_path, class: "mt-2 inline-block text-blue-600 hover:underline text-sm" %>
+      </div>
+    <% end %>
+  </div>
+</div>

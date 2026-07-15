@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   resources :companies, only: [:index, :show] do
     collection { get :export }
   end
+  resources :contacts, only: [:index] do
+    collection { get :export }
+  end
   resources :activity_logs, only: [:index]
 
   # Public marketing homepage
