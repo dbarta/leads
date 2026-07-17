@@ -213,15 +213,46 @@ def infer_naics_from_name(company_name: str) -> list[str]:
 # ---------------------------------------------------------------------------
 # SAM.gov Entity API
 # ---------------------------------------------------------------------------
+SAM_NAME_THRESHOLD = 0.85  # minimum name similarity to accept a SAM.gov result
+
+
+def _sam_name_similarity(a: str, b: str) -> float:
+    from difflib import SequenceMatcher
+    return SequenceMatcher(None, a.lower().strip(), b.lower().strip()).ratio()
+
+
+def _sam_best_entity(entities: list[dict], our_name: str) -> dict | None:
+    """Pick the SAM entity whose legalBusinessName best matches our name, at >= threshold."""
+    best, best_sim = None, 0.0
+    for entity in entities:
+        reg = (entity.get("entityRegistration") or {})
+        sam_name = (reg.get("legalBusinessName") or "").strip()
+        if not sam_name:
+            continue
+        # Case-insensitive exact match wins immediately
+        if sam_name.upper() == our_name.upper():
+            return entity
+        sim = _sam_name_similarity(our_name, sam_name)
+        if sim > best_sim:
+            best, best_sim = entity, sim
+    if best and best_sim >= SAM_NAME_THRESHOLD:
+        return best
+    if best:
+        sam_name = (best.get("entityRegistration") or {}).get("legalBusinessName", "")
+        print(f"    SAM.gov: best match '{sam_name}' (sim={best_sim:.2f}) below threshold — skipping")
+    return None
+
+
 def _sam_search(name: str, session: requests.Session) -> dict | None:
-    """Search SAM.gov for a legal business name. Returns first matching entity or None."""
+    """Search SAM.gov using keyword search. Returns best-matching active entity or None."""
     if not SAM_GOV_API_KEY:
         return None
     params = {
         "api_key": SAM_GOV_API_KEY,
-        "legalBusinessName": name,
+        "q": name,
         "includeSections": "entityRegistration,coreData,assertions",
-        "registrationStatus": "A",  # Active
+        "registrationStatus": "A",
+        "limit": 10,
     }
     try:
         r = session.get(SAM_BASE, params=params, timeout=REQUEST_TIMEOUT)
@@ -231,33 +262,30 @@ def _sam_search(name: str, session: requests.Session) -> dict | None:
             r = session.get(SAM_BASE, params=params, timeout=REQUEST_TIMEOUT)
         if r.status_code != 200:
             return None
-        data = r.json()
-        entities = data.get("entityData", [])
-        if not entities:
-            return None
-        return entities[0]
+        entities = r.json().get("entityData", [])
+        return _sam_best_entity(entities, name)
     except Exception as e:
         print(f"    SAM.gov error: {e}")
         return None
 
 
 def _sam_search_inactive(name: str, session: requests.Session) -> dict | None:
-    """Try SAM.gov search including inactive/expired registrations."""
+    """Search SAM.gov for expired/inactive registrations."""
     if not SAM_GOV_API_KEY:
         return None
     params = {
         "api_key": SAM_GOV_API_KEY,
-        "legalBusinessName": name,
+        "q": name,
         "includeSections": "entityRegistration,coreData,assertions",
-        "registrationStatus": "E",  # Expired
+        "registrationStatus": "E",
+        "limit": 10,
     }
     try:
         r = session.get(SAM_BASE, params=params, timeout=REQUEST_TIMEOUT)
         if r.status_code != 200:
             return None
-        data = r.json()
-        entities = data.get("entityData", [])
-        return entities[0] if entities else None
+        entities = r.json().get("entityData", [])
+        return _sam_best_entity(entities, name)
     except Exception:
         return None
 

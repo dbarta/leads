@@ -97,25 +97,6 @@
             </div>
           <% end %>
 
-          <% if @company.sam_cage_code.present? %>
-            <div>
-              <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">SAM CAGE Code</dt>
-              <dd class="mt-0.5 font-mono font-medium"><%= @company.sam_cage_code %></dd>
-            </div>
-          <% end %>
-
-          <% if @company.sam_registration_status.present? %>
-            <div>
-              <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">SAM Status</dt>
-              <dd class="mt-0.5">
-                <% sam_css = @company.sam_registration_status == "Active" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-600" %>
-                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium <%= sam_css %>">
-                  <%= @company.sam_registration_status %>
-                </span>
-              </dd>
-            </div>
-          <% end %>
-
           <% if @company.notes.present? %>
             <div class="col-span-2">
               <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Notes</dt>
@@ -124,6 +105,85 @@
           <% end %>
         </div>
       </div>
+
+      <%# Government Registration %>
+      <% has_gov_info = @company.sam_cage_code.present? || @company.sam_registration_status.present? || @company.physical_address_line1.present? %>
+      <% if has_gov_info %>
+        <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+          <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
+            <h2 class="font-semibold text-gray-800">Government Registration <span class="text-gray-400 font-normal text-xs ml-1">SAM.gov</span></h2>
+            <% if @company.sam_registration_status.present? %>
+              <% if @company.sam_registration_status == "A" %>
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Active</span>
+              <% else %>
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">Expired</span>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="px-5 py-4 grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
+
+            <% if @company.sam_cage_code.present? %>
+              <div>
+                <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">CAGE Code</dt>
+                <dd class="mt-0.5 font-mono font-medium"><%= @company.sam_cage_code %></dd>
+              </div>
+            <% end %>
+
+            <% if @company.entity_start_date.present? %>
+              <div>
+                <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Registered Since</dt>
+                <dd class="mt-0.5"><%= @company.entity_start_date.strftime("%B %-d, %Y") %></dd>
+              </div>
+            <% end %>
+
+            <% if @company.entity_structure.present? %>
+              <div>
+                <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Entity Type</dt>
+                <dd class="mt-0.5"><%= sam_entity_structure_label(@company.entity_structure) %></dd>
+              </div>
+            <% end %>
+
+            <% if @company.state_of_incorporation.present? %>
+              <div>
+                <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Incorporated In</dt>
+                <dd class="mt-0.5"><%= @company.state_of_incorporation %></dd>
+              </div>
+            <% end %>
+
+            <% if @company.physical_address_line1.present? %>
+              <div class="col-span-2">
+                <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide">Registered Address</dt>
+                <dd class="mt-0.5">
+                  <%= @company.physical_address_line1 %>
+                  <% if @company.physical_address_line2.present? %>
+                    <br><%= @company.physical_address_line2 %>
+                  <% end %>
+                  <br>
+                  <%= [@company.physical_address_city, @company.physical_address_state, @company.physical_address_zip].compact.reject(&:empty?).join(", ") %>
+                  <% if @company.physical_address_country.present? && @company.physical_address_country != "USA" %>
+                    &nbsp;<%= @company.physical_address_country %>
+                  <% end %>
+                </dd>
+              </div>
+            <% end %>
+
+            <% badges = sam_business_type_badges(@company.sam_business_types) %>
+            <% if badges.any? %>
+              <div class="col-span-2">
+                <dt class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-1">Business Designations</dt>
+                <dd class="flex flex-wrap gap-1">
+                  <% badges.each do |label| %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                      <%= label %>
+                    </span>
+                  <% end %>
+                </dd>
+              </div>
+            <% end %>
+
+          </div>
+        </div>
+      <% end %>
 
       <%# Contacts %>
       <div class="bg-white border border-gray-200 rounded-lg shadow-sm">

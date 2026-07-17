@@ -26,6 +26,7 @@
 
     <div class="bg-white border border-gray-200 rounded-lg p-4 mb-6 shadow-sm">
       <div class="flex flex-wrap gap-3 items-end">
+
         <div class="flex-1 min-w-48">
           <%= f.label :q, "Search", class: "block text-xs font-medium text-gray-700 mb-1" %>
           <%= f.search_field :q, value: params[:q], placeholder: "Company name…",
@@ -40,54 +41,48 @@
               class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
         </div>
 
-        <div>
-          <%= f.label :qualification_status, "Qualified?", class: "block text-xs font-medium text-gray-700 mb-1" %>
-          <%= f.select :qualification_status,
-              [["Any", ""], ["Yes", "Yes"], ["Review", "Review"], ["No", "No"], ["Uncertain", "Uncertain"]],
-              {selected: params[:qualification_status]},
-              class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
-        </div>
-
-        <div class="flex items-center gap-2 pb-0.5 border-l border-gray-200 pl-3">
-          <%= f.check_box :hide_airlines, checked: params[:hide_airlines] == "1",
-              class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
-          <div>
-            <%= f.label :hide_airlines, "Hide airlines", class: "text-sm font-medium text-gray-700 block leading-none" %>
-            <span class="text-xs text-gray-400">Service providers only</span>
-          </div>
-        </div>
-
         <div class="border-l border-gray-200 pl-3">
-          <label class="block text-xs font-medium text-gray-700 mb-1">Employees</label>
+          <span class="block text-xs font-medium text-gray-700 mb-1">Employees</span>
           <div class="flex items-center gap-1">
             <%= f.number_field :emp_min, value: params[:emp_min], placeholder: "min",
-                min: 0, class: "w-20 border border-gray-300 rounded px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                min: 0, title: "Minimum employees (numeric only)",
+                class: "w-20 border border-gray-300 rounded px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
             <span class="text-gray-400 text-xs">–</span>
             <%= f.number_field :emp_max, value: params[:emp_max], placeholder: "max",
-                min: 0, class: "w-20 border border-gray-300 rounded px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                min: 0, title: "Maximum employees (numeric only)",
+                class: "w-20 border border-gray-300 rounded px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
           </div>
-          <span class="text-xs text-gray-400">numeric data only</span>
         </div>
 
         <div>
           <%= f.label :naics, "NAICS", class: "block text-xs font-medium text-gray-700 mb-1" %>
-          <%= f.text_field :naics, value: params[:naics], placeholder: "e.g. 488190",
-              class: "w-24 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono" %>
+          <%= f.text_field :naics, value: params[:naics], placeholder: "e.g. 488",
+              class: "w-28 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono" %>
         </div>
 
-        <div class="flex items-center gap-2 pb-0.5">
-          <%= f.check_box :in_sam, checked: params[:in_sam] == "1",
-              class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
-          <div>
-            <%= f.label :in_sam, "In SAM.gov", class: "text-sm font-medium text-gray-700 block leading-none" %>
-            <span class="text-xs text-gray-400">Has CAGE code</span>
-          </div>
+        <div class="border-l border-gray-200 pl-3">
+          <span class="block text-xs font-medium text-gray-700 mb-1">Hide airlines</span>
+          <label class="flex items-center gap-2 py-2 cursor-pointer">
+            <%= f.check_box :hide_airlines, checked: params[:hide_airlines] == "1",
+                class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
+            <span class="text-sm text-gray-600">Service providers only</span>
+          </label>
+        </div>
+
+        <div>
+          <span class="block text-xs font-medium text-gray-700 mb-1">In SAM.gov</span>
+          <label class="flex items-center gap-2 py-2 cursor-pointer">
+            <%= f.check_box :in_sam, checked: params[:in_sam] == "1",
+                class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
+            <span class="text-sm text-gray-600">Has CAGE code</span>
+          </label>
         </div>
 
         <div class="flex gap-2">
           <%= f.submit "Filter", class: "bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700 cursor-pointer" %>
           <%= link_to "Clear", companies_path, class: "bg-gray-100 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-200" %>
         </div>
+
       </div>
     </div>
   <% end %>
@@ -109,9 +104,6 @@
             <th class="text-left px-4 py-3 font-medium text-gray-600">Parent</th>
             <th class="text-left px-4 py-3 font-medium text-gray-600">Phone</th>
             <th class="text-left px-4 py-3 font-medium text-gray-600">Top Contact</th>
-            <th class="text-left px-4 py-3 font-medium text-gray-600">
-              <%= sort_link_for("Qualified", "qualification_status", companies_path, params) %>
-            </th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
@@ -177,9 +169,6 @@
                 <% else %>
                   <span class="text-gray-300">—</span>
                 <% end %>
-              </td>
-              <td class="px-4 py-3">
-                <%= render "qualification_badge", status: company.qualification_status %>
               </td>
             </tr>
           <% end %>

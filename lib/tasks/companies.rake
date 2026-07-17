@@ -151,6 +151,88 @@ namespace :companies do
     puts "Phones import: #{updated} updated"
   end
 
+  desc "Import SAM.gov monthly data: rake companies:import_sam[path/to/sam_enrichment.csv]"
+  task :import_sam, [:file] => :environment do |_, args|
+    file = args[:file] or abort "Usage: rake companies:import_sam[path/to/sam_enrichment.csv]"
+    require "csv"
+
+    updated = skipped = errors_count = 0
+    website_mismatches = []
+
+    CSV.foreach(file, headers: true) do |row|
+      cid = row["company_id"].to_i
+      next unless cid > 0
+
+      company = Company.find_by(id: cid)
+      unless company
+        puts "  WARN: company id=#{cid} not found"
+        errors_count += 1
+        next
+      end
+
+      attrs = {}
+
+      # Always overwrite SAM-sourced fields (authoritative from government registry)
+      attrs[:sam_cage_code]           = row["sam_cage_code"].presence
+      attrs[:sam_registration_status] = row["sam_registration_status"].presence
+      attrs[:entity_structure]        = row["entity_structure"].presence
+      attrs[:state_of_incorporation]  = row["state_of_incorporation"].presence
+      attrs[:sam_business_types]      = row["sam_business_types"].presence
+      attrs[:physical_address_line1]  = row["physical_address_line1"].presence
+      attrs[:physical_address_line2]  = row["physical_address_line2"].presence
+      attrs[:physical_address_city]   = row["physical_address_city"].presence
+      attrs[:physical_address_state]  = row["physical_address_state"].presence
+      attrs[:physical_address_zip]    = row["physical_address_zip"].presence
+      attrs[:physical_address_country]= row["physical_address_country"].presence
+
+      if row["entity_start_date"].present?
+        attrs[:entity_start_date] = Date.parse(row["entity_start_date"]) rescue nil
+      end
+
+      # DBA — fill if blank
+      if row["dba"].present? && company.dba.blank?
+        attrs[:dba] = row["dba"]
+      end
+
+      # NAICS — fill if blank
+      if row["naics_codes"].present? && company.naics_codes.blank?
+        attrs[:naics_codes] = row["naics_codes"]
+      end
+
+      # Website
+      case row["website_action"]
+      when "fill"
+        attrs[:website] = row["sam_website"]
+      when "mismatch"
+        website_mismatches << {
+          id: cid,
+          name: company.canonical_name,
+          db: company.website,
+          sam: row["sam_website"],
+        }
+      end
+
+      attrs.compact!
+      if attrs.any?
+        company.update!(attrs)
+        updated += 1
+      else
+        skipped += 1
+      end
+    end
+
+    puts "SAM import done: #{updated} updated, #{skipped} skipped, #{errors_count} errors"
+
+    if website_mismatches.any?
+      puts "\nWebsite mismatches (DB value kept — verify manually):"
+      website_mismatches.each do |m|
+        puts "  id=#{m[:id]} #{m[:name]}"
+        puts "    DB:  #{m[:db]}"
+        puts "    SAM: #{m[:sam]}"
+      end
+    end
+  end
+
   desc "Export companies to CSV for enrichment script (skip food-only companies)"
   task export_for_enrichment: :environment do
     require "csv"

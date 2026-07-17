@@ -66,7 +66,7 @@ MEETLEO_JOBS_URL    = "https://api.meetleo.com/v1/jobs"
 MEETLEO_BATCH_SIZE  = 20   # jobs submitted in parallel
 MEETLEO_POLL_INTERVAL = 10  # seconds between polls
 MEETLEO_MAX_POLLS   = 36   # 6 minutes max per batch
-MEETLEO_NAME_THRESHOLD = 0.70  # min similarity to accept a name match
+MEETLEO_EXACT_THRESHOLD = 0.90  # min similarity to accept a MeetLeo name match
 
 # Airport FAA code → US state abbreviation
 AIRPORT_STATE = {
@@ -222,13 +222,15 @@ def load_meetleo_checkpoint() -> dict[int, dict]:
     return result
 
 
-def save_meetleo_checkpoint(company_id: int, contacts: list, hq_phone: str) -> None:
+def save_meetleo_checkpoint(company_id: int, contacts: list, hq_phone: str,
+                            status: str = "found") -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     with open(MEETLEO_CHECKPOINT_FILE, "a") as f:
         f.write(json.dumps({
             "company_id": company_id,
             "contacts": contacts,
             "hq_phone": hq_phone,
+            "status": status,
         }) + "\n")
 
 
@@ -272,24 +274,9 @@ def meetleo_headers(session: requests.Session) -> dict:
 # MeetLeo — prospect search (free) + enrich (credits)
 # ---------------------------------------------------------------------------
 
-def meetleo_build_filter(row: dict) -> dict:
-    """
-    Build the filter object for a company.
-    - With website: use websiteUrl (exact domain) — most precise.
-    - Without website: use shortened prospectName only (no state filter — companies are
-      registered in their HQ state, which often differs from the airport's state).
-    MeetLeo's prospectName is a keyword match, so we strip legal suffixes to get
-    the distinctive keyword (e.g. 'Accufleet' not 'Accufleet International Inc').
-    """
-    website = (row.get("website") or "").strip()
-    if website:
-        return {"websiteUrl": domain_from_url(website)}
-    return {"prospectName": meetleo_search_name(row["canonical_name"])}
-
-
-def _meetleo_search(filt: dict, session: requests.Session) -> list[dict]:
-    """Execute one MeetLeo search, return prospect list."""
-    body = {"filters": [filt], "limit": 5, "page": 1}
+def _meetleo_search(filters: list[dict], session: requests.Session) -> list[dict]:
+    """Execute one MeetLeo search with a list of filters, return prospect list."""
+    body = {"filters": filters, "limit": 1, "page": 1}
     try:
         r = session.post(MEETLEO_SEARCH_URL, headers=meetleo_headers(session),
                          json=body, timeout=REQUEST_TIMEOUT)
@@ -304,50 +291,47 @@ def _meetleo_search(filt: dict, session: requests.Session) -> list[dict]:
     return []
 
 
-def meetleo_search_one(row: dict, session: requests.Session) -> tuple[int | None, str, str]:
+def _search_filters_for(row: dict) -> list[dict]:
+    """Build the search filter list for a company row: name + state (from airports)."""
+    filters: list[dict] = [{"prospectName": row["canonical_name"]}]
+    states = states_for_airports(row.get("airport_codes") or "")
+    if states:
+        filters.append({"state": states})
+    return filters
+
+
+def meetleo_search_one(row: dict, session: requests.Session) -> tuple[int | None, str, str, str]:
     """
-    Search MeetLeo for the company (free, no credits).
-    Tries websiteUrl first; falls back to shortened prospectName if domain not indexed.
-    Returns (prospectId, standardCompanyName, hqPhone) or (None, "", "").
+    Search MeetLeo for the company (limit 1). Returns (prospectId, ml_name, hqPhone, status).
+    status is "found" or "not_found".
+    The top result must match our name at >= 0.90 similarity (or case-insensitive exact).
+    If it doesn't, we mark the company as not found rather than accepting a wrong match.
     """
     our_name = row["canonical_name"]
-    website = (row.get("website") or "").strip()
-    prospects = []
-    used_domain = False
-
-    # 1. Try domain match first (most precise)
-    if website:
-        domain = domain_from_url(website)
-        prospects = _meetleo_search({"websiteUrl": domain}, session)
-        if prospects:
-            used_domain = True
-
-    # 2. Fall back to name match
-    if not prospects:
-        short = meetleo_search_name(our_name)
-        prospects = _meetleo_search({"prospectName": short}, session)
+    filters = _search_filters_for(row)
+    prospects = _meetleo_search(filters, session)
 
     if not prospects:
-        return None, "", ""
+        print(f"    MeetLeo: 0 results for '{our_name}' — not_found")
+        return None, "", "", "not_found"
 
-    # Pick the best name match among results
-    best, best_sim = prospects[0], 0.0
-    for p in prospects:
-        s = name_similarity(our_name, p.get("standardCompanyName", ""))
-        if s > best_sim:
-            best, best_sim = p, s
+    p = prospects[0]
+    ml_name = p.get("standardCompanyName", "")
 
-    # Domain matches bypass the threshold (domain is authoritative); name matches need 0.70+
-    if not used_domain and best_sim < MEETLEO_NAME_THRESHOLD:
-        return None, "", ""
+    # Case-insensitive exact match first; fall back to high-similarity
+    sim = name_similarity(our_name, ml_name)
+    if ml_name.upper() != our_name.upper() and sim < MEETLEO_EXACT_THRESHOLD:
+        print(f"    MeetLeo: top result '{ml_name}' (sim={sim:.2f}) != '{our_name}' — not_found")
+        return None, "", "", "not_found"
 
-    hq = (best.get("hqPhone") or "").strip()
-    return best["prospectId"], best.get("standardCompanyName", ""), hq
+    hq = (p.get("hqPhone") or "").strip()
+    print(f"    MeetLeo: matched '{ml_name}' (sim={sim:.2f})")
+    return p["prospectId"], ml_name, hq, "found"
 
 
-def meetleo_submit_enrich(filt: dict, session: requests.Session) -> str | None:
-    """Submit an async enrich job. Returns taskId or None."""
-    body = {"filters": [filt], "maxProspects": 1}
+def meetleo_submit_enrich(filters: list[dict], session: requests.Session) -> str | None:
+    """Submit an async enrich job with the given filter list. Returns taskId or None."""
+    body = {"filters": filters, "maxProspects": 1}
     try:
         r = session.post(MEETLEO_ENRICH_URL, headers=meetleo_headers(session),
                          json=body, timeout=REQUEST_TIMEOUT)
@@ -368,10 +352,10 @@ def meetleo_submit_enrich(filt: dict, session: requests.Session) -> str | None:
         return None
 
 
-def meetleo_poll_job(task_id: str, session: requests.Session) -> list[dict] | None:
+def meetleo_poll_job(task_id: str, session: requests.Session) -> tuple[str, list[dict]] | None:
     """
-    Poll one job. Returns list of enriched prospect dicts when complete,
-    [] on no_email/failed, None if still pending/processing.
+    Poll one job. Returns (ml_status, prospects) when terminal, None if still running.
+    ml_status: "completed", "no_email", or "failed".
     """
     try:
         r = session.get(f"{MEETLEO_JOBS_URL}/{task_id}",
@@ -380,10 +364,8 @@ def meetleo_poll_job(task_id: str, session: requests.Session) -> list[dict] | No
             return None
         data = r.json().get("data", {})
         status = data.get("status")
-        if status == "completed":
-            return data.get("prospects", [])
-        if status == "failed":
-            return []
+        if status in ("completed", "no_email", "failed"):
+            return status, data.get("prospects", [])
         return None  # still pending/processing
     except Exception:
         return None
@@ -398,19 +380,28 @@ def _format_phone(raw: str) -> str:
     return raw.strip()
 
 
-def parse_meetleo_contacts(prospects: list[dict], our_name: str) -> list[dict]:
+def parse_meetleo_contacts(prospects: list[dict], our_name: str) -> tuple[list[dict], str]:
     """
-    From a completed enrich job's prospect list, extract the top GL-relevant contacts.
-    Returns at most 2 contacts (best-priority title first).
+    From an enrich job's prospect list, extract GL-relevant contacts for our company.
+    Returns (contacts, status) where status is "found", "no_contacts", or "wrong_company".
+    Verifies each prospect's name matches our company before accepting contacts.
     """
     contacts = []
+    matched_prospect = False
+
     for prospect in prospects:
+        ml_name = prospect.get("standardCompanyName") or prospect.get("prospectName") or ""
+        sim = name_similarity(our_name, ml_name) if ml_name else 0.0
+
+        if ml_name.upper() != our_name.upper() and sim < MEETLEO_EXACT_THRESHOLD:
+            print(f"    MeetLeo enrich: skipping prospect '{ml_name}' (sim={sim:.2f}) — wrong company")
+            continue
+
+        matched_prospect = True
+
         if prospect.get("enrichmentStatus") != "enriched":
             continue
-        # Verify name still matches (enrich can sometimes drift)
-        ml_name = prospect.get("standardCompanyName") or prospect.get("prospectName") or ""
-        if ml_name and name_similarity(our_name, ml_name) < MEETLEO_NAME_THRESHOLD:
-            continue
+
         for c in (prospect.get("contacts") or []):
             if c.get("enrichmentStatus") not in ("enriched", None):
                 continue
@@ -419,26 +410,26 @@ def parse_meetleo_contacts(prospects: list[dict], our_name: str) -> list[dict]:
             full  = f"{first} {last}".strip()
             if not full:
                 continue
-            email = (c.get("email") or "").strip()
-            phone = _format_phone(c.get("phone") or "")
-            title = (c.get("jobTitle") or "").strip()
             contacts.append({
                 "full_name":    full,
                 "first_name":   first,
                 "last_name":    last,
-                "title":        title,
-                "email":        email,
-                "phone":        phone,
+                "title":        (c.get("jobTitle") or "").strip(),
+                "email":        (c.get("email") or "").strip(),
+                "phone":        _format_phone(c.get("phone") or ""),
                 "linkedin_url": "",
                 "source":       "meetleo",
-                "_priority":    title_priority(title),
+                "_priority":    title_priority(c.get("jobTitle") or ""),
             })
 
-    # Sort by GL title priority, keep top 2
+    if not matched_prospect:
+        return [], "wrong_company"
+
     contacts.sort(key=lambda c: c["_priority"])
     for c in contacts:
         c.pop("_priority", None)
-    return contacts[:2]
+
+    return contacts[:2], ("found" if contacts else "no_contacts")
 
 
 # ---------------------------------------------------------------------------
@@ -449,24 +440,22 @@ def run_meetleo_batch(rows: list[dict], session: requests.Session,
                       ml_checkpoint: dict[int, dict]) -> dict[int, dict]:
     """
     Process a batch of companies through MeetLeo search + enrich.
-    Returns {company_id: {contacts, hq_phone}} for newly processed companies.
+    Returns {company_id: {contacts, hq_phone, status}} for newly processed companies.
     """
     results: dict[int, dict] = {}
 
-    # Step 1: Free search to get prospectId + hqPhone
-    pending_enrich: list[tuple[dict, dict, str]] = []  # (row, enrich_filter, hq_phone)
+    # Step 1: Free search — limit 1, must match our company name exactly
+    pending_enrich: list[tuple[dict, list[dict], str]] = []  # (row, filters, hq_phone)
     for row in rows:
         cid = int(row["id"])
-        prospect_id, ml_name, hq_phone = meetleo_search_one(row, session)
+        prospect_id, ml_name, hq_phone, search_status = meetleo_search_one(row, session)
         if not prospect_id:
-            save_meetleo_checkpoint(cid, [], hq_phone)
-            results[cid] = {"contacts": [], "hq_phone": hq_phone}
+            save_meetleo_checkpoint(cid, [], "", "not_found")
+            results[cid] = {"contacts": [], "hq_phone": "", "status": "not_found"}
             continue
-        # Build enrich filter: prefer domain for precision, else use the same name search
-        website = (row.get("website") or "").strip()
-        enrich_filt = ({"websiteUrl": domain_from_url(website)} if website
-                       else {"prospectName": meetleo_search_name(row["canonical_name"])})
-        pending_enrich.append((row, enrich_filt, hq_phone))
+        # Use the same filters for enrich as we used for search
+        enrich_filters = _search_filters_for(row)
+        pending_enrich.append((row, enrich_filters, hq_phone))
         time.sleep(0.3)
 
     if not pending_enrich:
@@ -474,16 +463,16 @@ def run_meetleo_batch(rows: list[dict], session: requests.Session,
 
     # Step 2: Submit enrich jobs
     jobs: list[tuple[dict, str, str]] = []  # (row, task_id, hq_phone)
-    for row, filt, hq_phone in pending_enrich:
-        task_id = meetleo_submit_enrich(filt, session)
+    for row, filters, hq_phone in pending_enrich:
+        task_id = meetleo_submit_enrich(filters, session)
         if task_id == "__NO_CREDITS__":
             return results  # abort remaining
         if task_id:
             jobs.append((row, task_id, hq_phone))
         else:
             cid = int(row["id"])
-            save_meetleo_checkpoint(cid, [], hq_phone)
-            results[cid] = {"contacts": [], "hq_phone": hq_phone}
+            save_meetleo_checkpoint(cid, [], hq_phone, "no_contacts")
+            results[cid] = {"contacts": [], "hq_phone": hq_phone, "status": "no_contacts"}
         time.sleep(0.5)
 
     if not jobs:
@@ -496,26 +485,36 @@ def run_meetleo_batch(rows: list[dict], session: requests.Session,
         time.sleep(MEETLEO_POLL_INTERVAL)
         still_running = []
         for row, task_id, hq_phone in remaining:
-            prospects = meetleo_poll_job(task_id, session)
-            if prospects is None:
+            result = meetleo_poll_job(task_id, session)
+            if result is None:
                 still_running.append((row, task_id, hq_phone))
                 continue
+            ml_status, prospects = result
             cid = int(row["id"])
-            contacts = parse_meetleo_contacts(prospects, row["canonical_name"])
-            save_meetleo_checkpoint(cid, contacts, hq_phone)
-            results[cid] = {"contacts": contacts, "hq_phone": hq_phone}
+            if ml_status == "no_email":
+                contacts, status = [], "no_contacts"
+            elif ml_status == "failed":
+                contacts, status = [], "no_contacts"
+            else:
+                contacts, status = parse_meetleo_contacts(prospects, row["canonical_name"])
+            if contacts:
+                for c in contacts:
+                    print(f"      {c['title'] or '(no title)'}: {c['full_name']} "
+                          f"{'✉ ' + c['email'] if c['email'] else ''}")
+            save_meetleo_checkpoint(cid, contacts, hq_phone, status)
+            results[cid] = {"contacts": contacts, "hq_phone": hq_phone, "status": status}
         remaining = still_running
         print(".", end="", flush=True)
         if not remaining:
             break
     print()
 
-    # Anything still pending after timeout → save empty
+    # Anything still pending after timeout → save as no_contacts
     for row, task_id, hq_phone in remaining:
         cid = int(row["id"])
         print(f"    MeetLeo job timed out for {row['canonical_name']}")
-        save_meetleo_checkpoint(cid, [], hq_phone)
-        results[cid] = {"contacts": [], "hq_phone": hq_phone}
+        save_meetleo_checkpoint(cid, [], hq_phone, "no_contacts")
+        results[cid] = {"contacts": [], "hq_phone": hq_phone, "status": "no_contacts"}
 
     return results
 
@@ -880,7 +879,8 @@ def main() -> None:
             print("  MeetLeo: could not obtain token — skipping")
             use_meetleo = False
         else:
-            ml_found = ml_enriched = 0
+            status_counts: dict[str, int] = {"found": 0, "no_contacts": 0,
+                                              "not_found": 0, "wrong_company": 0}
             for batch_start in range(0, len(ml_pending), MEETLEO_BATCH_SIZE):
                 batch = ml_pending[batch_start: batch_start + MEETLEO_BATCH_SIZE]
                 batch_end = min(batch_start + MEETLEO_BATCH_SIZE, len(ml_pending))
@@ -888,15 +888,13 @@ def main() -> None:
                 batch_results = run_meetleo_batch(batch, session, ml_checkpoint)
                 for cid, res in batch_results.items():
                     ml_checkpoint[cid] = res
-                    if res["contacts"] or res["hq_phone"]:
-                        ml_found += 1
-                    if res["contacts"]:
-                        ml_enriched += 1
-                        for c in res["contacts"]:
-                            print(f"    {batch[0]['canonical_name'] if len(batch)==1 else ''} "
-                                  f"{c['title'] or '(no title)'}: {c['full_name']} "
-                                  f"{'✉ ' + c['email'] if c['email'] else ''}")
-            print(f"  MeetLeo done: {ml_found} companies found, {ml_enriched} with contacts\n")
+                    s = res.get("status", "not_found")
+                    status_counts[s] = status_counts.get(s, 0) + 1
+            print(f"  MeetLeo done: "
+                  f"{status_counts['found']} with contacts, "
+                  f"{status_counts['no_contacts']} no contacts, "
+                  f"{status_counts['not_found']} not found in MeetLeo, "
+                  f"{status_counts.get('wrong_company', 0)} wrong company returned\n")
 
     # Write HQ phones CSV (companies where MeetLeo returned an hqPhone)
     hq_rows = [
