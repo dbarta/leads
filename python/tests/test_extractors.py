@@ -127,6 +127,43 @@ class TestBanksAndFinancial:
         assert should_reject("Covenant Capital, LLC")
 
 
+class TestDFWBadgeAndMedical:
+    """DFW badge-office and retiree-guide junk that was scraped as companies."""
+
+    def test_badge_number(self):
+        assert should_reject("Badge Number")
+
+    def test_urgent_care(self):
+        assert should_reject("Urgent Care")
+
+    def test_emergency_care(self):
+        assert should_reject("Emergency Care")
+
+    def test_non_emergency_care(self):
+        assert should_reject("Non-Emergency Care")
+
+    def test_hospital_er(self):
+        assert should_reject("Hospital ER")
+
+    def test_freestanding_er(self):
+        assert should_reject("Freestanding ER")
+
+    def test_retail_clinic(self):
+        assert should_reject("Retail Clinic")
+
+    def test_doctors_office(self):
+        assert should_reject("Doctor's Office")
+
+    def test_virtual_visits(self):
+        assert should_reject("Virtual Visits/ Telemedicine")
+
+    def test_appointments_walk_ins(self):
+        assert should_reject("Appointments, Walk-Ins")
+
+    def test_new_company_chrc(self):
+        assert should_reject("New Company, Authorized Signatory, CHRC")
+
+
 class TestLegacyOriginalFilters:
     """Patterns the extractor already handled before our changes."""
 

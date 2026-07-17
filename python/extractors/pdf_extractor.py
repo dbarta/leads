@@ -55,7 +55,15 @@ NOT_A_COMPANY = re.compile(
     r"\bsba[\-\s]small\s+business\b|"
     r"^(dfw\s+)?wbc\s+(lift\s+)?fund\b|^(ascension|covenant)\s+(business\s+)?capital\b|"
     # Level/floor indicators
-    r"^\w+\s+level\s*$|^fis\s+level\b",
+    r"^\w+\s+level\s*$|^fis\s+level\b|"
+    # Medical/healthcare care categories (DFW retiree guide)
+    r"^(non-emergency|emergency|urgent|freestanding|retail|virtual)\s+(care|clinic|er|visits?)\b|"
+    r"^doctor'?s?\s+office\b|^hospital\s+er\b|^telemedicine\b|"
+    # Badge/access management form labels (DFW badge office page)
+    r"^badge\s+(number|renewal|card|lost|stolen|replace|application)\b|"
+    # Service-type lists and form section headers (not company names)
+    r"^appointments?[,/\s]+(walk.?ins?|renewed|expired|replacement)\b|"
+    r"^new\s+company[,\s].*(signatory|chrc|authorized)\b",
     re.IGNORECASE,
 )
 
