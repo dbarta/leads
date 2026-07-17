@@ -25,6 +25,7 @@ class Company < ApplicationRecord
   }
   scope :by_qualification, ->(status) { where(qualification_status: status) if status.present? }
   scope :hide_airlines, -> { where(is_airline: false) }
+  scope :non_concession, -> { where(is_concession: false) }
   scope :search_text, ->(q) {
     where("canonical_name ILIKE :q OR dba ILIKE :q", q: "%#{sanitize_sql_like(q)}%") if q.present?
   }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_17_125652) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_17_213504) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -199,6 +199,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_125652) do
     t.date "entity_start_date"
     t.string "entity_structure"
     t.boolean "is_airline", default: false, null: false
+    t.boolean "is_concession", default: false, null: false
     t.string "naics_codes"
     t.string "normalized_name", null: false
     t.text "notes"
