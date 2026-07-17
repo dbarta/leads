@@ -48,10 +48,11 @@ NOT_A_COMPANY = re.compile(
     r"^(domestic|international)\s+(baggage|terminal|arrivals|departures)\b|"
     # ACDBE/procurement form field labels
     r"^acdbe\b|^annual\s+(gross|subcontractor)|^solicitation\s+(name|number)\b|"
-    r"^(bidder|proposer)\s+(address|annual|name)\b|^contract\s+n[oº°]\b|"
+    r"^(bidder|proposer)[/\s]+(proposer\s+)?(address|annual|name)\b|^contract\s+n[oº°]\b|"
     r"^(project|contract)\s+(name|number)\b|^precent\s+acdbe\b|"
     # Financial institutions / banks (not airport service providers)
-    r"\bbank\b.*\b(fort|irving|chase|amegy|regions)\b|\bsba[\-\s]small\s+business\b|"
+    r"\b(amegy|regions|simmons)\b.*\bbank\b|\bbank\b.*\b(fort|irving|chase|amegy|regions)\b|"
+    r"\bsba[\-\s]small\s+business\b|"
     r"^(dfw\s+)?wbc\s+(lift\s+)?fund\b|^(ascension|covenant)\s+(business\s+)?capital\b|"
     # Level/floor indicators
     r"^\w+\s+level\s*$|^fis\s+level\b",
