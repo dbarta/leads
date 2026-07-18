@@ -8,7 +8,7 @@
     </div>
     <div class="flex items-center gap-3">
       <span class="text-sm text-gray-500">Showing <%= number_with_delimiter(@pagy.count) %> results</span>
-      <%= link_to export_contacts_path(params.permit(:q, :has_email, :has_phone, :source, :qualification, :sort, :direction).to_h),
+      <%= link_to export_contacts_path(params.permit(:q, :has_email, :has_phone, :source, :qualification, :emp_min, :emp_max, :hide_airlines_banks, :sort, :direction).to_h),
           class: "inline-flex items-center gap-1.5 bg-green-600 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-green-700" do %>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -47,6 +47,17 @@
               class: "border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
         </div>
 
+        <div class="border-l border-gray-200 pl-3">
+          <span class="block text-xs font-medium text-gray-700 mb-1">Employees</span>
+          <div class="flex items-center gap-1">
+            <%= f.number_field :emp_min, value: params[:emp_min], placeholder: "min",
+                min: 0, class: "w-20 border border-gray-300 rounded px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+            <span class="text-gray-400 text-xs">–</span>
+            <%= f.number_field :emp_max, value: params[:emp_max], placeholder: "max",
+                min: 0, class: "w-20 border border-gray-300 rounded px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+          </div>
+        </div>
+
         <div class="flex items-center gap-4 pb-0.5">
           <label class="flex items-center gap-2 cursor-pointer">
             <%= f.check_box :has_email, checked: params[:has_email] == "1",
@@ -57,6 +68,11 @@
             <%= f.check_box :has_phone, checked: params[:has_phone] == "1",
                 class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
             <span class="text-sm font-medium text-gray-700">Has phone</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <%= f.check_box :hide_airlines_banks, checked: params[:hide_airlines_banks] == "1",
+                class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
+            <span class="text-sm font-medium text-gray-700">Hide airlines & banks</span>
           </label>
         </div>
 
@@ -80,9 +96,18 @@
               <%= sort_link_for("Title", "title", contacts_path, params) %>
             </th>
             <th class="text-left px-4 py-3 font-medium text-gray-600">Contact Info</th>
-            <th class="text-left px-4 py-3 font-medium text-gray-600">Company</th>
-            <th class="text-left px-4 py-3 font-medium text-gray-600">Airports</th>
-            <th class="text-left px-4 py-3 font-medium text-gray-600">Qualified</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Company", "company_name", contacts_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Airports", "airports", contacts_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Industry (NAICS)", "naics", contacts_path, params) %>
+            </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">
+              <%= sort_link_for("Employees", "employee_max", contacts_path, params) %>
+            </th>
             <th class="text-left px-4 py-3 font-medium text-gray-600">
               <%= sort_link_for("Source", "source", contacts_path, params) %>
             </th>
@@ -130,8 +155,18 @@
                   <% end %>
                 </div>
               </td>
-              <td class="px-4 py-3">
-                <%= render "companies/qualification_badge", status: contact.company&.qualification_status %>
+              <td class="px-4 py-3 text-xs text-gray-600">
+                <%= contact.company&.primary_naics_description || "—" %>
+              </td>
+              <td class="px-4 py-3 text-xs text-gray-600 whitespace-nowrap">
+                <% co = contact.company %>
+                <% if co&.employee_min || co&.employee_max %>
+                  <%= [co.employee_min, co.employee_max].compact.map { |n| number_with_delimiter(n) }.join("–") %>
+                <% elsif co&.employee_estimate_text.present? %>
+                  <%= co.employee_estimate_text %>
+                <% else %>
+                  <span class="text-gray-300">—</span>
+                <% end %>
               </td>
               <td class="px-4 py-3">
                 <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium

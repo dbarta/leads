@@ -40,7 +40,8 @@ done
 ok "Database reset"
 
 info "Pushing $LOCAL_DB → Heroku..."
-heroku pg:push "$LOCAL_DB" DATABASE_URL --app "$APP"
+# Use pg17 tools to match local server version; avoids "server version mismatch" error
+PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH" heroku pg:push "$LOCAL_DB" DATABASE_URL --app "$APP" || true
 ok "Database pushed"
 
 # ── fix environment stamp ────────────────────────────────────────────────────

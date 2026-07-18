@@ -60,14 +60,18 @@ def strip_domain(url: str) -> str:
     return u
 
 
-def load_contacts(limit: int = None, source: str = None) -> list[dict]:
+def load_contacts(limit: int = None, source: str = None, skip_disqualified: bool = False) -> list[dict]:
     """Pull enrichable contacts from DB (no email AND no phone)."""
     source_filter = f'.where(source: {json.dumps(source)})' if source else ''
+    qual_filter   = ".joins(:company).where.not(companies: {qualification_status: 'No'})" if skip_disqualified else ''
+    # Order Yes → Review → other → No so most valuable contacts are enriched first
+    order_clause  = "CASE companies.qualification_status WHEN 'Yes' THEN 1 WHEN 'Review' THEN 2 ELSE 3 END, contacts.id"
     code = f"""
 contacts = Contact.includes(:company)
   .where(email: [nil, ''])
-  .where(phone: [nil, '']){source_filter}
-  .order(:id)
+  .where(phone: [nil, '']){source_filter}{qual_filter}
+  .joins(:company)
+  .order(Arel.sql("{order_clause}"))
 
 contacts.each do |c|
   website = c.company&.website.to_s
@@ -202,6 +206,8 @@ def main():
                         help="Cap total contacts processed (full run)")
     parser.add_argument("--source", default=None,
                         help="Filter by source: sam_gov | pdl | meetleo")
+    parser.add_argument("--skip-disqualified", dest="skip_disqualified", action="store_true",
+                        help="Skip contacts at companies with qualification_status=No (airlines etc)")
     args = parser.parse_args()
 
     dry_run = args.sample > 0
@@ -212,7 +218,7 @@ def main():
 
     source_label = f" (source={args.source})" if args.source else ""
     print(f"Loading contacts from DB{source_label} ...")
-    contacts = load_contacts(limit=limit, source=args.source)
+    contacts = load_contacts(limit=limit, source=args.source, skip_disqualified=args.skip_disqualified)
     print(f"  {len(contacts)} enrichable contacts "
           f"({sum(1 for c in contacts if c['linkedin_url'])} with LinkedIn, "
           f"{sum(1 for c in contacts if not c['linkedin_url'])} name+domain only)")
