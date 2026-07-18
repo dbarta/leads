@@ -46,14 +46,12 @@ class ContactsController < ApplicationController
 
   def filtered_contacts
     scope = Contact.includes(company: [:airports]).joins("LEFT JOIN companies ON companies.id = contacts.company_id")
-    scope = scope.where("contacts.full_name ILIKE ? OR contacts.title ILIKE ? OR contacts.email ILIKE ?",
-                        "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%") if params[:q].present?
+    if params[:q].present?
+      p = ApplicationRecord.subsequence_pattern(params[:q])
+      scope = scope.where("contacts.full_name ILIKE ? OR contacts.title ILIKE ? OR contacts.email ILIKE ?", p, p, p)
+    end
     scope = scope.with_email    if params[:has_email] == "1"
     scope = scope.with_phone    if params[:has_phone] == "1"
-    scope = scope.by_source(params[:source])
-    if params[:qualification].present?
-      scope = scope.where(companies: {qualification_status: params[:qualification]})
-    end
     scope = scope.where("COALESCE(companies.employee_max, companies.employee_min) <= ?", params[:emp_max].to_i) if params[:emp_max].present?
     scope = scope.where("COALESCE(companies.employee_min, companies.employee_max) >= ?", params[:emp_min].to_i) if params[:emp_min].present?
     if params[:hide_airlines_banks] == "1"
@@ -61,6 +59,7 @@ class ContactsController < ApplicationController
                    .where("(companies.naics_codes NOT ILIKE '522%' OR companies.naics_codes IS NULL)")
                    .where("companies.canonical_name NOT ILIKE '%bank%'")
     end
+    scope = scope.where(companies: {is_concession: false}) if params[:hide_concessions] == "1"
     scope
   end
 

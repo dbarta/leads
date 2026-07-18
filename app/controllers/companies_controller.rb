@@ -65,7 +65,7 @@ class CompaniesController < ApplicationController
     scope = scope.by_airport(params[:airport_id])          if params[:airport_id].present?
     scope = scope.by_qualification(params[:qualification_status])
     scope = scope.hide_airlines                            if params[:hide_airlines] == "1"
-    scope = scope.non_concession                          if params[:show_concessions] != "1"
+    scope = scope.non_concession                          if params[:hide_concessions] == "1"
     scope = scope.employees_max_lte(params[:emp_max])
     scope = scope.employees_min_gte(params[:emp_min])
     scope = scope.search_text(params[:q])

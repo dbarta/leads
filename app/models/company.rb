@@ -27,7 +27,7 @@ class Company < ApplicationRecord
   scope :hide_airlines, -> { where(is_airline: false) }
   scope :non_concession, -> { where(is_concession: false) }
   scope :search_text, ->(q) {
-    where("canonical_name ILIKE :q OR dba ILIKE :q", q: "%#{sanitize_sql_like(q)}%") if q.present?
+    where("canonical_name ILIKE :q OR dba ILIKE :q", q: subsequence_pattern(q)) if q.present?
   }
 
   def self.normalize(name)
