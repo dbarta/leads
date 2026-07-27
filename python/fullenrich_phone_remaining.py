@@ -103,7 +103,7 @@ end
 
 def build_request_item(c: dict) -> dict:
     item = {
-        "enrich_fields": ["contact.phones"],
+        "enrich_fields": ["contact.phones", "contact.work_emails", "contact.personal_emails"],
         "custom": {"contact_id": str(c["contact_id"])},
     }
     if c["linkedin_url"]:
@@ -192,15 +192,21 @@ def main():
             continue
         inp  = rec.get("input") or {}
         name = inp.get("full_name") or f"{inp.get('first_name','')} {inp.get('last_name','')}".strip()
-        ci   = (rec.get("contact_info") or {})
-        ph   = (ci.get("most_probable_phone") or {})
+        ci    = (rec.get("contact_info") or {})
+        ph    = (ci.get("most_probable_phone") or {})
+        we    = (ci.get("most_probable_work_email") or {})
+        pe    = (ci.get("most_probable_personal_email") or {})
         phone = ph.get("number", "")
+        email = we.get("email") or pe.get("email") or ""
 
-        if phone:
+        if phone or email:
             found += 1
             company = id_to_contact.get(contact_id, {}).get("company_name", "")
-            print(f"  ✓ [{contact_id}] {name} @ {company}: {phone}")
-            write_phone(contact_id, phone)
+            print(f"  ✓ [{contact_id}] {name} @ {company}: phone={phone or '—'}  email={email or '—'}")
+            if phone:
+                write_phone(contact_id, phone)
+            if email:
+                rails(f'Contact.find({contact_id}).update!(email: {json.dumps(email)})')
         else:
             not_found += 1
             print(f"  · [{contact_id}] {name}: not found")
@@ -208,7 +214,7 @@ def main():
     credits_after = get_credits()
     print(f"\n=== Summary ===")
     print(f"  Submitted:    {len(contacts)}")
-    print(f"  Found phones: {found}")
+    print(f"  Found:        {found}")
     print(f"  Not found:    {not_found}")
     print(f"  Credits used: {credits_before - credits_after}  (remaining: {credits_after})")
 
