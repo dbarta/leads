@@ -30,9 +30,9 @@ class ContactsController < ApplicationController
       .includes(company: [:airports, :airport_company_relationships])
 
     csv_data = CSV.generate(headers: true) do |csv|
-      csv << %w[id full_name title email phone linkedin_url source
-                company_id company_name company_phone qualification_status airports
-                call_status call_date]
+      csv << %w[id full_name title email phone phone_verified phone_registered_name
+                linkedin_url source company_id company_name company_phone
+                qualification_status airports call_status call_date]
       contacts.each do |c|
         csv << [
           c.id,
@@ -40,6 +40,8 @@ class ContactsController < ApplicationController
           c.title,
           c.email,
           c.phone,
+          c.phone_verified,
+          c.phone_registered_name,
           c.linkedin_url,
           c.source,
           c.company_id,

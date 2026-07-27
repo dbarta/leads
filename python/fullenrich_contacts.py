@@ -17,6 +17,7 @@ Usage:
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -24,12 +25,17 @@ import time
 from pathlib import Path
 
 import requests
+from requests.auth import HTTPBasicAuth
 
 API_KEY  = "54e1b540-1c6e-494f-a689-d914c8bde1a9"
 BASE_URL = "https://app.fullenrich.com/api/v2"
 HEADERS  = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
 
 RAILS_ROOT = Path(__file__).parent.parent
+
+# Twilio credentials — set via env vars or --twilio-* flags
+TWILIO_SID   = os.environ.get("TWILIO_ACCOUNT_SID")
+TWILIO_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")
 
 
 def rails(code: str) -> str:
@@ -187,12 +193,41 @@ def extract_best(rec: dict) -> dict:
     return out
 
 
-def write_back(contact_id: int, email: str, phone: str):
+def twilio_lookup(phone: str, account_sid: str, auth_token: str) -> dict:
+    """Lookup phone via Twilio CNAM. Returns {valid, registered_name}."""
+    digits = re.sub(r"\D", "", phone)
+    if len(digits) == 10:
+        digits = "1" + digits
+    e164 = f"+{digits}"
+    r = requests.get(
+        f"https://lookups.twilio.com/v2/PhoneNumbers/{e164}",
+        params={"Fields": "caller_name"},
+        auth=HTTPBasicAuth(account_sid, auth_token),
+    )
+    data = r.json()
+    caller = data.get("caller_name") or {}
+    name = (caller.get("caller_name") or "").strip().title() or None
+    return {"valid": data.get("valid", False), "registered_name": name}
+
+
+def write_back(contact_id: int, email: str, phone: str,
+               twilio_sid: str = None, twilio_token: str = None):
     updates = []
     if email:
         updates.append(f"email: {json.dumps(email)}")
     if phone:
         updates.append(f"phone: {json.dumps(phone)}")
+        # Twilio verification if credentials available
+        if twilio_sid and twilio_token:
+            try:
+                result = twilio_lookup(phone, twilio_sid, twilio_token)
+                updates.append(f"phone_verified: {str(result['valid']).lower()}")
+                if result["registered_name"]:
+                    updates.append(f"phone_registered_name: {json.dumps(result['registered_name'])}")
+                verified_tag = "✓" if result["valid"] else "✗"
+                print(f"    Twilio: {verified_tag} valid={result['valid']} name={result['registered_name'] or '—'}")
+            except Exception as e:
+                print(f"    Twilio lookup failed: {e}", file=sys.stderr)
     if not updates:
         return
     rails(f'Contact.find({contact_id}).update!({", ".join(updates)})')
@@ -208,7 +243,16 @@ def main():
                         help="Filter by source: sam_gov | pdl | meetleo")
     parser.add_argument("--skip-disqualified", dest="skip_disqualified", action="store_true",
                         help="Skip contacts at companies with qualification_status=No (airlines etc)")
+    parser.add_argument("--twilio-sid", default=None, help="Twilio Account SID (overrides env var)")
+    parser.add_argument("--twilio-token", default=None, help="Twilio Auth Token (overrides env var)")
     args = parser.parse_args()
+
+    twilio_sid   = args.twilio_sid   or TWILIO_SID
+    twilio_token = args.twilio_token or TWILIO_TOKEN
+    if twilio_sid and twilio_token:
+        print("Twilio verification: enabled ($0.01/found phone)")
+    else:
+        print("Twilio verification: disabled (set TWILIO_ACCOUNT_SID + TWILIO_AUTH_TOKEN to enable)")
 
     dry_run = args.sample > 0
     limit   = args.sample if dry_run else (args.limit or None)
@@ -259,7 +303,8 @@ def main():
                 print(f"  ✓ [{contact_id}] {name}: "
                       f"email={best['email'] or '—'}{tag}  phone={best['phone'] or '—'}")
                 if not dry_run and contact_id:
-                    write_back(contact_id, best["email"], best["phone"])
+                    write_back(contact_id, best["email"], best["phone"],
+                               twilio_sid=twilio_sid, twilio_token=twilio_token)
             else:
                 print(f"  · [{contact_id}] {name}: not found")
 
