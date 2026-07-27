@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   end
   resources :contacts, only: [:index] do
     collection { get :export }
+    member { patch :update_call }
   end
   resources :activity_logs, only: [:index]
 

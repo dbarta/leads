@@ -100,6 +100,7 @@
             <th class="text-left px-4 py-3 font-medium text-gray-600">
               <%= sort_link_for("Source", "source", contacts_path, params) %>
             </th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600 w-44">Call Status</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
@@ -166,6 +167,7 @@
                   <%= contact.source&.upcase || '—' %>
                 </span>
               </td>
+              <%= render "contacts/call_status", contact: contact %>
             </tr>
           <% end %>
         </tbody>

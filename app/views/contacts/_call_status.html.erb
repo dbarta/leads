@@ -1,0 +1,12 @@
+<td id="call_status_<%= contact.id %>" class="px-4 py-3">
+  <%= form_with url: update_call_contact_path(contact), method: :patch do |f| %>
+    <%= f.select :call_status,
+        Contact::CALL_STATUSES,
+        {selected: contact.call_status.to_s},
+        class: "w-full border border-gray-200 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 #{Contact::CALL_STATUS_STYLES[contact.call_status] || 'text-gray-400'}",
+        onchange: "this.form.requestSubmit()" %>
+  <% end %>
+  <% if contact.call_date %>
+    <div class="text-xs text-gray-400 mt-0.5 pl-1"><%= contact.call_date.strftime("%-m/%-d/%Y") %></div>
+  <% end %>
+</td>

@@ -10,6 +10,20 @@ class ContactsController < ApplicationController
     @total_contacts = Contact.count
   end
 
+  def update_call
+    contact = Contact.find(params[:id])
+    new_status = params[:call_status].presence
+    contact.update!(
+      call_status: new_status,
+      call_date: new_status.present? ? Date.today : nil
+    )
+    render turbo_stream: turbo_stream.replace(
+      "call_status_#{contact.id}",
+      partial: "contacts/call_status",
+      locals: {contact: contact}
+    )
+  end
+
   def export
     require "csv"
     contacts = apply_sort(filtered_contacts)
@@ -17,7 +31,8 @@ class ContactsController < ApplicationController
 
     csv_data = CSV.generate(headers: true) do |csv|
       csv << %w[id full_name title email phone linkedin_url source
-                company_id company_name company_phone qualification_status airports]
+                company_id company_name company_phone qualification_status airports
+                call_status call_date]
       contacts.each do |c|
         csv << [
           c.id,
@@ -32,6 +47,8 @@ class ContactsController < ApplicationController
           c.company&.phone,
           c.company&.qualification_status,
           c.company&.airports&.map(&:faa_code)&.sort&.join("; "),
+          c.call_status,
+          c.call_date,
         ]
       end
     end
