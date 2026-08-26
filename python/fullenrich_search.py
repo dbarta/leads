@@ -20,6 +20,10 @@ from pathlib import Path
 
 import requests
 
+SCRIPT_DIR = Path(__file__).parent
+sys.path.insert(0, str(SCRIPT_DIR))
+from extractors.title_filter import should_keep_contact  # noqa: E402
+
 API_KEY  = "54e1b540-1c6e-494f-a689-d914c8bde1a9"
 BASE_URL = "https://app.fullenrich.com/api/v2"
 HEADERS  = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
@@ -189,8 +193,16 @@ def main():
             continue
 
         formatted = [format_person(p) for p in people]
+
+        # Title filter — exclude janitors, ramp agents, etc.
+        kept = [p for p in formatted if should_keep_contact(p.get("title", ""))]
+        skipped = [p for p in formatted if not should_keep_contact(p.get("title", ""))]
+        if skipped:
+            print(f"    ✂ title filter excluded: {', '.join(p['full_name'] + ' (' + p['title'] + ')' for p in skipped)}")
+        formatted = kept
+
         total_found += len(formatted)
-        print(f"    → {len(formatted)} found (of {total_in_db} total)  [{credits_used} credits]")
+        print(f"    → {len(formatted)} kept (of {total_in_db} total)  [{credits_used} credits]")
 
         for p in formatted:
             loc = f"  [{p['location']}]" if p["location"] else ""

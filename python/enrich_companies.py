@@ -213,12 +213,51 @@ def infer_naics_from_name(company_name: str) -> list[str]:
 # ---------------------------------------------------------------------------
 # SAM.gov Entity API
 # ---------------------------------------------------------------------------
-SAM_NAME_THRESHOLD = 0.85  # minimum name similarity to accept a SAM.gov result
+SAM_NAME_THRESHOLD = 0.80  # minimum name similarity to accept a SAM.gov result
+
+# Legal suffixes to strip before searching — SAM.gov names vary wildly
+_LEGAL_SUFFIX_RE = re.compile(
+    r",?\s*\b(LLC|L\.L\.C\.|Inc\.?|Corp\.?|Corporation|Ltd\.?|LP|L\.P\.|LLP|L\.L\.P\.|"
+    r"Co\.?|Company|Companies|Associates|Group|Holdings|Enterprises|Services|Solutions|"
+    r"International|Industries|Systems|Technologies|Logistics|Aviation|Staffing)\b\.?",
+    re.IGNORECASE,
+)
+
+
+def _strip_legal_suffix(name: str) -> str:
+    """Remove common legal suffixes and clean up punctuation."""
+    cleaned = _LEGAL_SUFFIX_RE.sub(" ", name)
+    cleaned = re.sub(r"[,.\-&]+", " ", cleaned)
+    return re.sub(r"\s+", " ", cleaned).strip()
+
+
+def _search_terms(name: str) -> list[str]:
+    """
+    Return search queries to try, from most specific to least.
+    Strategy: cleaned full name → first 3 words → first 2 words.
+    """
+    cleaned = _strip_legal_suffix(name)
+    words = cleaned.split()
+    terms = [cleaned]
+    if len(words) >= 3:
+        terms.append(" ".join(words[:3]))
+    if len(words) >= 2:
+        terms.append(" ".join(words[:2]))
+    # Deduplicate while preserving order
+    seen, unique = set(), []
+    for t in terms:
+        if t.lower() not in seen:
+            seen.add(t.lower())
+            unique.append(t)
+    return unique
 
 
 def _sam_name_similarity(a: str, b: str) -> float:
     from difflib import SequenceMatcher
-    return SequenceMatcher(None, a.lower().strip(), b.lower().strip()).ratio()
+    # Compare stripped versions for fairer scoring
+    a2 = _strip_legal_suffix(a).lower().strip()
+    b2 = _strip_legal_suffix(b).lower().strip()
+    return SequenceMatcher(None, a2, b2).ratio()
 
 
 def _sam_best_entity(entities: list[dict], our_name: str) -> dict | None:
@@ -229,7 +268,6 @@ def _sam_best_entity(entities: list[dict], our_name: str) -> dict | None:
         sam_name = (reg.get("legalBusinessName") or "").strip()
         if not sam_name:
             continue
-        # Case-insensitive exact match wins immediately
         if sam_name.upper() == our_name.upper():
             return entity
         sim = _sam_name_similarity(our_name, sam_name)
@@ -243,49 +281,58 @@ def _sam_best_entity(entities: list[dict], our_name: str) -> dict | None:
     return None
 
 
-def _sam_search(name: str, session: requests.Session) -> dict | None:
-    """Search SAM.gov using keyword search. Returns best-matching active entity or None."""
-    if not SAM_GOV_API_KEY:
-        return None
+def _sam_fetch(query: str, status: str, session: requests.Session) -> list[dict]:
+    """Execute one SAM.gov search and return entity list."""
     params = {
         "api_key": SAM_GOV_API_KEY,
-        "q": name,
+        "q": query,
         "includeSections": "entityRegistration,coreData,assertions",
-        "registrationStatus": "A",
+        "registrationStatus": status,
         "limit": 10,
     }
-    try:
+    r = session.get(SAM_BASE, params=params, timeout=REQUEST_TIMEOUT)
+    if r.status_code == 429:
+        print("    SAM.gov rate limit — waiting 10s")
+        time.sleep(10)
         r = session.get(SAM_BASE, params=params, timeout=REQUEST_TIMEOUT)
-        if r.status_code == 429:
-            print("    SAM.gov rate limit — waiting 10s")
-            time.sleep(10)
-            r = session.get(SAM_BASE, params=params, timeout=REQUEST_TIMEOUT)
-        if r.status_code != 200:
-            return None
-        entities = r.json().get("entityData", [])
-        return _sam_best_entity(entities, name)
+    if r.status_code != 200:
+        return []
+    return r.json().get("entityData", [])
+
+
+def _sam_search(name: str, session: requests.Session) -> dict | None:
+    """
+    Search SAM.gov for an active entity matching name.
+    Tries multiple query strategies (full cleaned name → first 3 words → first 2 words)
+    so that suffix variations and abbreviations don't cause misses.
+    """
+    if not SAM_GOV_API_KEY:
+        return None
+    try:
+        for term in _search_terms(name):
+            entities = _sam_fetch(term, "A", session)
+            if entities:
+                result = _sam_best_entity(entities, name)
+                if result:
+                    return result
+        return None
     except Exception as e:
         print(f"    SAM.gov error: {e}")
         return None
 
 
 def _sam_search_inactive(name: str, session: requests.Session) -> dict | None:
-    """Search SAM.gov for expired/inactive registrations."""
+    """Search SAM.gov for expired/inactive registrations using same multi-strategy approach."""
     if not SAM_GOV_API_KEY:
         return None
-    params = {
-        "api_key": SAM_GOV_API_KEY,
-        "q": name,
-        "includeSections": "entityRegistration,coreData,assertions",
-        "registrationStatus": "E",
-        "limit": 10,
-    }
     try:
-        r = session.get(SAM_BASE, params=params, timeout=REQUEST_TIMEOUT)
-        if r.status_code != 200:
-            return None
-        entities = r.json().get("entityData", [])
-        return _sam_best_entity(entities, name)
+        for term in _search_terms(name):
+            entities = _sam_fetch(term, "E", session)
+            if entities:
+                result = _sam_best_entity(entities, name)
+                if result:
+                    return result
+        return None
     except Exception:
         return None
 

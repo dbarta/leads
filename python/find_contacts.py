@@ -45,6 +45,9 @@ from pathlib import Path
 import requests
 
 SCRIPT_DIR = Path(__file__).parent
+sys.path.insert(0, str(SCRIPT_DIR))
+from extractors.title_filter import should_keep_contact, filter_contacts  # noqa: E402
+
 INPUT_CSV = SCRIPT_DIR / "companies_for_enrichment.csv"
 OUTPUT_DIR = SCRIPT_DIR / "output"
 CHECKPOINT_FILE = OUTPUT_DIR / "contacts_checkpoint.jsonl"
@@ -960,6 +963,14 @@ def main() -> None:
             if c.get("source") == "meetleo":
                 ml_hits += 1
         all_contacts.extend(merged)
+
+    # Title filter — remove janitors, ramp agents, baggage handlers, etc.
+    kept, excluded = filter_contacts(all_contacts)
+    if excluded:
+        print(f"\nTitle filter excluded {len(excluded)} contacts:")
+        for c in excluded:
+            print(f"  [{c.get('company_name','')}] {c.get('full_name','')} — {c.get('title','')}")
+    all_contacts = kept
 
     fieldnames = ["company_id", "company_name", "full_name", "first_name", "last_name",
                   "title", "email", "phone", "linkedin_url", "source", "notes"]
