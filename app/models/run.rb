@@ -1,5 +1,6 @@
 class Run < ApplicationRecord
   has_many :contacts
+  has_many :companies
 
   validates :name, presence: true
 

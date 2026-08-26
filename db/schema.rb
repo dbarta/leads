@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_26_080634) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_26_095559) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -212,6 +212,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_080634) do
     t.string "physical_address_zip"
     t.string "qualification_status"
     t.string "research_status"
+    t.bigint "run_id"
     t.text "sam_business_types"
     t.string "sam_cage_code"
     t.string "sam_registration_status"
@@ -224,6 +225,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_080634) do
     t.index ["is_airline"], name: "index_companies_on_is_airline"
     t.index ["normalized_name"], name: "index_companies_on_normalized_name", unique: true
     t.index ["qualification_status"], name: "index_companies_on_qualification_status"
+    t.index ["run_id"], name: "index_companies_on_run_id"
   end
 
   create_table "connected_accounts", force: :cascade do |t|
@@ -950,6 +952,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_080634) do
   add_foreign_key "airport_company_relationships", "airports"
   add_foreign_key "airport_company_relationships", "companies"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "companies", "runs"
   add_foreign_key "contacts", "companies"
   add_foreign_key "contacts", "runs"
   add_foreign_key "discovery_runs", "airports"

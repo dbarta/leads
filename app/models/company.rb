@@ -1,6 +1,7 @@
 class Company < ApplicationRecord
   QUALIFICATION_STATUSES = %w[Yes No Review Uncertain].freeze
 
+  belongs_to :run, optional: true
   has_many :airport_company_relationships, dependent: :destroy
   has_many :airports, through: :airport_company_relationships
   has_many :contacts, dependent: :destroy
