@@ -1,0 +1,99 @@
+Subject: Reimbursement Request — API Plan Upgrade / Defective Search Functionality
+
+To the MeetLeo Support Team,
+
+I am writing to request reimbursement for the cost of my API plan upgrade and the credits
+consumed as a result of a confirmed bug in the MeetLeo API.
+
+---
+
+ACCOUNT
+
+Email: jonathan@jeffersonfinancialins.com
+Upgrade date: [DATE OF UPGRADE]
+Amount paid: [UPGRADE COST]
+
+---
+
+THE PROBLEM
+
+I upgraded to the API-enabled plan specifically to automate company lookup and contact
+enrichment. The core workflow — searching for a company by name, then enriching it for
+contacts — does not work via the API, despite working immediately in the UI.
+
+Specific example:
+
+  Company: Airport Terminal Management Inc
+  This company is immediately found in the MeetLeo UI by searching its exact name.
+
+  API search request:
+    POST /v1/prospects/search
+    {
+      "filters": [
+        { "prospectName": "Airport Terminal Management Inc" },
+        { "state": ["CA"] }
+      ],
+      "limit": 1,
+      "page": 1
+    }
+
+  API response (top result returned):
+    { "standardCompanyName": "ONE CAPITAL MANAGEMENT LLC", "state": "CA" }
+
+  That is not the company I searched for.
+
+This pattern held across every company I tested. Additional examples:
+
+  Searched: "American Guard Services Inc" (CA)     → Returned: J&J CONSTRUCTION SERVICES
+  Searched: "McGee Air Services Inc" (CA)          → Returned: J&J CONSTRUCTION SERVICES
+  Searched: "Prime Flight Aviation Services" (CA)  → Returned: J&J CONSTRUCTION SERVICES
+  Searched: "Covenant Aviation Security, LLC"      → Returned: TLD ACQUISITION LLC
+
+In every case, the company is findable in the UI with the exact same name, but the API
+returns a completely unrelated company.
+
+---
+
+CREDITS CONSUMED ON WRONG COMPANIES
+
+Before discovering this bug, I submitted enrichment jobs using the name-based filter —
+following your documented API workflow. Those jobs returned enriched contacts for entirely
+wrong companies (e.g., "DISABLED AMERICAN VETERANS," "CONSTRUCTION MANAGEMENT &
+DEVELOPMENT INC"). Credits were deducted for enrichment results that were useless because
+the wrong company was enriched.
+
+Estimated credits consumed on incorrect results: [CREDIT COUNT]
+
+---
+
+ACKNOWLEDGMENT FROM MEETLEO SUPPORT
+
+When I raised this issue in a support conversation, your team confirmed:
+
+  "there is an API problem (or bug) that the search does not return [Airport Terminal
+  Management Inc]"
+
+This was described as a known issue, not a misconfiguration on my part.
+
+---
+
+REQUEST
+
+Given that:
+  1. The API's core search functionality does not match the behavior of the UI
+  2. MeetLeo support confirmed this is an API bug
+  3. I upgraded specifically to use the API for this purpose
+  4. Credits were consumed enriching wrong companies as a direct result of the bug
+
+I am requesting:
+  - Full reimbursement of the API plan upgrade fee: [AMOUNT]
+  - Reimbursement or restoration of credits consumed on incorrect enrichments: [CREDIT COUNT]
+
+I am happy to provide the full API request/response logs, the support conversation
+transcript, and any other documentation needed to process this request.
+
+Thank you for your attention to this matter.
+
+Jonathan
+jefferson Financial Insurance
+jonathan@jeffersonfinancialins.com
