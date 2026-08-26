@@ -1,11 +1,13 @@
 class Contact < ApplicationRecord
   belongs_to :company
+  belongs_to :run, optional: true
 
   validates :full_name, presence: true
   validates :call_status, inclusion: {in: ->(_) { CALL_STATUSES.map(&:last) }}, allow_blank: true
 
   CALL_STATUSES = [
     ["— not called —",            ""],
+    ["Used in previous run",      "previous_run"],
     ["Left message",              "left_message"],
     ["No answer",                 "no_answer"],
     ["No longer in service",      "no_longer_in_service"],
@@ -19,6 +21,7 @@ class Contact < ApplicationRecord
   ].freeze
 
   CALL_STATUS_STYLES = {
+    "previous_run"       => "bg-slate-100 text-slate-500",
     "left_message"       => "bg-blue-100 text-blue-700",
     "no_answer"          => "bg-gray-100 text-gray-600",
     "no_longer_in_service" => "bg-red-100 text-red-700",

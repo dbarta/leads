@@ -1,0 +1,52 @@
+<% Current.meta_tags.set(title: "Runs") %>
+
+<div class="container mx-auto px-4 py-6">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold">Data Runs</h1>
+    <%= link_to "New Run", new_run_path,
+        class: "bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700" %>
+  </div>
+
+  <div class="space-y-4">
+    <% @runs.each do |run| %>
+      <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-5">
+        <div class="flex items-start justify-between">
+          <div>
+            <%= link_to run.name, run_path(run), class: "text-lg font-semibold text-blue-600 hover:underline" %>
+            <div class="flex flex-wrap gap-3 mt-1 text-sm text-gray-500">
+              <% if run.started_at %>
+                <span><%= run.started_at.strftime("%-m/%-d/%Y") %><% if run.completed_at %> – <%= run.completed_at.strftime("%-m/%-d/%Y") %><% end %></span>
+              <% end %>
+              <span class="font-medium text-gray-700"><%= run.contact_count %> contacts</span>
+              <% if run.airports.present? %>
+                <span>Airports: <span class="font-mono"><%= run.airports %></span></span>
+              <% end %>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <%= link_to contacts_path(run_id: run.id), class: "text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded hover:bg-gray-200" do %>
+              View contacts ↗
+            <% end %>
+            <%= link_to "Edit", edit_run_path(run), class: "text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded hover:bg-gray-200" %>
+          </div>
+        </div>
+
+        <% if run.naics_codes.present? %>
+          <div class="mt-2 text-xs text-gray-500">NAICS: <span class="font-mono"><%= run.naics_codes %></span></div>
+        <% end %>
+
+        <% if run.processes.present? %>
+          <div class="mt-2 text-sm text-gray-600 border-t border-gray-100 pt-2"><%= run.processes %></div>
+        <% end %>
+
+        <% if run.notes.present? %>
+          <div class="mt-1 text-sm text-gray-500 italic"><%= run.notes %></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @runs.empty? %>
+      <div class="text-center py-12 text-gray-400">No runs yet. <%= link_to "Create the first one", new_run_path, class: "text-blue-600 hover:underline" %>.</div>
+    <% end %>
+  </div>
+</div>

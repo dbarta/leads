@@ -4,6 +4,7 @@ class ContactsController < ApplicationController
   SORTABLE_COLUMNS = %w[last_name title source company_name airports naics employee_max].freeze
 
   def index
+    @runs = Run.order(:id)
     @contacts = filtered_contacts
     @contacts = apply_sort(@contacts)
     @pagy, @contacts = pagy(@contacts, limit: 100)
@@ -30,12 +31,13 @@ class ContactsController < ApplicationController
       .includes(company: [:airports, :airport_company_relationships])
 
     csv_data = CSV.generate(headers: true) do |csv|
-      csv << %w[id full_name title email phone phone_verified phone_registered_name
+      csv << %w[id run full_name title email phone phone_verified phone_registered_name
                 linkedin_url source company_id company_name company_phone
                 qualification_status airports call_status call_date]
       contacts.each do |c|
         csv << [
           c.id,
+          c.run&.name,
           c.full_name,
           c.title,
           c.email,
@@ -79,6 +81,13 @@ class ContactsController < ApplicationController
                    .where("companies.canonical_name NOT ILIKE '%bank%'")
     end
     scope = scope.where(companies: {is_concession: false}) if params[:hide_concessions] == "1"
+    scope = scope.where(run_id: params[:run_id]) if params[:run_id].present?
+    if params[:call_status].present?
+      selected = Array(params[:call_status]).reject(&:blank?)
+      if selected.any?
+        scope = scope.where(call_status: selected.map { |s| s.presence })
+      end
+    end
     scope
   end
 

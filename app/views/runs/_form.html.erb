@@ -1,0 +1,54 @@
+<%= form_with model: run, class: "space-y-4" do |f| %>
+  <% if run.errors.any? %>
+    <div class="bg-red-50 border border-red-200 rounded p-3 text-sm text-red-700">
+      <% run.errors.full_messages.each do |msg| %>
+        <div><%= msg %></div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :name, "Run Name", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.text_field :name, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500",
+        placeholder: "e.g. Run 2 — DFW / DEN / SEA / ATL" %>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <%= f.label :started_at, "Start Date", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.date_field :started_at, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+    </div>
+    <div>
+      <%= f.label :completed_at, "End Date", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.date_field :completed_at, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :airports, "Airports (FAA codes, comma-separated)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.text_field :airports, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500",
+        placeholder: "e.g. DFW, DEN, SEA, ATL" %>
+  </div>
+
+  <div>
+    <%= f.label :naics_codes, "NAICS Codes", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.text_field :naics_codes, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500",
+        placeholder: "e.g. 488190, 488119, 561720" %>
+  </div>
+
+  <div>
+    <%= f.label :processes, "Pipeline / Processes", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.text_area :processes, rows: 3, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500",
+        placeholder: "e.g. Manual research → MeetLeo contact discovery → FullEnrich phone+email → Twilio verification" %>
+  </div>
+
+  <div>
+    <%= f.label :notes, "Notes", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.text_area :notes, rows: 3, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= f.submit class: "bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700 cursor-pointer" %>
+    <%= link_to "Cancel", run.persisted? ? run_path(run) : runs_path, class: "bg-gray-100 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-200" %>
+  </div>
+<% end %>

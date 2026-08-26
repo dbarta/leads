@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     member { patch :update_call }
   end
   resources :activity_logs, only: [:index]
+  resources :runs, only: [:index, :show, :new, :create, :edit, :update]
 
   # Public marketing homepage
   root to: "public#index"

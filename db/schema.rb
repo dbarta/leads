@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_27_170330) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_26_080634) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -255,12 +255,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_27_170330) do
     t.string "phone"
     t.string "phone_registered_name"
     t.boolean "phone_verified"
+    t.bigint "run_id"
     t.string "source"
     t.string "title"
     t.datetime "updated_at", null: false
     t.index ["company_id", "email"], name: "index_contacts_on_company_id_and_email", unique: true, where: "((email IS NOT NULL) AND ((email)::text <> ''::text))"
     t.index ["company_id"], name: "index_contacts_on_company_id"
     t.index ["email"], name: "index_contacts_on_email"
+    t.index ["run_id"], name: "index_contacts_on_run_id"
   end
 
   create_table "discovery_runs", force: :cascade do |t|
@@ -717,6 +719,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_27_170330) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
+  create_table "runs", force: :cascade do |t|
+    t.string "airports"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.string "naics_codes"
+    t.string "name"
+    t.text "notes"
+    t.text "processes"
+    t.datetime "started_at"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false
     t.bigint "channel_hash", null: false
@@ -937,6 +951,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_27_170330) do
   add_foreign_key "airport_company_relationships", "companies"
   add_foreign_key "api_tokens", "users"
   add_foreign_key "contacts", "companies"
+  add_foreign_key "contacts", "runs"
   add_foreign_key "discovery_runs", "airports"
   add_foreign_key "hke_cemeteries", "hke_communities", column: "community_id"
   add_foreign_key "hke_communities", "accounts"
