@@ -12,6 +12,7 @@ class CompaniesController < ApplicationController
 
     @top_contacts = top_contacts_for(@companies.map(&:id))
     @airports_with_companies = Airport.joins(:companies).distinct.order(:name)
+    @runs                    = Run.order(:id)
     @total_companies         = Company.count
   end
 
@@ -71,6 +72,7 @@ class CompaniesController < ApplicationController
     scope = scope.search_text(params[:q])
     scope = scope.by_naics(params[:naics])
     scope = scope.in_sam                                   if params[:in_sam] == "1"
+    scope = scope.by_run(params[:run_id])
     scope
   end
 

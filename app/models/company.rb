@@ -25,6 +25,7 @@ class Company < ApplicationRecord
       .where(airport_company_relationships: {airport_id: airport_id}) if airport_id.present?
   }
   scope :by_qualification, ->(status) { where(qualification_status: status) if status.present? }
+  scope :by_run, ->(run_id) { where(run_id: run_id) if run_id.present? }
   scope :hide_airlines, -> { where(is_airline: false) }
   scope :non_concession, -> { where(is_concession: false) }
   scope :search_text, ->(q) {
