@@ -53,14 +53,14 @@ OUTPUT_DIR = SCRIPT_DIR / "output"
 CHECKPOINT_FILE = OUTPUT_DIR / "contacts_checkpoint.jsonl"
 MEETLEO_CHECKPOINT_FILE = OUTPUT_DIR / "meetleo_checkpoint.jsonl"
 
-APOLLO_API_KEY = os.environ.get("APOLLO_API_KEY", "")
+APOLLO_API_KEY = os.environ.get("APOLLO_API_KEY", "hwc04Ivj4QleZ3ooZl0Wqw")
 APOLLO_PEOPLE_SEARCH = "https://api.apollo.io/v1/people/search"
 
-PDL_API_KEY = os.environ.get("PDL_API_KEY", "")
+PDL_API_KEY = os.environ.get("PDL_API_KEY", "035ecb9dfd7b1905cfe353a028c80afc94521f95186843d1baa69c86005adeed")
 PDL_PERSON_SEARCH = "https://api.peopledatalabs.com/v5/person/search"
 
 MEETLEO_EMAIL    = os.environ.get("MEETLEO_EMAIL", "jonathan@jeffersonfinancialins.com")
-MEETLEO_PASSWORD = os.environ.get("MEETLEO_PASSWORD", "")
+MEETLEO_PASSWORD = os.environ.get("MEETLEO_PASSWORD", "$Pring12")
 MEETLEO_AUTH_URL    = "https://users.meetleo.com/auth/token"
 MEETLEO_SEARCH_URL  = "https://api.meetleo.com/v1/prospects/search"
 MEETLEO_ENRICH_URL  = "https://api.meetleo.com/v1/prospects/enrich"
@@ -841,9 +841,7 @@ def main() -> None:
     if args.airport:
         codes = {c.upper() for c in args.airport}
         rows = [r for r in rows if any(c in (r.get("airport_codes") or "") for c in codes)]
-    if not args.all:
-        rows = [r for r in rows
-                if (r.get("qualification_status") or "").strip() in ("Yes", "Review")]
+
     if args.min_employees is not None:
         def _emp_min(r):
             v = r.get("employee_min") or r.get("employee_max") or ""

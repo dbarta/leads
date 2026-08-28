@@ -50,7 +50,7 @@ CHECKPOINT_FILE = OUTPUT_DIR / "checkpoint.jsonl"
 SAM_GOV_API_KEY = os.environ.get("SAM_GOV_API_KEY", "")
 SAM_BASE = "https://api.sam.gov/entity-information/v3/entities"
 
-APOLLO_API_KEY = os.environ.get("APOLLO_API_KEY", "")
+APOLLO_API_KEY = os.environ.get("APOLLO_API_KEY", "hwc04Ivj4QleZ3ooZl0Wqw")
 APOLLO_ORG_SEARCH = "https://api.apollo.io/v1/organizations/search"
 
 BBB_SEARCH = "https://www.bbb.org/search"
@@ -60,7 +60,7 @@ OPENCORP_SEARCH = "https://api.opencorporates.com/v0.4/companies/search"
 
 FMCSA_SAFER = "https://safer.fmcsa.dot.gov/query.asp"
 
-PDL_API_KEY = os.environ.get("PDL_API_KEY", "")
+PDL_API_KEY = os.environ.get("PDL_API_KEY", "035ecb9dfd7b1905cfe353a028c80afc94521f95186843d1baa69c86005adeed")
 PDL_COMPANY_ENRICH = "https://api.peopledatalabs.com/v5/company/enrich"
 
 # NAICS prefixes that indicate FMCSA relevance (ground transport, cargo, ramp)

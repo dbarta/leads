@@ -99,6 +99,14 @@ def fe_credits() -> float:
 
 # ── Step 1: FullEnrich people search ───────────────────────────────────────
 
+def get_airport_id_by_iata(iata: str) -> int:
+    out = rails(f"a = Airport.find_by(iata_code: '{iata.upper()}'); puts a ? a.id : 'NOT_FOUND'")
+    out = out.strip()
+    if out == "NOT_FOUND":
+        raise SystemExit(f"Airport with IATA code '{iata}' not found in DB")
+    return int(out)
+
+
 def get_airport_companies(airport_id: int) -> list[dict]:
     out = rails(f"""
 AirportCompanyRelationship
@@ -331,11 +339,20 @@ company.update!(run_id: {run_id}) if company.run_id.nil?
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--airport-id", type=int, default=1671)
+    id_group = parser.add_mutually_exclusive_group()
+    id_group.add_argument("--airport", metavar="IATA", help="Airport IATA code (e.g. OAK)")
+    id_group.add_argument("--airport-id", type=int, default=None,
+                          help="Airport DB id (default: SFO=1671)")
     parser.add_argument("--run-id", type=int, default=2, help="Run ID to tag contacts (default: 2)")
     parser.add_argument("--import", dest="do_import", action="store_true",
                         help="Write verified contacts to DB")
     args = parser.parse_args()
+
+    if args.airport:
+        airport_id = get_airport_id_by_iata(args.airport)
+        print(f"Airport {args.airport.upper()} → DB id {airport_id}")
+    else:
+        airport_id = args.airport_id if args.airport_id is not None else 1671
 
     twilio_ok = bool(TWILIO_SID and TWILIO_TOKEN)
     print(f"Twilio: {'enabled ($0.01/phone)' if twilio_ok else 'NOT SET — phones will not be verified'}")
@@ -347,7 +364,7 @@ def main():
 
     # Step 1: search
     print("── Step 1: FullEnrich people search ──")
-    candidates = collect_candidates(args.airport_id)
+    candidates = collect_candidates(airport_id)
     if not candidates:
         print("\nNo candidates found.")
         return

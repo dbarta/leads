@@ -46,3 +46,4 @@ yarn-debug.log*
 .idea
 *~
 backups/*.dump
+python/local_credentials.py

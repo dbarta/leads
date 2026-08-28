@@ -22,7 +22,7 @@ from datetime import date
 from difflib import SequenceMatcher
 from pathlib import Path
 
-DAT_DEFAULT = Path("/Users/dbarta/leads/SAM_PUBLIC_MONTHLY_2026_MAY_MODIFIED/SAM_PUBLIC_MONTHLY_2026_MAY_MODIFIED.dat")
+DAT_DEFAULT = Path("/Users/dbarta/leads/SAM_PUBLIC_MONTHLY/SAM_PUBLIC_MONTHLY_V2_20260802.dat")
 OUTPUT_DIR  = Path(__file__).parent / "output"
 
 # Column indices (0-based; layout is 1-based so subtract 1)
