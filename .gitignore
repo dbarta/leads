@@ -47,3 +47,7 @@ yarn-debug.log*
 *~
 backups/*.dump
 python/local_credentials.py
+
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+

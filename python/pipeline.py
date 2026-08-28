@@ -65,6 +65,38 @@ def banner(tee: Tee, text: str, char: str = "═"):
     tee.write(f"\n{line}\n  {text}\n{line}\n")
 
 
+_rails_creds_cache: dict | None = None
+
+def _inject_rails_credentials(env: dict) -> None:
+    """Load API credentials from Rails encrypted credentials file and inject into env."""
+    global _rails_creds_cache
+    if _rails_creds_cache is None:
+        try:
+            import subprocess as _sp, yaml as _yaml
+            result = _sp.run(
+                ["bin/rails", "credentials:show", "--environment", "production"],
+                capture_output=True, text=True, cwd=RAILS_ROOT,
+            )
+            _rails_creds_cache = _yaml.safe_load(result.stdout) or {}
+        except Exception:
+            _rails_creds_cache = {}
+
+    c = _rails_creds_cache
+    mapping = {
+        "TWILIO_ACCOUNT_SID":  c.get("twilio", {}).get("account_sid"),
+        "TWILIO_AUTH_TOKEN":   c.get("twilio", {}).get("auth_token"),
+        "MEETLEO_EMAIL":       c.get("meetleo", {}).get("email"),
+        "MEETLEO_PASSWORD":    c.get("meetleo", {}).get("password"),
+        "PDL_API_KEY":         c.get("pdl", {}).get("api_key"),
+        "FULLENRICH_API_KEY":  c.get("fullenrich", {}).get("api_key"),
+        "APOLLO_API_KEY":      c.get("apollo", {}).get("api_key"),
+        "SAM_GOV_API_KEY":     c.get("sam_gov", {}).get("api_key"),
+    }
+    for k, v in mapping.items():
+        if v:
+            env.setdefault(k, str(v))
+
+
 def run_stage(tee: Tee, label: str, cmd: list[str], dry_run: bool = False) -> bool:
     """Run a subprocess, tee-ing output. Returns True on success."""
     tee.write(f"\n▶ {label}\n")
@@ -73,20 +105,7 @@ def run_stage(tee: Tee, label: str, cmd: list[str], dry_run: bool = False) -> bo
 
     t0 = time.monotonic()
     env = os.environ.copy()
-    # Load local credentials if present (gitignored file)
-    try:
-        import importlib.util, sys as _sys
-        _cred_path = PYTHON_DIR / "local_credentials.py"
-        if _cred_path.exists():
-            _spec = importlib.util.spec_from_file_location("local_credentials", _cred_path)
-            _creds = importlib.util.module_from_spec(_spec)
-            _spec.loader.exec_module(_creds)
-            for _k in ["TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "MEETLEO_EMAIL",
-                       "MEETLEO_PASSWORD", "PDL_API_KEY"]:
-                if hasattr(_creds, _k):
-                    env.setdefault(_k, getattr(_creds, _k))
-    except Exception:
-        pass
+    _inject_rails_credentials(env)
     proc = subprocess.Popen(
         cmd,
         stdout=subprocess.PIPE,
